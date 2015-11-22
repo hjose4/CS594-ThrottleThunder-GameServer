@@ -20,6 +20,8 @@ public class RequestDead extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		//do the rankings business here
+		
+		client.getSession().clientDead(client);
 		responseDead.setUsername(client.getPlayer().getUsername());
 		client.getSession().addResponseForAll(client.getPlayer().getId(), responseDead);
 	}

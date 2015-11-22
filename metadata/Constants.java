@@ -66,6 +66,7 @@ public class Constants {
 	public final static short SMSG_SET_POSITION = 228;
 	public final static short SMSG_TIME = 229;
 	public final static short SMSG_SET_RANK = 230;
+	public final static short SMSG_SET_READY = 231;
 	public final static short SMSG_CUSTOMIZE = 240;
 	
 	public final static short SMSG_RENDER_CHARACTER = 310;

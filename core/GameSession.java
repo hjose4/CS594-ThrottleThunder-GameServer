@@ -1,6 +1,7 @@
 package core;
 
 import networking.response.ResponseReady;
+import networking.response.ResponseSetReady;
 import networking.response.ResponseTime;
 
 import java.util.List;
@@ -79,9 +80,8 @@ public class GameSession extends Thread{
 	
 	public void sendAllResponseReady() {
 		for(GameClient gclient : server.getGameClientsForRoom(gameroom.getId())){
-			ResponseReady responseReady = new ResponseReady();
-			responseReady.setUsername(gclient.getPlayer().getUsername());
-			gclient.addResponseForUpdate(responseReady);
+			ResponseSetReady responseSetReady = new ResponseSetReady();
+			gclient.addResponseForUpdate(responseSetReady);
 		}
 	}
 	

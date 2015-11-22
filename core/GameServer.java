@@ -193,6 +193,17 @@ public class GameServer {
 
 		return list;
 	}
+	
+	public List<Player> getPlayersForRoom(int room_id) {
+		List<Player> list = new ArrayList<Player>();
+		for (GameClient client : activeThreads.values()) {
+			if (client.getPlayer().getRoom() != null && client.getPlayer().getRoom().getId() == room_id) {
+				list.add(client.getPlayer());
+			}
+		}
+
+		return list;
+	}
 
 	public List<Player> getActivePlayers() {
 		System.out.println(activePlayers.values());

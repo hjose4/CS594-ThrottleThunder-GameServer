@@ -21,7 +21,7 @@ public class RequestDead extends GameRequest {
 	public void doBusiness() throws Exception {
 		//do the rankings business here
 		responseDead.setUsername(client.getPlayer().getUsername());
-		client.getServer().addResponseForRoom(client.getPlayer().getRoom().getId(), responseDead);
+		client.getSession().addResponseForAll(client.getPlayer().getId(), responseDead);
 	}
 
 }

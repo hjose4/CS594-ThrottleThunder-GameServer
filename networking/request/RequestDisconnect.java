@@ -2,9 +2,7 @@ package networking.request;
 
 
 import java.io.IOException;
-
 import networking.response.ResponseDisconnect;
-import networking.response.GameResponse;
 
 public class RequestDisconnect extends GameRequest {
 
@@ -29,11 +27,14 @@ public class RequestDisconnect extends GameRequest {
 		 * ResponseRemoveUser will be queued up into all OTHER users’ update
 		 * queue
 		 */
-		
 		this.responseDisconnect.setUsername(this.client.getPlayer().getUsername());
-		client.getServer().addResponseForAllOnlinePlayers(client.getId(), (GameResponse) responseDisconnect); 
-
-		// TODO : actions to take when a player disconnects
-
+		if(client.getSession() != null) {
+			client.getSession().addResponseForAll(responseDisconnect);
+			client.getSession().removeGameClient(client);
+			client.setSession(null);
+		} else {
+			client.getServer().addResponseForAllOnlinePlayers(client.getId(), responseDisconnect);
+			client.stopClient();
+		}
 	}
 }

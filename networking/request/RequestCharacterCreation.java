@@ -35,7 +35,7 @@ public class RequestCharacterCreation extends GameRequest {
 				vehicle.setName(vehicleName);
 				if(VehicleModel.insertVehicle(vehicle)) {					
 					response.setFlag(1);
-					response.setPlayerVehicles(VehicleModel.searchForPlayerVehiclesByPlayerId(player.getID()));					
+					response.setPlayerVehicles(VehicleModel.searchForPlayerVehiclesByPlayerId(player.getId()));					
 				}  else {
 					response.setFlag(0);
 				}

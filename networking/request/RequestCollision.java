@@ -30,7 +30,10 @@ public class RequestCollision extends GameRequest {
 		//do the Collision business here
 		responseCollision.setUsername(username);
 		responseCollision.setDamage(damage);
-		client.getServer().addResponseForRoom(client.getPlayer().getRoom().getId(), responseCollision);
+		if(client.getSession() != null)
+			client.getSession().addResponseForAll(client.getPlayer().getId(), responseCollision);
+		else
+			System.out.println("Client is not in game session: "+this.getClass().getName());
 	}
 
 }

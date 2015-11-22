@@ -1,10 +1,6 @@
 package networking.request;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import dataAccessLayer.model.GameRoomModel;
-import dataAccessLayer.record.GameRoom;
 import networking.response.ResponseEnterGameName;
 import utility.DataReader;
 
@@ -29,13 +25,11 @@ public class RequestEnterGameName extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		ArrayList<GameRoom> rooms;
-		if(( rooms = GameRoomModel.searchForGameRoomsByName(room_name)).size() > 0) {
-			GameRoom gameRoom = rooms.remove(0);
-			client.getPlayer().setRoom(gameRoom);			
+		client.setSession(client.getServer().getGameSessionByRoomName(room_name));
+		if(client.getSession() != null) {
 			response.setValid(1);
 			response.setUsername(client.getPlayer().getUsername());
-			client.getServer().addResponseForRoomExcludingPlayer(gameRoom.getId(), client.getPlayer().getID(), response);
+			client.getSession().addResponseForAll(client.getPlayer().getId(), response);
 		} else {
 			response.setValid(0);
 		}

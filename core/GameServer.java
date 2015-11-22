@@ -128,7 +128,15 @@ public class GameServer {
     }*/
 	public GameSession getGameSessionByRoomId(int roomId){
 		for(GameSession gsession : activeSessions.values()){
-			if(gsession.getGameroom().getId() == roomId){
+			if(gsession.getGameRoom().getId() == roomId){
+				return gsession;
+			}
+		}
+		return null;
+	}
+	public GameSession getGameSessionByRoomName(String roomName){
+		for(GameSession gsession : activeSessions.values()){
+			if(gsession.getGameRoom().getRoomName().equalsIgnoreCase(roomName)){
 				return gsession;
 			}
 		}
@@ -157,15 +165,30 @@ public class GameServer {
 	public int getNumberOfCurrentThreads() {
 		return activeThreads.size();
 	}
+	
+	public GameRoom getGameRoomFromSessionsById(int room_id) {
+		for(GameSession session : activeSessions.values()) {
+			if(session.getGameRoom().getId() == room_id) {
+				return session.getGameRoom();
+			}
+		}
+		return null;
+	}
+	
+	public GameRoom getGameRoomFromSessionsByName(String room_name) {
+		for(GameSession session : activeSessions.values()) {
+			if(session.getGameRoom().getRoomName().equalsIgnoreCase(room_name)) {
+				return session.getGameRoom();
+			}
+		}
+		return null;
+	}
 
 	public void addToActiveThreads(GameClient client) {
 		activeThreads.put(client.getId(), client);
 	}
 	
 	public void addToActiveSessions(GameSession gamesession){
-		if(!gamesession.isAlive()) {
-			gamesession.start();
-		}
 		activeSessions.put(gamesession.getId(), gamesession);
 	}
 	
@@ -186,7 +209,7 @@ public class GameServer {
 	public List<GameClient> getGameClientsForRoom(int room_id) {
 		List<GameClient> list = new ArrayList<GameClient>();
 		for (GameClient client : activeThreads.values()) {
-			if (client.getPlayer().getRoom() != null && client.getPlayer().getRoom().getId() == room_id) {
+			if (client.getSession() != null && client.getSession().getGameRoom().getId() == room_id) {
 				list.add(client);
 			}
 		}
@@ -197,7 +220,7 @@ public class GameServer {
 	public List<Player> getPlayersForRoom(int room_id) {
 		List<Player> list = new ArrayList<Player>();
 		for (GameClient client : activeThreads.values()) {
-			if (client.getPlayer().getRoom() != null && client.getPlayer().getRoom().getId() == room_id) {
+			if (client.getSession() != null && client.getSession().getGameRoom().getId() == room_id) {
 				list.add(client.getPlayer());
 			}
 		}
@@ -215,7 +238,7 @@ public class GameServer {
 	}
 
 	public void setActivePlayer(Player player) {
-		activePlayers.put(player.getID(), player);
+		activePlayers.put(player.getId(), player);
 	}
 
 	public void removeActivePlayer(int player_id) {
@@ -285,7 +308,7 @@ public class GameServer {
 	
 	public void addResponseForRoomExcludingPlayer(int room_id, int player_id, GameResponse response) {    	 
 		for (GameClient client : getGameClientsForRoom(room_id)) {
-			if(client.getPlayer().getID() != player_id)
+			if(client.getPlayer().getId() != player_id)
 				client.addResponseForUpdate(response);
 		}
 	}

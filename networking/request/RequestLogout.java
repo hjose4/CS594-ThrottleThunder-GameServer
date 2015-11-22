@@ -1,8 +1,6 @@
 package networking.request;
 
 import java.io.IOException;
-
-import dataAccessLayer.record.Player;
 import networking.response.ResponseLogout;
 
 public class RequestLogout extends GameRequest {	
@@ -16,9 +14,15 @@ public class RequestLogout extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		Player player = client.getPlayer();
-		response.setUsername(player.getUsername());
-		client.getServer().addResponseForAllOnlinePlayers(player.getID(), response);
+		this.response.setUsername(this.client.getPlayer().getUsername());
+		if(client.getSession() != null) {
+			client.getSession().addResponseForAll(response);
+			client.getSession().removeGameClient(client);
+			client.setSession(null);
+		} else {
+			client.getServer().addResponseForAllOnlinePlayers(client.getId(), response);
+			client.stopClient();
+		}
 	}
 
 	@Override

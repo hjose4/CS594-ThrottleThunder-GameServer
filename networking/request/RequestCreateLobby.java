@@ -31,11 +31,11 @@ public class RequestCreateLobby extends GameRequest {
 			room.setRoomName(room_name);
 			room.setStatus(status);
 			GameRoomModel.insertGameRoom(room);
-			client.getPlayer().setRoom(room);
 			response.setValid(1);
 			
-			GameSession session = new GameSession(client.getServer());
+			GameSession session = new GameSession(client.getServer(),room);
 			client.getServer().addToActiveSessions(session);
+			client.setSession(session);
 			response.setGameName(room_name);
 			response.setUsername(client.getPlayer().getUsername());
 			client.getServer().addResponseForAllOnlinePlayers(client.getId(), response);

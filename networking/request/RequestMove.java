@@ -33,6 +33,9 @@ public class RequestMove extends GameRequest {
 		client.getPlayer().setPosition(this.x, this.y, this.z, this.h, this.p, this.r);
 		responseMove.setPlayer(this.client.getPlayer());
 		responseMove.setKeys(this.keys);
-		client.getServer().addResponseForRoom(client.getPlayer().getRoom().getId(), responseMove);
+		if(client.getSession() != null)
+			client.getSession().addResponseForAll(client.getPlayer().getId(), responseMove);
+		else
+			System.out.println("Client is not in game session: "+this.getClass().getName());
 	}
 }

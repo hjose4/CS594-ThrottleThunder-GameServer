@@ -1,14 +1,10 @@
 package model;
 
-import java.awt.Point;
 import java.util.HashMap;
-
-import javafx.geometry.Point3D;
-
 import java.util.ArrayList;
 
 public class MapManager {
-	private HashMap<String,ArrayList<ArrayList<Point3D>>> startingPositions;
+	private HashMap<String,ArrayList<Position>> startingPositions;
 	private static MapManager Instance = null;
 	
 	public static MapManager getInstance() {
@@ -20,24 +16,22 @@ public class MapManager {
 	}
 	
 	protected MapManager() {
-		startingPositions = new HashMap<String,ArrayList<ArrayList<Point3D>>>();
+		startingPositions = new HashMap<String,ArrayList<Position>>();
 		
 		//Sample Code
-		ArrayList<ArrayList<Point3D>> positions = new ArrayList<ArrayList<Point3D>>();
+		ArrayList<Position> positions = new ArrayList<Position>();
 		for(int i = 0 ; i < 20; i++) {
-			ArrayList<Point3D> points = new ArrayList<Point3D>();
-			points.add(new Point3D(0,0,0)); //Position
-			points.add(new Point3D(0,0,0)); //HPR
-			positions.add(points);
+			Position position = new Position();
+			positions.add(position);
 		}
 		startingPositions.put("demo", positions);
 	}
 	
-	public void addStartingPositions(String mapName, ArrayList<ArrayList<Point3D>> points) {
+	public void addStartingPositions(String mapName, ArrayList<Position> points) {
 		startingPositions.put(mapName, points);
 	}
 	
-	public ArrayList<ArrayList<Point3D>> getStartingPositions(String mapName) {
+	public ArrayList<Position> getStartingPositions(String mapName) {
 		return startingPositions.get(mapName);
 	}
 }

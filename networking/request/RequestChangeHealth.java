@@ -28,7 +28,10 @@ public class RequestChangeHealth extends GameRequest {
 	public void doBusiness() throws Exception {
 		System.out.println(healthChange);
         responseChangeHealth.setUsername(client.getPlayer().getUsername()); 
-        responseChangeHealth.setHealthChange(healthChange); 
-        client.getServer().addResponseForRoom(client.getPlayer().getRoom().getId(), responseChangeHealth);
+        responseChangeHealth.setHealthChange(healthChange);
+        if(client.getSession() != null)
+        	client.getSession().addResponseForAll(responseChangeHealth);
+        else
+        	System.out.println("Client is not in game session: "+this.getClass().getName());
     }
 }

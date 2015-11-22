@@ -1,18 +1,15 @@
 package networking.request;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
-
-import core.GameClient;
-import networking.response.ResponseReady;
+import dataAccessLayer.record.Player;
+import networking.response.ResponseSetReady;
 
 public class RequestReady extends GameRequest {
 	
-	private ResponseReady responseReady;
+	private ResponseSetReady responseReady;
 	
 	public RequestReady() {
-		responses.add(responseReady = new ResponseReady());
+		responses.add(responseReady = new ResponseSetReady());
     }
 	
 	@Override
@@ -22,23 +19,35 @@ public class RequestReady extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		if(!this.client.getPlayer().isReady()){
-			this.client.getPlayer().setReady();
-			int roomId = this.client.getPlayer().getRoom().getId();
-			if(allReady(roomId)){
-				this.client.getServer().getGameSessionByRoomId(roomId).gameStart();
+		if(client.getSession() != null) {
+			if(!this.client.getPlayer().isReady()){
+				this.client.getPlayer().setReady();
+				if(allReady()){
+					this.client.getSession().nextPhase();
+					for(Player player : client.getSession().getPlayers()) {
+						player.setNotReady();
+					}
+				}
 			}
+			responseReady.setUsername(this.client.getPlayer().getUsername());
+			this.client.getSession().addResponseForAll(this.client.getPlayer().getId(), responseReady);
+		} else {
+			responseReady.setUsername("");
+			System.out.println("Client is not in game session: "+this.getClass().getName());
 		}
-		responseReady.setUsername(this.client.getPlayer().getUsername());
-		this.client.getServer().addResponseForRoom(this.client.getPlayer().getRoom().getId(), responseReady);
 	}
 
-	private boolean allReady(int room_id) {
-		for(GameClient gclient : this.client.getServer().getGameClientsForRoom(room_id)){
-			if(!gclient.getPlayer().isReady()){
-				return false;
+	private boolean allReady() {
+		if(client.getSession() != null) {
+			for(Player player : this.client.getSession().getPlayers()){
+				if(!player.isReady()){
+					return false;
+				}
 			}
+		} else {
+			return false;
 		}
+		
 		return true;
 	}
 

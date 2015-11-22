@@ -31,6 +31,10 @@ public class RequestPowerUp extends GameRequest {
     	//do the prizes business here
     	responsePowerUp.setUsername(client.getPlayer().getUsername());
     	responsePowerUp.setPowerId(powerId);
-    	client.getServer().addResponseForRoom(client.getPlayer().getRoom().getId(), responsePowerUp);
+    	
+    	if(client.getSession() != null)
+    		client.getSession().addResponseForAll(client.getPlayer().getId(), responsePowerUp);
+    	else
+    		System.out.println("Client is not in game session: "+this.getClass().getName());
     }
 }

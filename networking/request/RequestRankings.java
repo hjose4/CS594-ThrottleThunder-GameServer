@@ -1,7 +1,8 @@
 package networking.request;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import dataAccessLayer.record.Player;
 import networking.response.ResponseRankings;
@@ -23,8 +24,13 @@ public class RequestRankings extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		//do the rankings business here
-		HashMap<Player,Integer> rankings = client.getPlayer().getRoom().getRankings();
-		responseRankings.setRankings(rankings);
+		if(client.getSession() != null) {
+			List<Player> rankings = client.getSession().getRankings();
+			responseRankings.setRankings(rankings);
+		} else {
+			responseRankings.setRankings(new ArrayList<Player>());
+			System.out.println("Client is not in game session: "+this.getClass().getName());
+		}
 	}
 
 }

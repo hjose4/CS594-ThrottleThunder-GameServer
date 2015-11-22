@@ -38,9 +38,9 @@ public class GameClient extends Thread {
 	private DataInputStream dataInputStream; // For use with incoming requests
 	private DataInputStream dataInput;
 	private boolean isPlaying;
-	private Queue<GameResponse> updates; // Temporarily store responses for
-											// client
+	private Queue<GameResponse> updates; // Temporarily store responses for client
 	private Player player; 
+	private GameSession session;
 
 	/**
 	 * Initialize the GameClient using the client socket and creating both input
@@ -93,7 +93,7 @@ public class GameClient extends Thread {
 					requestCode = DataReader.readShort(dataInput);
 					if(requestCode != 113)
 					{
-					System.out.println("Requesting : " +requestCode);
+						System.out.println("Requesting : " +requestCode);
 					}
 					// Preventing response to be sent if user not authenticated
 					if (requestCode == Constants.CMSG_LOGIN ||requestCode == Constants.CMSG_REGISTER || player != null) {  
@@ -118,10 +118,10 @@ public class GameClient extends Thread {
 						}
 					}
 				} else {
-						// If there was no activity for the last moments, exit loop
-						if ((System.currentTimeMillis() - lastActivity) / 1000 >= Constants.TIMEOUT_SECONDS) {
-							isPlaying = false;
-						}
+					// If there was no activity for the last moments, exit loop
+					if ((System.currentTimeMillis() - lastActivity) / 1000 >= Constants.TIMEOUT_SECONDS) {
+						isPlaying = false;
+					}
 				}
 			} catch (Exception e) {
 				System.err.println("Request [" + requestCode + "] Error:");
@@ -138,9 +138,9 @@ public class GameClient extends Thread {
 			ResponseDisconnected response = new ResponseDisconnected();
 			response.setUsername(player.getUsername());
 			getServer().addResponseForAllOnlinePlayers(getId(), (GameResponse) response);
-			getServer().removeActivePlayer(player.getID());
+			getServer().removeActivePlayer(player.getId());
 		}
-		
+
 
 		/*
 		 * if (player != null) { try { long seconds =
@@ -156,7 +156,7 @@ public class GameClient extends Thread {
 		// Remove this GameClient from the server
 		server.deletePlayerThreadOutOfActiveThreads(getId());
 	}
-	
+
 
 
 	public void stopClient() {
@@ -167,11 +167,23 @@ public class GameClient extends Thread {
 		return server;
 	}
 
+	public GameSession getSession() {
+		return session;
+	}
 	
-	 public Player getPlayer() { return player; }
-	  
-	 public Player setPlayer(Player player) { return this.player = player; }
-	 
+	public void setSession(GameSession session) {
+		if(session.addGameClient(this)) {
+			this.session = session;
+		} else {
+			//The session is full
+			this.session = null;
+		}
+	}
+
+	public Player getPlayer() { return player; }
+
+	public Player setPlayer(Player player) { return this.player = player; }
+
 
 	public boolean addResponseForUpdate(GameResponse response) {
 		return updates.add(response);
@@ -207,7 +219,7 @@ public class GameClient extends Thread {
 	public String getIP() {
 		return mySocket.getInetAddress().getHostAddress();
 	}
-	
+
 
 	@Override
 	public String toString() {

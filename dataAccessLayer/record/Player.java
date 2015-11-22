@@ -1,7 +1,6 @@
 package dataAccessLayer.record;
 
 import java.util.HashMap;
-
 import dataAccessLayer.ObjectModel;
 import model.Position;
 
@@ -11,9 +10,8 @@ public class Player extends ObjectModel {
 	public static final String PASSWORD = "password";
 	public static final String CURRENCY = "currency";
 	
-	private GameRoom room = null;
 	private Position pos;
-	private boolean isReady;
+	private boolean isReady = false;
 	private int carId;
 	
 	public Player() {
@@ -28,7 +26,7 @@ public class Player extends ObjectModel {
 		return get(USERNAME);
 	}
 	
-	public int getID() {
+	public int getId() {
 		return Integer.valueOf(get(ID));
 	}
 	
@@ -46,15 +44,6 @@ public class Player extends ObjectModel {
 	
 	public void setUsername(String username) {
 		set(USERNAME,username);
-	}
-	
-	public void setRoom(GameRoom room) {
-		this.isReady = false;
-		this.room = room;
-	}
-	
-	public GameRoom getRoom() {
-		return room;
 	}
 	
 	public Position getPosition(){

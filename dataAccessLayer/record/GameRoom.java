@@ -1,9 +1,7 @@
 package dataAccessLayer.record;
 
 import java.util.HashMap;
-import java.util.List;
-
-import dataAccessLayer.DatabaseDriver;
+import core.GameSession;
 import dataAccessLayer.ObjectModel;
 
 public class GameRoom extends ObjectModel{
@@ -13,7 +11,8 @@ public class GameRoom extends ObjectModel{
 	public static final String TIME_STARTED = "time_started";
 	public static final String STATUS = "status";
 	public static final String TYPE = "type";
-	private HashMap<Integer,Player> playerRankings;
+	
+	private GameSession session;
 	
 	public GameRoom() {
 		super(new HashMap<String,String>());	
@@ -66,51 +65,11 @@ public class GameRoom extends ObjectModel{
 		set(STATUS,status);
 	}
 	
-	public boolean updatePlayerRanking(Player player, int ranking) {
-		int prevRank = 0;
-		for(int i = 0; i < playerRankings.size(); i++) {
-			if(playerRankings.get(i).getID() == player.getID()) {
-				prevRank = i;
-				break;
-			}
-		}
-		
-		if(prevRank > 0) {
-			if(Math.abs(prevRank-ranking) == 1) {
-				Player temp = playerRankings.get(ranking);
-				playerRankings.put(ranking,player);
-				playerRankings.put(prevRank, temp);
-				return true;
-			} else if (prevRank - ranking == 0) {
-				return true;
-			}
-			
-			return false;
-		} else {
-			Player temp = playerRankings.get(ranking);
-			if(temp == null) {
-				playerRankings.put(ranking,player);
-			} else {
-				System.out.println("Looks like we hit a data integerity issue: GameRoom@updatePlayerRanking");
-				insertPlayerAtRank(player,ranking);
-			}
-			return true;
-		}
+	public void setGameSession(GameSession session) {
+		this.session = session;
 	}
 	
-	private void insertPlayerAtRank(Player player, int rank) {
-		for(int i = playerRankings.size()-1; i > rank; i++) {
-			playerRankings.put(i, playerRankings.get(i-1));
-		}
-		
-		playerRankings.put(rank,player);
-	}
-	
-	public HashMap<Player,Integer> getRankings() {
-		HashMap<Player,Integer> list = new HashMap<Player,Integer>();
-		for(int i = 0; i < playerRankings.size(); i++) {
-			list.put(playerRankings.get(i), i);
-		}
-		return list;
+	public GameSession getGameSession() {
+		return session;
 	}
 }

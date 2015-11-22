@@ -1,9 +1,6 @@
 package networking.request;
 
 import java.io.IOException;
-
-import dataAccessLayer.model.GameRoomModel;
-import dataAccessLayer.record.GameRoom;
 import networking.response.ResponseEnterGameLobby;
 import utility.DataReader;
 
@@ -27,14 +24,12 @@ public class RequestEnterGameLobby extends GameRequest {
 	}
 
 	@Override
-	public void doBusiness() throws Exception {
-		GameRoom gameRoom = GameRoomModel.getGameRoomById(room_id);
-		
-		if(gameRoom != null) {
-			client.getPlayer().setRoom(gameRoom);			
+	public void doBusiness() throws Exception {		
+		client.setSession(client.getServer().getGameSessionByRoomId(room_id));		
+		if(client.getSession() != null) {
 			response.setValid(1);
 			response.setUsername(client.getPlayer().getUsername());
-			client.getServer().addResponseForRoomExcludingPlayer(gameRoom.getId(), client.getPlayer().getID(), response);
+			client.getSession().addResponseForAll(client.getPlayer().getId(), response);
 		} else {
 			response.setValid(0);
 		}

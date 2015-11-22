@@ -1,14 +1,13 @@
 package networking.response;
 
 import utility.GamePacket;
-
-import java.util.HashMap;
+import java.util.List;
 
 import dataAccessLayer.record.Player;
 import metadata.Constants;
 
 public class ResponseRankings extends GameResponse {
-	private HashMap<Player,Integer> rankings;
+	private List<Player> rankings;
 	
 	public ResponseRankings() {
         responseCode = Constants.SMSG_RANKINGS;
@@ -19,14 +18,14 @@ public class ResponseRankings extends GameResponse {
 		// TODO Auto-generated method stub
 		GamePacket packet = new GamePacket(responseCode);
 		packet.addInt32(rankings.size());
-		for(Player player : rankings.keySet()) {
-			packet.addString(player.getUsername());
-			packet.addInt32(rankings.get(player));
+		for(int i = 0; i < rankings.size(); i++) {
+			packet.addString(rankings.get(i).getUsername());
+			packet.addInt32((i+1));
 		}
         return packet.getBytes();
 	}
 	
-	public void setRankings(HashMap<Player,Integer> rankings) {
+	public void setRankings(List<Player> rankings) {
 		this.rankings = rankings;
 	}
 }

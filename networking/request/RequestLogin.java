@@ -3,8 +3,9 @@ package networking.request;
 // Java Imports
 import java.io.IOException;
 import java.util.ArrayList;
-import dataAccessLayer.Player;
-import dataAccessLayer.PlayerModel;
+
+import dataAccessLayer.model.PlayerModel;
+import dataAccessLayer.record.Player;
 import networking.response.ResponseLogin;
 // Custom Imports
 //import core.GameServer;

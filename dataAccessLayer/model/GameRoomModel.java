@@ -1,8 +1,12 @@
-package dataAccessLayer;
+package dataAccessLayer.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import dataAccessLayer.DatabaseDriver;
+import dataAccessLayer.ObjectModel;
+import dataAccessLayer.record.GameRoom;
 
 public class GameRoomModel {
 	public static GameRoom getGameRoomById(int id) {

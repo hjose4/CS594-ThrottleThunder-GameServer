@@ -1,6 +1,8 @@
-package dataAccessLayer;
+package dataAccessLayer.record;
 
 import java.util.HashMap;
+
+import dataAccessLayer.DatabaseDriver;
 
 public class PlayerVehicle extends BaseVehicle {
 	public static final String PLAYER_ID = "player_id";

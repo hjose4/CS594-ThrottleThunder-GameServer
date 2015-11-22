@@ -1,8 +1,9 @@
 package networking.request;
 
 import java.io.IOException;
-import dataAccessLayer.GameRoom;
-import dataAccessLayer.GameRoomModel;
+
+import dataAccessLayer.model.GameRoomModel;
+import dataAccessLayer.record.GameRoom;
 import networking.response.ResponseEnterGameLobby;
 import utility.DataReader;
 

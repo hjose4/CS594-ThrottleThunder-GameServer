@@ -1,9 +1,10 @@
 package networking.request;
 
 import java.io.IOException;
-import dataAccessLayer.VehicleModel;
-import dataAccessLayer.Player;
-import dataAccessLayer.PlayerVehicle;
+
+import dataAccessLayer.model.VehicleModel;
+import dataAccessLayer.record.Player;
+import dataAccessLayer.record.PlayerVehicle;
 import networking.response.ResponseCharacterCreation;
 import utility.DataReader;
 

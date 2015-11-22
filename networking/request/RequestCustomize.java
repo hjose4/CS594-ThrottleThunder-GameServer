@@ -3,13 +3,13 @@ package networking.request;
 // Java Imports
 import java.io.IOException;
 import dataAccessLayer.DatabaseDriver;
+import dataAccessLayer.record.BaseVehicle;
+import dataAccessLayer.record.Player;
+import dataAccessLayer.record.Upgrade;
 import networking.response.ResponseCustomize;
 // Custom Imports
 //import core.GameServer;
 import utility.DataReader;
-import dataAccessLayer.Player;
-import dataAccessLayer.BaseVehicle;
-import dataAccessLayer.Upgrade;
 
 public class RequestCustomize extends GameRequest {
 

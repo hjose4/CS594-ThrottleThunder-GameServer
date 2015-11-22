@@ -1,6 +1,8 @@
-package dataAccessLayer;
+package dataAccessLayer.record;
 
 import java.util.HashMap;
+
+import dataAccessLayer.ObjectModel;
 
 public class Upgrade extends ObjectModel {
 	private int id;

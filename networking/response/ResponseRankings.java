@@ -4,8 +4,8 @@ import utility.GamePacket;
 
 import java.util.HashMap;
 
+import dataAccessLayer.record.Player;
 import metadata.Constants;
-import dataAccessLayer.Player;
 
 public class ResponseRankings extends GameResponse {
 	private HashMap<Player,Integer> rankings;

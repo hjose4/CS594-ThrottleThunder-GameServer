@@ -1,8 +1,13 @@
-package dataAccessLayer;
+package dataAccessLayer.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import dataAccessLayer.DatabaseDriver;
+import dataAccessLayer.ObjectModel;
+import dataAccessLayer.record.BaseVehicle;
+import dataAccessLayer.record.Ranking;
 
 public class RankingModel {
 	public static Ranking getRankingById(int id) {

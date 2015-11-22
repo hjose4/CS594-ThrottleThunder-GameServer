@@ -12,9 +12,9 @@ import java.util.List;
 // Custom Imports
 import configuration.GameServerConf;
 import metadata.GameRequestTable;
-import dataAccessLayer.GameRoom;
-import dataAccessLayer.Player;
 import dataAccessLayer.DatabaseDriver;
+import dataAccessLayer.record.GameRoom;
+import dataAccessLayer.record.Player;
 import networking.response.GameResponse;
 import utility.ConfFileParser;
 

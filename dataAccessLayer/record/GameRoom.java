@@ -1,9 +1,10 @@
-package dataAccessLayer;
+package dataAccessLayer.record;
 
 import java.util.HashMap;
 import java.util.List;
 
 import dataAccessLayer.DatabaseDriver;
+import dataAccessLayer.ObjectModel;
 
 public class GameRoom extends ObjectModel{
 	public static final String ID = "id";

@@ -1,8 +1,8 @@
 package networking.response;
 
 import utility.GamePacket;
+import dataAccessLayer.record.Player;
 import metadata.Constants;
-import dataAccessLayer.Player;
 
 public class ResponseMove extends GameResponse {
 	

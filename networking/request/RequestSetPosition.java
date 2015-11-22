@@ -14,7 +14,6 @@ public class RequestSetPosition extends GameRequest {
 
 	public RequestSetPosition() {
 		responses.add(responseSetPosition = new ResponseSetPosition());
-
 	}
 
 	@Override

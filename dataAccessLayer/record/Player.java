@@ -1,7 +1,8 @@
-package dataAccessLayer;
+package dataAccessLayer.record;
 
 import java.util.HashMap;
 
+import dataAccessLayer.ObjectModel;
 import model.Position;
 
 public class Player extends ObjectModel {

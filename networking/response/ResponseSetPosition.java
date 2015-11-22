@@ -2,9 +2,9 @@ package networking.response;
 
 import java.util.HashMap;
 
+import dataAccessLayer.record.Player;
 // Custom Imports
 import metadata.Constants;
-import dataAccessLayer.Player;
 import model.Position;
 import utility.GamePacket;
 

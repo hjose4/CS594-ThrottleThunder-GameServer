@@ -7,9 +7,9 @@ import networking.response.ResponseTime;
 import java.util.List;
 
 import dataAccessLayer.DatabaseDriver;
+import dataAccessLayer.record.GameRoom;
+import dataAccessLayer.record.Player;
 import metadata.Constants;
-import dataAccessLayer.GameRoom;
-import dataAccessLayer.Player;
 
 public class GameSession extends Thread{
 	private GameRoom gameroom;

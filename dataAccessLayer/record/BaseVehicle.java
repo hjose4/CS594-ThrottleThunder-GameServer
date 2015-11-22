@@ -1,6 +1,8 @@
-package dataAccessLayer;
+package dataAccessLayer.record;
 
 import java.util.HashMap;
+
+import dataAccessLayer.ObjectModel;
 
 public class BaseVehicle extends ObjectModel {	
 	public static final String NAME = "name";

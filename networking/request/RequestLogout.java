@@ -1,7 +1,8 @@
 package networking.request;
 
 import java.io.IOException;
-import dataAccessLayer.Player;
+
+import dataAccessLayer.record.Player;
 import networking.response.ResponseLogout;
 
 public class RequestLogout extends GameRequest {	

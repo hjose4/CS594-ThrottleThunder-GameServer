@@ -13,11 +13,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
-
+import dataAccessLayer.record.Player;
 // Custom Imports
 import metadata.Constants;
 import metadata.GameRequestTable;
-import dataAccessLayer.Player;
 import networking.request.GameRequest;
 import networking.response.GameResponse;
 import networking.response.ResponseDisconnected;

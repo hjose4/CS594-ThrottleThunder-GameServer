@@ -3,10 +3,11 @@ package networking.request;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import dataAccessLayer.Player;
-import dataAccessLayer.PlayerModel;
-import dataAccessLayer.Ranking;
-import dataAccessLayer.RankingModel;
+
+import dataAccessLayer.model.PlayerModel;
+import dataAccessLayer.model.RankingModel;
+import dataAccessLayer.record.Player;
+import dataAccessLayer.record.Ranking;
 import networking.response.ResponseResults;
 import utility.DataReader;
 

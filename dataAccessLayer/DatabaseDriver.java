@@ -6,6 +6,12 @@ import java.util.*;
 
 import utility.ConfFileParser;
 import configuration.GameServerConf;
+import dataAccessLayer.record.BaseVehicle;
+import dataAccessLayer.record.Friendship;
+import dataAccessLayer.record.GameRoom;
+import dataAccessLayer.record.Player;
+import dataAccessLayer.record.PlayerVehicle;
+import dataAccessLayer.record.Upgrade;
 
 //Singleton
 public class DatabaseDriver {

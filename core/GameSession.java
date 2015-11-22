@@ -189,6 +189,7 @@ public class GameSession extends Thread {
 			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
 			responseSetPosition.setStartingPositions(startingPositions);
 			addResponseForAll(responseSetPosition);
+			availablePositions = new ArrayList<Position>();
 			phase += 1;
 			break;
 		case 1:

@@ -2,6 +2,7 @@ package core;
 
 import networking.response.GameResponse;
 import networking.response.ResponseReady;
+import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
 
 import java.util.ArrayList;
@@ -150,6 +151,9 @@ public class GameSession extends Thread{
 		switch(phase) {
 			case 0:
 				sendAllResponseReady();
+				ResponseSetPosition responseSetPosition = new ResponseSetPosition();
+				responseSetPosition.setStartingPositions(startingPositions);
+				addResponseForAll(responseSetPosition);
 				phase += 1;
 				break;
 			case 1:

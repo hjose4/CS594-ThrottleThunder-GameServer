@@ -118,6 +118,10 @@ public class GameSession extends Thread{
 		return server;
 	}
 	
+	public void endGame(){
+		isRunning = false;
+	}
+	
 	public HashMap<Player,Position> getStartingPositions() {
 		return startingPositions;
 	}
@@ -150,9 +154,9 @@ public class GameSession extends Thread{
 				break;
 			case 1:
 				setGameStarted(true);
-				this.start();
 				gameroom.setTimeStarted(System.currentTimeMillis());				
 				initPowerUp(gameroom.getTimeStarted());
+				this.start();
 				gameroom.save(GameRoom.TIME_STARTED);
 				break;
 				

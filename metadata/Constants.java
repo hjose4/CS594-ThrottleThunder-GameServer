@@ -70,7 +70,7 @@ public class Constants {
 	public final static short SMSG_CUSTOMIZE = 240;
 	
 	public final static short SMSG_RENDER_CHARACTER = 310;
-	public final static short SMSG_REMOVE_CHARACTER =311;
+	public final static short SMSG_REMOVE_CHARACTER = 311;
 	public final static short REQ_HEARTBEAT = 301;
 	
 	// Other

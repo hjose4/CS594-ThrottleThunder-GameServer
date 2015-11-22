@@ -19,7 +19,7 @@ import metadata.Constants;
 import metadata.GameRequestTable;
 import networking.request.GameRequest;
 import networking.response.GameResponse;
-import networking.response.ResponseDisconnected;
+import networking.response.ResponseLogout;
 import utility.DataReader;
 
 /**
@@ -135,7 +135,7 @@ public class GameClient extends Thread {
 		System.out.println(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
 		System.out.println("The client stops playing.");
 		if(player != null) {
-			ResponseDisconnected response = new ResponseDisconnected();
+			ResponseLogout response = new ResponseLogout();
 			response.setUsername(player.getUsername());
 			getServer().addResponseForAllOnlinePlayers(getId(), (GameResponse) response);
 			getServer().removeActivePlayer(player.getId());

@@ -17,10 +17,10 @@ public class RequestLogin extends GameRequest {
 	private String username;
 	private String password;
 	// Responses
-	private ResponseLogin responseAuth;
+	private ResponseLogin responseLogin;
 
 	public RequestLogin() {
-		responses.add(responseAuth = new ResponseLogin());
+		responses.add(responseLogin = new ResponseLogin());
 
 	}
 
@@ -40,10 +40,10 @@ public class RequestLogin extends GameRequest {
 		if (players.size() > 0) {
 			System.out.println("Connected !");
 			client.setPlayer(players.remove(0));
-			responseAuth.setAnswer((short) 1);
+			responseLogin.setAnswer(1);
 		} else {
 			System.out.println("Wrong credentials");
-			responseAuth.setAnswer((short) 0);
+			responseLogin.setAnswer(0);
 		}
 	}
 }

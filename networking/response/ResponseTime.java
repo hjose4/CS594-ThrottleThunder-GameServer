@@ -5,7 +5,7 @@ import metadata.Constants;
 
 public class ResponseTime extends GameResponse {
 	private int type;
-	private long time;
+	private int time;
 	
 	public ResponseTime() {
         responseCode = Constants.SMSG_TIME;
@@ -16,11 +16,11 @@ public class ResponseTime extends GameResponse {
 		// TODO Auto-generated method stub
 		GamePacket packet = new GamePacket(responseCode);
 		packet.addInt32(type);
-		packet.addLong(time);
+		packet.addInt32(time);
 		return packet.getBytes();
 	}
 
-	public void setData(int type, long time){
+	public void setData(int type, int time){
 		this.type = type;
 		this.time = time;
 	}

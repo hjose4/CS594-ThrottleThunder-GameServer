@@ -33,7 +33,7 @@ public class Constants {
 	public final static short CMSG_DEAD = 126;
 	public final static short CMSG_READY = 127;
 	public final static short CMSG_SET_POSITION = 128;
-	//public final static short CMSG_TIME = 129;
+	public final static short CMSG_TIME = 129;
 	public final static short CMSG_SET_RANK = 130;
 	public final static short CMSG_CUSTOMIZE = 140;
 	

@@ -48,6 +48,7 @@ public class GameRequestTable {
 		add(Constants.CMSG_READY, "RequestReady");
 		add(Constants.CMSG_SET_POSITION, "RequestSetPosition");
 		add(Constants.CMSG_SET_RANK, "RequestSetRank");
+		add(Constants.CMSG_TIME, "RequestTime");
 		add(Constants.REQ_HEARTBEAT, "RequestHeartbeat");
 	}
 

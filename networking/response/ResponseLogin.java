@@ -6,7 +6,7 @@ import utility.GamePacket;
 
 public class ResponseLogin extends GameResponse {
 
-    private short answer;
+    private int answer;
 
     public ResponseLogin() {
         responseCode = Constants.SMSG_LOGIN;
@@ -15,15 +15,15 @@ public class ResponseLogin extends GameResponse {
     @Override
     public byte[] constructResponseInBytes() {
         GamePacket packet = new GamePacket(responseCode);
-        packet.addShort16(answer);
+        packet.addInt32(answer);
         return packet.getBytes();
     }
     
-	public short getAnswer() {
+	public int getAnswer() {
 		return answer;
 	}
 
-	public void setAnswer(short answer) {
+	public void setAnswer(int answer) {
 		this.answer = answer;
 	}
 }

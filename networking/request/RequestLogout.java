@@ -1,6 +1,8 @@
 package networking.request;
 
 import java.io.IOException;
+
+import core.GameClient;
 import networking.response.ResponseLogout;
 
 public class RequestLogout extends GameRequest {	
@@ -20,9 +22,20 @@ public class RequestLogout extends GameRequest {
 			client.getSession().removeGameClient(client);
 			client.setSession(null);
 		} else {
-			client.getServer().addResponseForAllOnlinePlayers(client.getId(), response);
+			//client.getServer().addResponseForAllOnlinePlayers(client.getId(), response);
 			client.stopClient();
 		}
+	}
+	
+	public void clientCrashed(GameClient client) {
+		this.client = client;
+		this.response.setUsername(this.client.getPlayer().getUsername());
+		if(client.getSession() != null) {
+			client.getSession().addResponseForAll(response);
+			client.getSession().removeGameClient(client);
+			client.setSession(null);
+		}
+		client.stopClient();
 	}
 
 	@Override

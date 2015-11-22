@@ -2,6 +2,7 @@ package core;
 
 import networking.response.GameResponse;
 import networking.response.ResponseReady;
+import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
 
 import java.util.ArrayList;
@@ -26,14 +27,14 @@ public class GameSession extends Thread {
 	private HashMap<Player, Double> playerRankings;
 	private HashMap<Player, Position> startingPositions;
 	private ArrayList<Position> availablePositions;
-	private ArrayList<GameClient> resultList;
+	private ArrayList<Player> deadPlayerList;
 
 	public GameSession(GameServer server, GameRoom gameRoom) {
 		this.gameroom = gameRoom;
 		this.server = server;
 		availablePositions = MapManager.getInstance().getStartingPositions(gameroom.getMapName());
 		startingPositions = new HashMap<Player, Position>();
-		resultList = new ArrayList<GameClient>();
+		deadPlayerList = new ArrayList<Player>();
 	}
 
 	@Override
@@ -69,25 +70,20 @@ public class GameSession extends Thread {
 					//resultList.add(TheclientThatjustDied);
 				}
 				
-				if(clients.size() - resultList.size() ==1)
-				{
+				//One player left
+				if(playerRankings.size() - deadPlayerList.size() ==1) {
 					setGameStarted(false); 
-				}
-				
+				}				
 			}
 		}
 		System.out.println("Game Over : GameId - " + getId());
+		
 		// Send out prizes
-
-		if (gameroom.getType() == 1)
-
+		deadPlayerList.add(getRankings().get(0));
+		for (int i=0; i<deadPlayerList.size(); i++)
 		{
-			for (int i=0; i<resultList.size(); i++)
-			{
-				int finalCurrency = resultList.get(i).getPlayer().getCurrency() + 25 + (100 / i);
-				resultList.get(i).getPlayer().setCurrency(finalCurrency);	
-			}
-
+			int finalCurrency = deadPlayerList.get(i).getCurrency() + 25 + (100 / (deadPlayerList.size() - i));
+			deadPlayerList.get(i).setCurrency(finalCurrency);	
 		}
 
 		server.deleteSessionThreadOutOfActiveThreads(getId());
@@ -110,13 +106,22 @@ public class GameSession extends Thread {
 		return false;
 	}
 
-	public void clientDead(GameClient client) {
-		resultList.add(client);
-
+	public void clientDead(Player player) {
+		deadPlayerList.add(player);
 	}
 
 	public void removeGameClient(GameClient client) {
 		clients.remove(client);
+		
+		//Check if the player is alive
+		for(Player player : deadPlayerList) {
+			//Player is dead, so its okay
+			if(player.getId() == client.getPlayer().getId()) {
+				return;
+			}
+		}
+		
+		//Player is not dead - no points for him/her #Wendy
 		playerRankings.remove(client.getPlayer());
 		if (startingPositions.get(client.getPlayer()) != null) {
 			availablePositions.add(startingPositions.get(client.getPlayer()));
@@ -151,8 +156,10 @@ public class GameSession extends Thread {
 	public GameServer getServer() {
 		return server;
 	}
-
-	public HashMap<Player, Position> getStartingPositions() {
+	public void endGame(){
+		isRunning = false;
+	}
+	public HashMap<Player,Position> getStartingPositions() {
 		return startingPositions;
 	}
 
@@ -174,21 +181,23 @@ public class GameSession extends Thread {
 	}
 
 	public void nextPhase() {
-		// send set_position response here
-		// remember to edit all gameclients.player.position
-		switch (phase) {
+		//send set_position response here
+		//remember to edit all gameclients.player.position
+		switch(phase) {
 		case 0:
 			sendAllResponseReady();
+			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
+			responseSetPosition.setStartingPositions(startingPositions);
+			addResponseForAll(responseSetPosition);
 			phase += 1;
 			break;
 		case 1:
 			setGameStarted(true);
-			this.start();
-			gameroom.setTimeStarted(System.currentTimeMillis());
+			gameroom.setTimeStarted(System.currentTimeMillis());				
 			initPowerUp(gameroom.getTimeStarted());
+			this.start();
 			gameroom.save(GameRoom.TIME_STARTED);
 			break;
-
 		}
 	}
 

@@ -5,22 +5,46 @@ import java.util.HashMap;
 import model.Position;
 
 public class Player extends ObjectModel {
-	private int player_id;
-	private String username;	
-	private String email;
-	private String password; 
+	public static final String ID = "id";
+	public static final String USERNAME = "username";
+	public static final String PASSWORD = "password";
+	public static final String CURRENCY = "currency";
+	
 	private GameRoom room = null;
 	private Position pos;
 	private boolean isReady;
 	private int carId;
 	
-	public Player(HashMap<String, String> input) {
-	super (input);
+	public Player() {
+		super (new HashMap<String,String>());
 	}
 	
-	public void setPassword(String password)
-	{
-		this.password = password; 
+	public Player(HashMap<String, String> input) {
+		super (input);
+	}
+	
+	public String getUsername() {
+		return get(USERNAME);
+	}
+	
+	public int getID() {
+		return Integer.valueOf(get(ID));
+	}
+	
+	public int getCurrency() {
+		return Integer.valueOf(get(CURRENCY));
+	}
+	
+	public void setCurrency(int currency) {
+		set(CURRENCY,currency);
+	}
+	
+	public void setPassword(String password) {
+		set(PASSWORD,password);
+	}
+	
+	public void setUsername(String username) {
+		set(USERNAME,username);
 	}
 	
 	public void setRoom(GameRoom room) {
@@ -30,18 +54,6 @@ public class Player extends ObjectModel {
 	
 	public GameRoom getRoom() {
 		return room;
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-	
-	public String getEmail() {
-		return this.email;
-	}
-	
-	public int getID() {
-		return this.player_id;
 	}
 	
 	public Position getPosition(){
@@ -74,20 +86,5 @@ public class Player extends ObjectModel {
 	
 	public int getCarId(int carId) {
 		return this.carId;		
-	}
-
-	public int getCurrency() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void setCurrency(int i) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void update() {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -2,9 +2,7 @@ package networking.request;
 
 import java.io.IOException;
 import java.util.HashMap;
-
 import dataAccessLayer.Player;
-import utility.DataReader;
 import networking.response.ResponseRankings;
 
 public class RequestRankings extends GameRequest {

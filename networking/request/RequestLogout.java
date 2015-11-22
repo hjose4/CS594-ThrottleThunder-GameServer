@@ -1,12 +1,8 @@
 package networking.request;
 
 import java.io.IOException;
-
-import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.Player;
-import networking.response.ResponseLogin;
 import networking.response.ResponseLogout;
-import utility.DataReader;
 
 public class RequestLogout extends GameRequest {	
 	// Responses

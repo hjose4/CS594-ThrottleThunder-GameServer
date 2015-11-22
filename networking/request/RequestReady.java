@@ -1,10 +1,7 @@
 package networking.request;
 
 import java.io.IOException;
-
 import core.GameClient;
-import core.GameSession;
-import utility.DataReader;
 import networking.response.ResponseReady;
 
 public class RequestReady extends GameRequest {

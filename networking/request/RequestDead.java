@@ -1,8 +1,6 @@
 package networking.request;
 
 import java.io.IOException;
-
-import utility.DataReader;
 import networking.response.ResponseDead;
 
 public class RequestDead extends GameRequest {

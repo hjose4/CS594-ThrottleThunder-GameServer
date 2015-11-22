@@ -2,11 +2,9 @@ package networking.request;
 
 // Java Imports
 import java.io.IOException;
-import java.util.HashMap;
-
-import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.GameRoom;
+import java.util.ArrayList;
 import dataAccessLayer.Player;
+import dataAccessLayer.PlayerModel;
 import networking.response.ResponseLogin;
 // Custom Imports
 //import core.GameServer;
@@ -33,15 +31,14 @@ public class RequestLogin extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		HashMap<String, String> values = new HashMap<String, String>(); 
-		values.put("username", username);
-		values.put("password", password);
-	
-		Player player = new Player(DatabaseDriver.find(Player.class, values).remove(0).getData());
+		Player player = new Player();
+		player.setPassword(password);
+		player.setUsername(username);
+		ArrayList<Player> players = PlayerModel.searchForPlayers(player);
 
-		if (player.getID() > 0) {
+		if (players.size() > 0) {
 			System.out.println("Connected !");
-			client.setPlayer(player);
+			client.setPlayer(players.remove(0));
 			responseAuth.setAnswer((short) 1);
 		} else {
 			System.out.println("Wrong credentials");

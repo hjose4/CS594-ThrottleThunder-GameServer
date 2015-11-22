@@ -18,68 +18,76 @@ import java.util.logging.Logger;
  */
 
 public abstract class ObjectModel {
-    protected HashMap<String, String> data;
-    
-    public ObjectModel(){}
-    
-    protected ObjectModel(HashMap<String, String> input){
-        data=input;
-    }
-    
-    public String get(String field){
-        if(!data.containsKey(field)){
-            System.out.println("Le champ "+field+" n'existe pas dans l'objet");
-            return null;
-        }
-        return data.get(field);
-    }
-    
-    public HashMap<String, String> getData()
-    {
-        return data;
-    }
-    
-    public void set(String field, Object value){
-        data.put(field, value.toString());
-        if(!field.equals("id")) this.save(field);
-    }
-    
-    public boolean containsField(String field)
-    {
-        return data.containsKey(field);
-    }
-    
-    public void pull(){
-        ObjectModel d;
-        try {
-            d = DatabaseDriver.findById(this.getClass(), this.get("id"));
-            data=d.getData();
-        } catch (SQLException ex) {
-            Logger.getLogger(ObjectModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    //sauvegarde l'état d'un objet dans la bdd
-    public void save(String field_to_save)
-    {
-        if(field_to_save.equals("all"))
-            for(String field : data.keySet())
-            {
-                if  (!(field.equals("id")))
-                {
-                    DatabaseDriver.update(this.getClass(), Integer.valueOf(get("id")), field, get(field));
-                }
-            }
-        else if (!field_to_save.equals("id"))
-        {
-        	if(DatabaseDriver.alreadyExists(this.getClass(), get("id"))) DatabaseDriver.insert(this);
-        	else DatabaseDriver.update(this.getClass(),Integer.valueOf(get("id")), field_to_save, get(field_to_save));
-        }
-    }
-    
-    public void print()
-    {
-        System.out.println(this.getClass().getSimpleName()+data);
-    }
-    
+	private HashMap<String, String> data;
+
+	public ObjectModel(){}
+
+	protected ObjectModel(HashMap<String, String> input){
+		data=input;
+	}
+
+	public String get(String field){
+		if(!data.containsKey(field)){
+			System.out.println("Le champ "+field+" n'existe pas dans l'objet");
+			return null;
+		}
+		return data.get(field);
+	}
+
+	public HashMap<String, String> getData()
+	{
+		return data;
+	}
+
+	public void set(String field, Object value){
+		data.put(field, value.toString());
+	}
+	
+	public void setAndUpdate(String field, Object value){
+		data.put(field, value.toString());
+		if(!field.equals("id")) this.save(field);
+	}
+
+	public boolean containsField(String field)
+	{
+		return data.containsKey(field);
+	}
+
+	public void pull(){
+		ObjectModel d;
+		try {
+			d = DatabaseDriver.findById(this.getClass(), this.get("id"));
+			data=d.getData();
+		} catch (SQLException ex) {
+			Logger.getLogger(ObjectModel.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	//sauvegarde l'état d'un objet dans la bdd
+	public boolean save(String field_to_save) {
+		//Updating an existing object
+		if(field_to_save.equals("all") && get("id") != null) {
+			/*Not recommended: - why not just do one update statement instead of doing N times update.
+			for(String field : data.keySet()) {				
+				if  (!(field.equals("id"))) {
+					DatabaseDriver.update(this.getClass(), Integer.valueOf(get("id")), field, get(field));
+				}
+			}*/
+			return DatabaseDriver.update(this.getClass(), Integer.valueOf(get("id")), data);
+		} else if (!field_to_save.equals("id")) {
+			if(!DatabaseDriver.alreadyExists(this.getClass(), get("id"))) {
+				int id = DatabaseDriver.insert(this);
+				if(id > 0)
+					set("id",id);
+				return id > 0;
+			} else 
+				return DatabaseDriver.update(this.getClass(),Integer.valueOf(get("id")), field_to_save, get(field_to_save));
+		}
+		return false;
+	}
+
+	public void print() {
+		System.out.println(this.getClass().getSimpleName()+data);
+	}
+
 }

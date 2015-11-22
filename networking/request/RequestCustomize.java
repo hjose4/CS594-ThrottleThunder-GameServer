@@ -2,15 +2,13 @@ package networking.request;
 
 // Java Imports
 import java.io.IOException;
-
 import dataAccessLayer.DatabaseDriver;
-import networking.response.GameResponse;
 import networking.response.ResponseCustomize;
 // Custom Imports
 //import core.GameServer;
 import utility.DataReader;
 import dataAccessLayer.Player;
-import dataAccessLayer.Vehicle;
+import dataAccessLayer.BaseVehicle;
 import dataAccessLayer.Upgrade;
 
 public class RequestCustomize extends GameRequest {
@@ -37,16 +35,13 @@ public class RequestCustomize extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		
-//		responseAuth.setAnswer((short) 1);
-		
 		if (client.getServer().getThreadByPlayerUserName(username) != null) {
 			Player player = client.getPlayer();
 			Upgrade upgrade = new Upgrade(DatabaseDriver.findById(Upgrade.class, carId).getData());
-			Vehicle vehicle = new Vehicle(DatabaseDriver.findById(Vehicle.class, carId).getData());
+			BaseVehicle vehicle = new BaseVehicle(DatabaseDriver.findById(BaseVehicle.class, carId).getData());
 			if(player.getCurrency() >= upgrade.getPrice()) {
 				player.setCurrency(player.getCurrency() - upgrade.getPrice());
-				player.update();
+				player.save(Player.CURRENCY);
 				upgrade.setVehicleId(vehicle.getId());
 				DatabaseDriver.insert(upgrade);
 				responseCustomize.setMessage("");

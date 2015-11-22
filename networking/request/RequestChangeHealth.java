@@ -2,8 +2,6 @@ package networking.request;
 
 // Java Imports
 import java.io.IOException;
-
-import networking.response.GameResponse;
 import networking.response.ResponseChangeHealth;
 // Custom Imports
 //import core.GameServer;

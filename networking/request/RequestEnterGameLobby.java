@@ -1,9 +1,8 @@
 package networking.request;
 
 import java.io.IOException;
-
-import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.GameRoom;
+import dataAccessLayer.GameRoomModel;
 import networking.response.ResponseEnterGameLobby;
 import utility.DataReader;
 
@@ -23,14 +22,12 @@ public class RequestEnterGameLobby extends GameRequest {
 	}
 	@Override
 	public void parse() throws IOException {
-		String username = DataReader.readString(dataInput);
-		int lobbyId = DataReader.readInt(dataInput);
 		room_id = DataReader.readInt(dataInput);
 	}
 
 	@Override
 	public void doBusiness() throws Exception {
-		GameRoom gameRoom = new GameRoom(DatabaseDriver.findById(GameRoom.class, room_id).getData());
+		GameRoom gameRoom = GameRoomModel.getGameRoomById(room_id);
 		
 		if(gameRoom != null) {
 			client.getPlayer().setRoom(gameRoom);			

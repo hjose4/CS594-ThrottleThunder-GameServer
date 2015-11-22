@@ -20,7 +20,7 @@ public class DatabaseDriver {
 	protected final String RR_GAME_RANKINGS = "rr_game_rankings";
 	protected final String UPGRADES = "upgrades";
 	
-	private static HashMap<Class, String> table_map; //Mapping between classes in ObjectModel and database tables
+	private static HashMap<Class<? extends ObjectModel>, String> table_map; //Mapping between classes in ObjectModel and database tables
 	
 	private static Connection conn = null;
 	private static DatabaseDriver Instance = null;
@@ -40,17 +40,22 @@ public class DatabaseDriver {
 		return Instance;
 	}
 	
-	private static void init_table_map()
-    {
-        table_map=new HashMap();
+	public static void init() {
+		getInstance();
+	}
+	
+	private static void init_table_map() {
+        table_map=new HashMap<>();
+        table_map.put(BaseVehicle.class, "base_vehicles");
+        table_map.put(PlayerVehicle.class, "player_vehicles");
+        table_map.put(Upgrade.class, "upgrades");
         table_map.put(GameRoom.class, "games");
         table_map.put(Player.class, "players");
-        table_map.put(Friendship.class, "friends_relationship");
-        table_map.put(Vehicle.class, "player_vehicles");
+        table_map.put(Friendship.class, "friend_relationships");
+        table_map.put(BaseVehicle.class, "player_vehicles");
     }
 	
-	private static String getTable(Class type)
-    {
+	private static String getTable(Class<? extends ObjectModel> type) {
         return table_map.get(type);
     }
 
@@ -454,31 +459,59 @@ public class DatabaseDriver {
 	}
 	*/
 	
-	public Vehicle getCar(String type) {
+	public BaseVehicle getCar(String type) {
 		return null;
 	}
         
-	public static boolean update(Class type, int id, String field, Object value) {
-        
+	public static boolean update(Class<? extends ObjectModel> type, int id, String field, Object value) {
+        int ret = 0;
         try {
             String query = "UPDATE "+getTable(type)+" SET "+field+"='"+value.toString()+"' WHERE id="+id+";";
             Statement stmt = conn.createStatement();
             //afficher la requete
             //System.out.println("Requete MAJ : " + query);
             //executer la modification
-            stmt.executeUpdate(query);
+            ret = stmt.executeUpdate(query);
             if(stmt!=null) stmt.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         
-        return true;
+        return ret > 0;
+    }
+	
+	public static boolean update(Class<? extends ObjectModel> type, int id, HashMap<String,String> values) {
+        int ret = 0;
+        try {
+            String query = "UPDATE "+getTable(type)+" SET ";
+            for(String col : values.keySet()) {
+            	query += col + " = ?, ";
+            }
+            query.substring(0, query.length()-2);
+            query += " WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            int c = 1;
+            for(String value : values.values()) {
+            	if(value.equals("id")) {
+            		continue;
+            	}
+            	stmt.setString(c, value);
+            	c++;
+            }
+            stmt.setInt(c, id);
+            ret = stmt.executeUpdate();
+            if(stmt!=null) stmt.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return ret > 0;
     }
 	
 	private static ArrayList<HashMap<String, String>> select(String requete) throws SQLException {
         
-        ArrayList<HashMap<String, String>> table = new ArrayList();
-        HashMap<String, String> ligne = new HashMap();
+        ArrayList<HashMap<String, String>> table = new ArrayList<>();
+        HashMap<String, String> ligne = new HashMap<>();
 
         // System.out.println("Requete Recherche : " + requete);
         Statement stmt = conn.createStatement();
@@ -487,7 +520,7 @@ public class DatabaseDriver {
         ResultSetMetaData rsetMeta = rset.getMetaData();
         int nbColonne = rsetMeta.getColumnCount();
 
-        ArrayList<String> fields = new ArrayList();
+        ArrayList<String> fields = new ArrayList<>();
         
         for (int i = 1; i <= nbColonne; i++) {
             fields.add(rsetMeta.getColumnLabel(i));
@@ -495,7 +528,7 @@ public class DatabaseDriver {
 
         while (rset.next()) 
         {
-            ligne = new HashMap();
+            ligne = new HashMap<>();
             for (int i = 0; i < nbColonne; i++) {
                 ligne.put(fields.get(i), rset.getString(i + 1));
             }
@@ -504,11 +537,11 @@ public class DatabaseDriver {
         return table;
     }
     
-	private static ArrayList<HashMap<String, String>> select(Class type, HashMap<String, String> data){
+	private static ArrayList<HashMap<String, String>> select(Class<? extends ObjectModel> type, HashMap<String, String> data){
         String query = "SELECT * FROM "+getTable(type)+" WHERE ";
         boolean first=true;
         ArrayList<HashMap<String, String>> raw_results;
-        ArrayList<ObjectModel> results = new ArrayList();
+        ArrayList<ObjectModel> results = new ArrayList<>();
         
         for (Map.Entry<String, String> entry : data.entrySet())
         {
@@ -530,16 +563,16 @@ public class DatabaseDriver {
         return null;
     }
 	
-	public static ArrayList<ObjectModel> find(Class type, HashMap<String, String> param){
+	public static ArrayList<ObjectModel> find(Class<? extends ObjectModel> type, HashMap<String, String> param){
         try {
-            ArrayList<ObjectModel> results = new ArrayList();
+            ArrayList<ObjectModel> results = new ArrayList<>();
             String table = table_map.get(type);
             
             ArrayList<HashMap<String, String>> raw_results = DatabaseDriver.select(type, param);
             
             for(HashMap<String, String> data : raw_results){
                 
-                Constructor constr = type.getConstructor(HashMap.class);
+                Constructor<? extends ObjectModel> constr = type.getConstructor(HashMap.class);
                 results.add((ObjectModel)constr.newInstance(data));
             }
             
@@ -551,21 +584,21 @@ public class DatabaseDriver {
 	}
 	
 	//renvoie tous les objets ou l'attribut field=value
-    public static ArrayList<ObjectModel> find(Class type, String field, Object value)
+    public static ArrayList<ObjectModel> find(Class<? extends ObjectModel> type, String field, Object value)
     {
-        HashMap<String, String> critere = new HashMap();
+        HashMap<String, String> critere = new HashMap<>();
         critere.put(field, value.toString());
         return find(type,critere);
     }
 
-	public static ObjectModel findById(Class type, Object id) throws SQLException {
-            ArrayList<ObjectModel> d = find(type,"id",id);
-            if(!d.isEmpty())
-            return (ObjectModel) d.get(0);
-            else throw new SQLException("No object of type "+type.getSimpleName()+"found for id "+id);
+	public static ObjectModel findById(Class<? extends ObjectModel> type, Object id) throws SQLException {
+		ArrayList<ObjectModel> d = find(type,"id",id);
+        if(!d.isEmpty())
+        	return (ObjectModel) d.get(0);
+        else throw new SQLException("No object of type "+type.getSimpleName()+"found for id "+id);
 	}
 	
-	public static boolean alreadyExists(Class type, Object id){
+	public static boolean alreadyExists(Class<? extends ObjectModel> type, Object id){
 		try{
 			findById(type, id);
 			return true;
@@ -576,15 +609,13 @@ public class DatabaseDriver {
 	}
         
     //query of object creation, returns id given to the object by the DB
-	public static int insert(ObjectModel obj){
-            
-            
+	public static int insert(ObjectModel obj){            
         try {
             String table = DatabaseDriver.table_map.get(obj.getClass());
             HashMap<String, String> data = obj.getData();
 
-            ArrayList<String> field_names=new ArrayList();
-            ArrayList<String> values=new ArrayList();
+            ArrayList<String> field_names=new ArrayList<>();
+            ArrayList<String> values=new ArrayList<>();
             
             String query = "INSERT INTO "+table+"(";
             int id=-1;
@@ -626,5 +657,54 @@ public class DatabaseDriver {
         
         return -1;
     }
+	
+	//query of object creation, returns id given to the object by the DB
+		public static int insert(Class<? extends ObjectModel> type, HashMap<String,String> data){            
+	        try {
+	            String table = DatabaseDriver.table_map.get(type.getClass());
+
+	            ArrayList<String> field_names=new ArrayList<>();
+	            ArrayList<String> values=new ArrayList<>();
+	            
+	            String query = "INSERT INTO "+table+"(";
+	            int id=-1;
+	            
+	            //we extract fields names and their values
+	            for (Map.Entry<String, String> entry : data.entrySet()) {
+	                if(entry.getKey().equals("id")) continue;
+	                field_names.add(entry.getKey());
+	                values.add(entry.getValue());
+	            }
+	            
+	            //we write the SQL query
+	            for (String field : field_names){
+	                query=query.concat(field+",");
+	            }
+	            query=query.substring(0,query.length()-1);
+	            query=query.concat(") values (");
+	            for (String s : values){
+	                query = query.concat("'"+s+"',");
+	            }
+	            query=query.substring(0,query.length()-1);
+	            query =query.concat(");");
+	            
+	            //display query
+	            //System.out.println("Requete creation : " + query);
+	            
+	            //execute insertion query
+	            Statement stmt = conn.createStatement();
+	            stmt.executeUpdate(query);
+	            
+	            //getting id of the created object
+	            ArrayList<HashMap<String, String>> result = select("SELECT LAST_INSERT_ID() FROM "+table);
+	            id=Integer.valueOf(result.get(0).get("LAST_INSERT_ID()"));
+	            if(!stmt.isClosed()) stmt.close();
+	            return id;
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
+	        
+	        return -1;
+	    }
 	
 }

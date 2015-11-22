@@ -2,10 +2,8 @@ package networking.request;
 
 // Java Imports
 import java.io.IOException;
-import java.util.HashMap;
-
-import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.Player;
+import dataAccessLayer.PlayerModel;
 // Custom Imports
 //import core.GameServer;
 import networking.response.ResponseRegister;
@@ -39,14 +37,10 @@ public class RequestRegister extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-
-		HashMap<String, String> values = new HashMap<String, String>(); 
-		values.put("username", username);
-		values.put("password", password);
-		
-		Player player = new Player(values);
-		int player_id = DatabaseDriver.insert(player);
-		if (player_id != 0) {
+		Player player = new Player();
+		player.setUsername(username);
+		player.setPassword(password);
+		if (PlayerModel.searchForPlayers(player).size() == 0 && PlayerModel.insertPlayer(player)) {
 			responseRegister.setNumber(1);
 		} else {
 			responseRegister.setNumber(0);

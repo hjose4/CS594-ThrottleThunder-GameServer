@@ -9,14 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-
 // Custom Imports
 import configuration.GameServerConf;
-import dataAccessLayer.DatabaseDriver;
 import metadata.GameRequestTable;
 import dataAccessLayer.GameRoom;
 import dataAccessLayer.Player;
+import dataAccessLayer.DatabaseDriver;
 import networking.response.GameResponse;
 import utility.ConfFileParser;
 
@@ -33,6 +31,7 @@ public class GameServer {
 	private HashMap<Long, GameClient> activeThreads = new HashMap<Long, GameClient>(); // Stores active threads by thread ID
 	private HashMap<Integer, Player> activePlayers = new HashMap<Integer, Player>(); // Stores active players by player ID
 	private HashMap<Long, GameSession> activeSessions = new HashMap<Long, GameSession>();
+	
 	/**
 	 * Initialize the GameServer by setting up the request types and creating a
 	 * connection with the database.
@@ -80,6 +79,7 @@ public class GameServer {
 	 * manage incoming and outgoing activity.
 	 */
 	private void run() {
+		DatabaseDriver.init();
 		ServerSocket listenSocket;
 		int serverPort = configuration.getPortNumber();
 

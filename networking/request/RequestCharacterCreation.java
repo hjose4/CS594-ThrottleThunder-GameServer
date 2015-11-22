@@ -1,14 +1,9 @@
 package networking.request;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.ObjectModel;
-import dataAccessLayer.Vehicle;
+import dataAccessLayer.VehicleModel;
 import dataAccessLayer.Player;
+import dataAccessLayer.PlayerVehicle;
 import networking.response.ResponseCharacterCreation;
 import utility.DataReader;
 
@@ -33,21 +28,19 @@ public class RequestCharacterCreation extends GameRequest {
 		@Override
 		public void doBusiness() throws Exception {
 			Player player = client.getPlayer();
-			DatabaseDriver db = DatabaseDriver.getInstance();
-			Vehicle vehicle = new Vehicle(DatabaseDriver.findById(Vehicle.class, this.baseId).getData());
+			PlayerVehicle vehicle = VehicleModel.createPlayerVehicleFromBaseVehicle(baseId);
 			
-			vehicle.setName(vehicleName);
-			if(player != null && vehicle != null && Integer.valueOf(DatabaseDriver.insert(vehicle)) > 0) {
-				response.setFlag(1);
-				List<Vehicle> playervehicles = new ArrayList<Vehicle>();
-				List<ObjectModel> found = DatabaseDriver.find(Vehicle.class, "player_id", player.getID());
-				for(int i = 0; i<found.size(); i++)
-				{
-					playervehicles.add((Vehicle)found.get(i));
+			if(player != null && vehicle != null) {
+				vehicle.setName(vehicleName);
+				if(VehicleModel.insertVehicle(vehicle)) {					
+					response.setFlag(1);
+					response.setPlayerVehicles(VehicleModel.searchForPlayerVehiclesByPlayerId(player.getID()));					
+				}  else {
+					response.setFlag(0);
 				}
-				response.setPlayerVehicles(playervehicles);
-			} else {
+			}  else {
 				response.setFlag(0);
 			}
+			
 		}
 }

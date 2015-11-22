@@ -1,10 +1,9 @@
 package networking.request;
 
 import java.io.IOException;
-import java.util.HashMap;
-
-import dataAccessLayer.DatabaseDriver;
+import java.util.ArrayList;
 import dataAccessLayer.GameRoom;
+import dataAccessLayer.GameRoomModel;
 import networking.response.ResponseEnterGameName;
 import utility.DataReader;
 
@@ -24,17 +23,14 @@ public class RequestEnterGameName extends GameRequest {
 	}
 	@Override
 	public void parse() throws IOException {
-		String username = DataReader.readString(dataInput);
 		room_name = DataReader.readString(dataInput);
 	}
 
 	@Override
 	public void doBusiness() throws Exception {
-		
-		
-		GameRoom gameRoom = new GameRoom(DatabaseDriver.find(GameRoom.class, "room_name", room_name).remove(0).getData());
-		
-		if(gameRoom != null) {
+		ArrayList<GameRoom> rooms;
+		if(( rooms = GameRoomModel.searchForGameRoomsByName(room_name)).size() > 0) {
+			GameRoom gameRoom = rooms.remove(0);
 			client.getPlayer().setRoom(gameRoom);			
 			response.setValid(1);
 			response.setUsername(client.getPlayer().getUsername());

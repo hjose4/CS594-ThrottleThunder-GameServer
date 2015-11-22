@@ -6,57 +6,63 @@ import java.util.List;
 import dataAccessLayer.DatabaseDriver;
 
 public class GameRoom extends ObjectModel{
-	private int id;
-	private int type;
-	private long time_started;
-	private String map_name;
-	private String room_name;
+	public static final String ID = "id";
+	public static final String ROOM_NAME = "room_name";
+	public static final String MAP_NAME = "map_name";
+	public static final String TIME_STARTED = "time_started";
+	public static final String STATUS = "status";
+	public static final String TYPE = "type";
 	private HashMap<Integer,Player> playerRankings;
 	
+	public GameRoom() {
+		super(new HashMap<String,String>());	
+	}
 	public GameRoom(HashMap<String, String> input) {
-	super(input);	
+		super(input);	
 	}
 
 	public int getType() {
-		return type;
+		return Integer.valueOf(get(TYPE));
 	}
 
 	public void setType(int type) {
-		this.type = type;
+		set(TYPE,type);
 	}
 
 	public long getTimeStarted() {
-		return time_started;
+		return Long.valueOf(get(TIME_STARTED));
 	}
 
 	public void setTimeStarted(long time_started) {
-		this.time_started = time_started;
+		set(TIME_STARTED,time_started);
 	}
 
 	public String getMapName() {
-		return map_name;
+		return get(MAP_NAME);
 	}
 
 	public void setMapName(String map_name) {
-		this.map_name = map_name;
+		set(MAP_NAME,map_name);
 	}
 
 	public int getId() {
-		return id;
-	}
-	
-	public void update(String field, Object value) {
-		//TODO : Accessed in a static way, could do 
-		//DatabaseDriver dbDriver = DatabaseDriver.getInstance(); (Bastien)
-		dataAccessLayer.DatabaseDriver.update(this.getClass(), this.id, field, value);
+		return Integer.valueOf(get(ID));
 	}
 
 	public String getRoomName() {
-		return room_name;
+		return get(ROOM_NAME);
 	}
 
 	public void setRoomName(String game_name) {
-		this.room_name = game_name;
+		set(ROOM_NAME,game_name);
+	}
+	
+	public int getStatus() {
+		return Integer.valueOf(get(STATUS));
+	}
+	
+	public void setStatus(int status) {
+		set(STATUS,status);
 	}
 	
 	public boolean updatePlayerRanking(Player player, int ranking) {

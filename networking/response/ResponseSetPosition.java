@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 // Custom Imports
 import metadata.Constants;
-import model.Player;
+import dataAccessLayer.Player;
 import model.Position;
 import utility.GamePacket;
 

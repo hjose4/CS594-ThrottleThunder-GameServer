@@ -2,6 +2,7 @@ package core;
 
 import networking.response.GameResponse;
 import networking.response.ResponseDead;
+import networking.response.ResponsePrizes;
 import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
 
@@ -74,11 +75,10 @@ public class GameSession extends Thread {
 							}
 						}
 					}
-
 				}
 
 				//One player left
-				if(playerRankings.size() - deadPlayerList.size() ==1) {
+				if(playerRankings.size() - deadPlayerList.size() <=1) {
 					endGame(); 
 				}				
 			}
@@ -86,11 +86,26 @@ public class GameSession extends Thread {
 		System.out.println("Game Over : GameId - " + getId());
 
 		// Send out prizes
+		
+		//-- set currency
 		deadPlayerList.add(getRankings().get(0));
-		for (int i=0; i<deadPlayerList.size(); i++)
-		{
-			int finalCurrency = deadPlayerList.get(i).getCurrency() + 25 + (100 / (deadPlayerList.size() - i));
-			deadPlayerList.get(i).setCurrency(finalCurrency);	
+		for (int i=0; i<deadPlayerList.size(); i++) {
+			int currencyGained = 25 + (100 / (deadPlayerList.size() - i));
+			
+			for(GameClient client : clients) {
+				if(client.getPlayer().getId() == deadPlayerList.get(i).getId()) {
+					ResponsePrizes prize = new ResponsePrizes();
+					prize.setPrize(currencyGained);
+					client.addResponseForUpdate(prize);					
+					break;
+				}
+			}
+			
+			//send player currency
+			
+			int finalCurrency = deadPlayerList.get(i).getCurrency() + currencyGained;
+			deadPlayerList.get(i).setCurrency(finalCurrency);
+			deadPlayerList.get(i).save(Player.CURRENCY);
 		}
 
 		server.deleteSessionThreadOutOfActiveThreads(getId());

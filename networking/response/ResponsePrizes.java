@@ -1,10 +1,11 @@
 package networking.response;
 
 import utility.GamePacket;
+import core.GameClient;
 import metadata.Constants;
 
 public class ResponsePrizes extends GameResponse {
-	
+	private int prize;
 	public ResponsePrizes() {
         responseCode = Constants.SMSG_PRIZES;
     }
@@ -15,6 +16,10 @@ public class ResponsePrizes extends GameResponse {
 		GamePacket packet = new GamePacket(responseCode);
 		// add the data need to pass to the client here
         return packet.getBytes();
+	}
+
+	public void setPrize(int currencyGained) {
+		this.prize = currencyGained;
 	}
 
 }

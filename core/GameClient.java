@@ -171,11 +171,13 @@ public class GameClient extends Thread {
 	}
 	
 	public void setSession(GameSession session) {
-		if(session.addGameClient(this)) {
+		int status = session.addGameClient(this);
+		if(status == 1) {
 			this.session = session;
-		} else {
+		} else if(status == 0) {
 			//The session is full
 			this.session = null;
+			System.out.println("There are no more positions open");
 		}
 	}
 

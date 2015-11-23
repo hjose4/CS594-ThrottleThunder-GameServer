@@ -20,6 +20,7 @@ public class RequestPrizes extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		//do the prizes business here
+		responsePrizes.setPrize(client.getPlayer().getLastPrize());
 	}
 
 }

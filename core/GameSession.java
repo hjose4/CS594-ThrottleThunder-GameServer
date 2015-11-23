@@ -2,14 +2,15 @@ package core;
 
 import networking.response.GameResponse;
 import networking.response.ResponseDead;
+import networking.response.ResponsePrizes;
 import networking.response.ResponseReady;
 import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
 
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
@@ -36,10 +37,13 @@ public class GameSession extends Thread {
 		availablePositions = MapManager.getInstance().getStartingPositions(gameroom.getMapName());
 		startingPositions = new HashMap<Player, Position>();
 		deadPlayerList = new ArrayList<Player>();
+		clients = new ArrayList<>();
+		playerRankings = new HashMap<Player,Double>();
 	}
 
 	@Override
 	public void run() {
+		System.out.println("Starting game thread loop");
 		isRunning = true;
 		gameStarted = false;
 		long currentTime, gameRunTime, referTime, gameStartedTime, eliminateTime = 0;
@@ -76,11 +80,10 @@ public class GameSession extends Thread {
 							}
 						}
 					}
-
 				}
 
 				//One player left
-				if(playerRankings.size() - deadPlayerList.size() ==1) {
+				if(playerRankings.size() - deadPlayerList.size() <=1) {
 					endGame(); 
 				}				
 			}
@@ -88,11 +91,27 @@ public class GameSession extends Thread {
 		System.out.println("Game Over : GameId - " + getId());
 
 		// Send out prizes
+		
+		//-- set currency
 		deadPlayerList.add(getRankings().get(0));
-		for (int i=0; i<deadPlayerList.size(); i++)
-		{
-			int finalCurrency = deadPlayerList.get(i).getCurrency() + 25 + (100 / (deadPlayerList.size() - i));
-			deadPlayerList.get(i).setCurrency(finalCurrency);	
+		for (int i=0; i<deadPlayerList.size(); i++) {
+			int currencyGained = 25 + (100 / (deadPlayerList.size() - i));
+			
+			for(GameClient client : clients) {
+				if(client.getPlayer().getId() == deadPlayerList.get(i).getId()) {
+					ResponsePrizes prize = new ResponsePrizes();
+					prize.setPrize(currencyGained);
+					client.getPlayer().setLastPrize(currencyGained);
+					client.addResponseForUpdate(prize);					
+					break;
+				}
+			}
+			
+			//send player currency
+			
+			int finalCurrency = deadPlayerList.get(i).getCurrency() + currencyGained;
+			deadPlayerList.get(i).setCurrency(finalCurrency);
+			deadPlayerList.get(i).save(Player.CURRENCY);
 		}
 
 		server.deleteSessionThreadOutOfActiveThreads(getId());
@@ -118,14 +137,34 @@ public class GameSession extends Thread {
 	 * @param client
 	 * @return boolean
 	 */
-	public boolean addGameClient(GameClient client) {
-		clients.add(client);
-		Position position = availablePositions.remove(0);
-		if (position != null) {
-			startingPositions.put(client.getPlayer(), position);
-			return true;
+	public int addGameClient(GameClient client) {
+		for(GameClient _client : clients) {
+			if(_client.getPlayer().getId() == client.getPlayer().getId()) {
+				System.out.println("Client is already in room");
+				return -1;
+			}
 		}
-		return false;
+		clients.add(client);
+		Position position = null;
+		if (availablePositions.size() > 0 && (position = availablePositions.remove(0)) != null) {
+			startingPositions.put(client.getPlayer(), position);
+			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
+			return 1;
+		} else {
+			//Lobby is full, start game
+			
+			//Say that everyone is ready
+			for(GameClient _client : clients) {
+				if(_client.getPlayer().isReady()) {
+					continue;
+				}
+				ResponseReady response = new ResponseReady();
+				response.setUsername(_client.getPlayer().getUsername());
+				addResponseForAll(response);
+			}
+			nextPhase();
+		}
+		return 0;
 	}
 
 	public void clientDead(Player player) {
@@ -185,11 +224,6 @@ public class GameSession extends Thread {
 		return startingPositions;
 	}
 
-	public void sendAllResponseReady() {
-		ResponseReady responseSetReady = new ResponseReady();
-		addResponseForAll(responseSetReady);
-	}
-
 	/**
 	 * 0 = start countdown 1 = game time 2 = elimination countdown
 	 * 
@@ -205,22 +239,24 @@ public class GameSession extends Thread {
 	public void nextPhase() {
 		//send set_position response here
 		//remember to edit all gameclients.player.position
+		System.out.println("Entering next phase");
 		switch(phase) {
-		case 0:
-			sendAllResponseReady();
-			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
-			responseSetPosition.setStartingPositions(startingPositions);
-			addResponseForAll(responseSetPosition);
-			availablePositions = new ArrayList<Position>();
-			phase += 1;
-			break;
-		case 1:
-			setGameStarted(true);
-			gameroom.setTimeStarted(System.currentTimeMillis());				
-			initPowerUp(gameroom.getTimeStarted());
-			this.start();
-			gameroom.save(GameRoom.TIME_STARTED);
-			break;
+			case 0:
+				System.out.println("Sending positions");
+				ResponseSetPosition responseSetPosition = new ResponseSetPosition();
+				responseSetPosition.setStartingPositions(startingPositions);
+				addResponseForAll(responseSetPosition);
+				availablePositions = new ArrayList<Position>();
+				phase += 1;
+				break;
+			case 1:
+				System.out.println("Starting game");
+				setGameStarted(true);
+				gameroom.setTimeStarted(new Date());				
+				initPowerUp(gameroom.getTimeStarted());
+				this.start();
+				gameroom.save(GameRoom.TIME_STARTED);
+				break;
 		}
 	}
 
@@ -262,6 +298,7 @@ public class GameSession extends Thread {
 			list.add(maxPlayer);
 			que.remove(maxPlayer);
 		}
+		
 		return list;
 	}
 

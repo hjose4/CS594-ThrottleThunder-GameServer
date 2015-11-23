@@ -1,5 +1,6 @@
 package dataAccessLayer.record;
 
+import java.util.Date;
 import java.util.HashMap;
 import core.GameSession;
 import dataAccessLayer.ObjectModel;
@@ -33,8 +34,9 @@ public class GameRoom extends ObjectModel{
 		return Long.valueOf(get(TIME_STARTED));
 	}
 
-	public void setTimeStarted(long time_started) {
-		set(TIME_STARTED,time_started);
+	public void setTimeStarted(Date time_started) {
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		set(TIME_STARTED,sdf.format(time_started));
 	}
 
 	public String getMapName() {

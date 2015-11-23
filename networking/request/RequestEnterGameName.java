@@ -1,6 +1,8 @@
 package networking.request;
 
 import java.io.IOException;
+
+import core.GameSession;
 import networking.response.ResponseEnterGameName;
 import utility.DataReader;
 
@@ -25,14 +27,21 @@ public class RequestEnterGameName extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		client.setSession(client.getServer().getGameSessionByRoomName(room_name));
-		if(client.getSession() != null) {
-			response.setValid(1);
-			response.setUsername(client.getPlayer().getUsername());
-			client.getSession().addResponseForAll(client.getPlayer().getId(), response);
+		GameSession session = client.getServer().getGameSessionByRoomName(room_name);
+		if(session != null) {
+			client.setSession(session);		
+			if(client.getSession() != null) {
+				response.setValid(1);
+				response.setUsername(client.getPlayer().getUsername());
+				client.getSession().addResponseForAll(client.getPlayer().getId(), response);
+				return;
+			}
 		} else {
-			response.setValid(0);
+			System.out.println("Room " + room_name + " does not exists");
 		}
+			
+		response.setValid(0);
+		response.setUsername(client.getPlayer().getUsername());
 	}
 
 }

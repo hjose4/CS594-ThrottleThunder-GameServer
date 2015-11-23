@@ -1,6 +1,8 @@
 package networking.request;
 
 import java.io.IOException;
+
+import core.GameSession;
 import networking.response.ResponseEnterLobby;
 import utility.DataReader;
 
@@ -26,14 +28,19 @@ public class RequestEnterLobby extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		client.setSession(client.getServer().getGameSessionByRoomId(roomId));		
-		if(client.getSession() != null) {
-			response.setValid(1);
-			response.setUsername(client.getPlayer().getUsername());
-			client.getSession().addResponseForAll(client.getPlayer().getId(), response);
-		} else {
-			response.setValid(0);
+		GameSession session = client.getServer().getGameSessionByRoomId(roomId);		
+		if(session != null) {
+			client.setSession(session);		
+			if(client.getSession() != null) {
+				response.setValid(1);
+				response.setUsername(client.getPlayer().getUsername());
+				client.getSession().addResponseForAll(client.getPlayer().getId(), response);
+				return;
+			}
 		}
+			
+		response.setValid(0);
+		response.setUsername(client.getPlayer().getUsername());
 	}
 
 }

@@ -24,7 +24,7 @@ public class MapManager {
 			Position position = new Position();
 			positions.add(position);
 		}
-		startingPositions.put("demo", positions);
+		startingPositions.put("raceroyal", positions);
 	}
 	
 	public void addStartingPositions(String mapName, ArrayList<Position> points) {
@@ -32,6 +32,10 @@ public class MapManager {
 	}
 	
 	public ArrayList<Position> getStartingPositions(String mapName) {
-		return startingPositions.get(mapName);
+		ArrayList<Position> ret = startingPositions.get(mapName);
+		if( ret == null) {
+			ret = new ArrayList<Position>();
+		}
+		return ret;
 	}
 }

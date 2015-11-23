@@ -13,6 +13,7 @@ public class Player extends ObjectModel {
 	private Position pos;
 	private boolean isReady = false;
 	private int carId;
+	private int lastPrize = 0;
 	
 	public Player() {
 		super (new HashMap<String,String>());
@@ -71,10 +72,17 @@ public class Player extends ObjectModel {
 
 	public void setCar_id(int carId) {
 		this.carId = carId;
-		
 	}
 	
 	public int getCarId(int carId) {
 		return this.carId;		
+	}
+	
+	public void setLastPrize(int prize) {
+		lastPrize = prize;
+	}
+	
+	public int getLastPrize() {
+		return lastPrize;
 	}
 }

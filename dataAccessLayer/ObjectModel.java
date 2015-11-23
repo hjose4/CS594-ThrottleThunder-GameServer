@@ -66,7 +66,7 @@ public abstract class ObjectModel {
 	//sauvegarde l'état d'un objet dans la bdd
 	public boolean save(String field_to_save) {
 		//Updating an existing object
-		if(field_to_save.equals("all") && get("id") != null) {
+		if(field_to_save.equals("all") && data.containsKey("id")) {
 			/*Not recommended: - why not just do one update statement instead of doing N times update.
 			for(String field : data.keySet()) {				
 				if  (!(field.equals("id"))) {
@@ -75,7 +75,7 @@ public abstract class ObjectModel {
 			}*/
 			return DatabaseDriver.update(this.getClass(), Integer.valueOf(get("id")), data);
 		} else if (!field_to_save.equals("id")) {
-			if(!DatabaseDriver.alreadyExists(this.getClass(), get("id"))) {
+			if(!data.containsKey("id") || !DatabaseDriver.alreadyExists(this.getClass(), get("id"))) {
 				int id = DatabaseDriver.insert(this);
 				if(id > 0)
 					set("id",id);

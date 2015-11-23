@@ -7,6 +7,7 @@ import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class GameSession extends Thread {
 		availablePositions = MapManager.getInstance().getStartingPositions(gameroom.getMapName());
 		startingPositions = new HashMap<Player, Position>();
 		deadPlayerList = new ArrayList<Player>();
+		clients = new ArrayList<>();
+		playerRankings = new HashMap<Player,Double>();
 	}
 
 	@Override
@@ -96,6 +99,7 @@ public class GameSession extends Thread {
 				if(client.getPlayer().getId() == deadPlayerList.get(i).getId()) {
 					ResponsePrizes prize = new ResponsePrizes();
 					prize.setPrize(currencyGained);
+					client.getPlayer().setLastPrize(currencyGained);
 					client.addResponseForUpdate(prize);					
 					break;
 				}
@@ -131,14 +135,21 @@ public class GameSession extends Thread {
 	 * @param client
 	 * @return boolean
 	 */
-	public boolean addGameClient(GameClient client) {
-		clients.add(client);
-		Position position = availablePositions.remove(0);
-		if (position != null) {
-			startingPositions.put(client.getPlayer(), position);
-			return true;
+	public int addGameClient(GameClient client) {
+		for(GameClient _client : clients) {
+			if(_client.getPlayer().getId() == client.getPlayer().getId()) {
+				System.out.println("Client is already in room");
+				return -1;
+			}
 		}
-		return false;
+		clients.add(client);
+		Position position = null;
+		if (availablePositions.size() > 0 && (position = availablePositions.remove(0)) != null) {
+			startingPositions.put(client.getPlayer(), position);
+			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
+			return 1;
+		}
+		return 0;
 	}
 
 	public void clientDead(Player player) {
@@ -223,7 +234,7 @@ public class GameSession extends Thread {
 			break;
 		case 1:
 			setGameStarted(true);
-			gameroom.setTimeStarted(System.currentTimeMillis());				
+			gameroom.setTimeStarted(new Date());				
 			initPowerUp(gameroom.getTimeStarted());
 			this.start();
 			gameroom.save(GameRoom.TIME_STARTED);
@@ -269,6 +280,7 @@ public class GameSession extends Thread {
 			list.add(maxPlayer);
 			que.remove(maxPlayer);
 		}
+		
 		return list;
 	}
 

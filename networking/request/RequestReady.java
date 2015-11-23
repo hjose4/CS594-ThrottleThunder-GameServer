@@ -2,14 +2,14 @@ package networking.request;
 
 import java.io.IOException;
 import dataAccessLayer.record.Player;
-import networking.response.ResponseSetReady;
+import networking.response.ResponseReady;
 
 public class RequestReady extends GameRequest {
 	
-	private ResponseSetReady responseReady;
+	private ResponseReady responseReady;
 	
 	public RequestReady() {
-		responses.add(responseReady = new ResponseSetReady());
+		responses.add(responseReady = new ResponseReady());
     }
 	
 	@Override

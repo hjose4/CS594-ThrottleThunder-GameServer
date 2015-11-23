@@ -2,14 +2,12 @@ package core;
 
 import networking.response.GameResponse;
 import networking.response.ResponseDead;
-import networking.response.ResponseReady;
 import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
 
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
@@ -185,11 +183,6 @@ public class GameSession extends Thread {
 		return startingPositions;
 	}
 
-	public void sendAllResponseReady() {
-		ResponseReady responseSetReady = new ResponseReady();
-		addResponseForAll(responseSetReady);
-	}
-
 	/**
 	 * 0 = start countdown 1 = game time 2 = elimination countdown
 	 * 
@@ -207,7 +200,6 @@ public class GameSession extends Thread {
 		//remember to edit all gameclients.player.position
 		switch(phase) {
 		case 0:
-			sendAllResponseReady();
 			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
 			responseSetPosition.setStartingPositions(startingPositions);
 			addResponseForAll(responseSetPosition);

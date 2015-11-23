@@ -1,6 +1,7 @@
 package core;
 
 import networking.response.GameResponse;
+import networking.response.ResponseDead;
 import networking.response.ResponseReady;
 import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
@@ -102,7 +103,11 @@ public class GameSession extends Thread {
 			return false;
 		}
 		ArrayList<Player> ranking = (ArrayList<Player>) getRankings();
-		deadPlayerList.add(ranking.get(playerRankings.size()-deadPlayerList.size()-1));
+		Player killThis = ranking.get(playerRankings.size()-deadPlayerList.size()-1);
+		deadPlayerList.add(killThis);
+		ResponseDead responseDead = new ResponseDead();
+		responseDead.setUsername(killThis.getUsername());
+		addResponseForAll(responseDead);
 		return true;	
 	}
 

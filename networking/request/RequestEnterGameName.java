@@ -2,8 +2,11 @@ package networking.request;
 
 import java.io.IOException;
 
-import core.GameSession;
+import dataAccessLayer.record.Player;
+import model.Position;
 import networking.response.ResponseEnterGameName;
+import networking.response.ResponseRenderCharacter;
+
 import utility.DataReader;
 
 /**
@@ -27,21 +30,35 @@ public class RequestEnterGameName extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		GameSession session = client.getServer().getGameSessionByRoomName(room_name);
-		if(session != null) {
-			client.setSession(session);		
-			if(client.getSession() != null) {
-				response.setValid(1);
-				response.setUsername(client.getPlayer().getUsername());
-				client.getSession().addResponseForAll(client.getPlayer().getId(), response);
-				return;
-			}
-		} else {
-			System.out.println("Room " + room_name + " does not exists");
-		}
+		
+		client.setSession(client.getServer().getGameSessionByRoomName(room_name));
+		
+		if(client.getSession() != null) {
+			String username = client.getPlayer().getUsername();
+			response.setValid(1);
+			response.setUsername(username);
+			client.getSession().addResponseForAll(client.getPlayer().getId(), response);
+			ResponseRenderCharacter respNewChar = new ResponseRenderCharacter();
+			respNewChar.setUsername(username);
+			respNewChar.setCarTires(0);
+			respNewChar.setCarPaint(0);
+			respNewChar.setCarType(0);
 			
-		response.setValid(0);
-		response.setUsername(client.getPlayer().getUsername());
+			client.getSession().addResponseForAll(client.getId(),response);
+			for(core.GameClient otherClient : client.getSession().getGameClients()) {
+				respNewChar = new ResponseRenderCharacter();
+				respNewChar.setUsername(otherClient.getPlayer().getUsername());
+				respNewChar.setCarTires(0);
+				respNewChar.setCarPaint(0);
+				respNewChar.setCarType(0);
+				client.addResponseForUpdate(respNewChar);
+			}
+			
+		} else {
+			response.setValid(0);
+			response.setUsername(client.getPlayer().getUsername());
+			
+		}
 	}
 
 }

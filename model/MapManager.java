@@ -22,6 +22,11 @@ public class MapManager {
 		ArrayList<Position> positions = new ArrayList<Position>();
 		for(int i = 0 ; i < 20; i++) {
 			Position position = new Position();
+			if(i == 1)
+			{
+				position.setY(25);
+				position.setZ(16);
+			}
 			positions.add(position);
 		}
 		startingPositions.put("raceroyal", positions);

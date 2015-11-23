@@ -14,6 +14,7 @@ public class RequestHeartbeat extends GameRequest {
 
 	@Override
 	public void parse() throws IOException {
+		
 	}
 
 	@Override

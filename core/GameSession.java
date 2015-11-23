@@ -49,7 +49,7 @@ public class GameSession extends Thread {
 		long currentTime, gameRunTime, referTime, gameStartedTime, eliminateTime = 0;
 		referTime = 0L;
 		gameStartedTime = gameroom.getTimeStarted();
-		while (isRunning) {
+		while (isRunning) { 	
 			if (gameStarted) {
 				currentTime = System.currentTimeMillis();
 				gameRunTime = currentTime - gameStartedTime;

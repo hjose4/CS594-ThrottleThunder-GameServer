@@ -20,10 +20,14 @@ public class RequestDead extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		//do the rankings business here
-		
-		client.getSession().clientDead(client.getPlayer());
-		responseDead.setUsername(client.getPlayer().getUsername());
-		client.getSession().addResponseForAll(client.getPlayer().getId(), responseDead);
+		if(client.getSession() != null) {
+			client.getSession().clientDead(client.getPlayer());
+			responseDead.setUsername(client.getPlayer().getUsername());
+			client.getSession().addResponseForAll(client.getPlayer().getId(), responseDead);
+		} else {
+			responseDead.setUsername(client.getPlayer().getUsername());
+			System.out.println("Client is not in game session: "+this.getClass().getName());
+		}
 	}
 
 }

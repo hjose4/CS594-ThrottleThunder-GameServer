@@ -45,10 +45,12 @@ public class VehicleModel {
 	}
 	
 	public static PlayerVehicle createPlayerVehicleFromBaseVehicle(BaseVehicle vehicle) {
-		HashMap<String,String> data = vehicle.getData();
-		data.put("base_id",data.get("id"));
-		data.remove("id");
-		return new PlayerVehicle(data);
+		if(vehicle != null) {
+			HashMap<String,String> data = vehicle.getData();
+			data.put("base_id",data.get("id"));
+			data.remove("id");
+			return new PlayerVehicle(data);
+		} return null;
 	}
 	
 	public static PlayerVehicle getPlayerVehicleById(int id) {

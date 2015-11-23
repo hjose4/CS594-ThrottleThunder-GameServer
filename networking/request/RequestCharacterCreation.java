@@ -38,9 +38,11 @@ public class RequestCharacterCreation extends GameRequest {
 					response.setPlayerVehicles(VehicleModel.searchForPlayerVehiclesByPlayerId(player.getId()));					
 				}  else {
 					response.setFlag(0);
+					response.setPlayerVehicles(VehicleModel.searchForPlayerVehiclesByPlayerId(player.getId()));
 				}
 			}  else {
 				response.setFlag(0);
+				response.setPlayerVehicles(VehicleModel.searchForPlayerVehiclesByPlayerId(player.getId()));
 			}
 			
 		}

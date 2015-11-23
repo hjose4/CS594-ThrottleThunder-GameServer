@@ -52,7 +52,7 @@ public class GameSession extends Thread {
 					// Start countdown
 					if (gameroom.getTimeStarted() + 5000 - currentTime > 0
 							&& gameRunTime - referTime >= Constants.SEND_TIME) {
-						sendAllResponseTime(0, gameStartedTime + 5000 - currentTime);
+						sendAllResponseTime(0, (int)(gameStartedTime + 5000 - currentTime));
 						referTime += Constants.SEND_TIME;
 					} else if (gameStartedTime + 5000 - currentTime <= 0) {
 						phase += 1;
@@ -62,7 +62,7 @@ public class GameSession extends Thread {
 					// Start game timer
 					// send responseTime approximately every 250 milliseconds
 					if (gameRunTime - referTime >= Constants.SEND_TIME) {
-						sendAllResponseTime(1, gameRunTime);
+						sendAllResponseTime(1, (int)(gameRunTime));
 
 					}
 
@@ -174,7 +174,7 @@ public class GameSession extends Thread {
 	 * @param type
 	 * @param time
 	 */
-	public void sendAllResponseTime(int type, long time) {
+	public void sendAllResponseTime(int type, int time) {
 		ResponseTime responseTime = new ResponseTime();
 		responseTime.setData(type, time);
 		addResponseForAll(responseTime);

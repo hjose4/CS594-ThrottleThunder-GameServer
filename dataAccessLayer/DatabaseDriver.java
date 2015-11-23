@@ -11,6 +11,7 @@ import dataAccessLayer.record.Friendship;
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
 import dataAccessLayer.record.PlayerVehicle;
+import dataAccessLayer.record.Ranking;
 import dataAccessLayer.record.Upgrade;
 
 //Singleton
@@ -59,6 +60,7 @@ public class DatabaseDriver {
         table_map.put(Player.class, "players");
         table_map.put(Friendship.class, "friend_relationships");
         table_map.put(BaseVehicle.class, "player_vehicles");
+        table_map.put(Ranking.class, "game_rankings");
     }
 	
 	private static String getTable(Class<? extends ObjectModel> type) {

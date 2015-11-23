@@ -33,7 +33,10 @@ public class PlayerModel {
 	}
 	
 	public static ArrayList<Player> searchForPlayers(Player player) {
-		return searchForPlayers(player.getData());
+		if(player != null) {
+			return searchForPlayers(player.getData());
+		}
+		return new ArrayList<Player>();
 	}
 	
 	public static boolean insertPlayer(Player player) {

@@ -24,7 +24,7 @@ public class RankingModel {
 	
 	public static ArrayList<Ranking> searchForRankings(HashMap<String,String> params) {
 		ArrayList<Ranking> list = new ArrayList<Ranking>();
-		ArrayList<ObjectModel> models = DatabaseDriver.find(BaseVehicle.class, params);
+		ArrayList<ObjectModel> models = DatabaseDriver.find(Ranking.class, params);
 		if(models != null) {
 			for(ObjectModel model : models) {
 				list.add(new Ranking(model.getData()));

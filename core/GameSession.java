@@ -41,7 +41,7 @@ public class GameSession extends Thread {
 	public void run() {
 		isRunning = true;
 		gameStarted = false;
-		long currentTime, gameRunTime, referTime, gameStartedTime;
+		long currentTime, gameRunTime, referTime, gameStartedTime, eliminateTime = 0;
 		referTime = 0L;
 		gameStartedTime = gameroom.getTimeStarted();
 		while (isRunning) {
@@ -50,29 +50,37 @@ public class GameSession extends Thread {
 				gameRunTime = currentTime - gameStartedTime;
 				if (phase == 1) {
 					// Start countdown
-					if (gameroom.getTimeStarted() + 5000 - currentTime > 0
+					if (gameroom.getTimeStarted() + Constants.COUNTDOWN_TIME - currentTime > 0
 							&& gameRunTime - referTime >= Constants.SEND_TIME) {
-						sendAllResponseTime(0, gameStartedTime + 5000 - currentTime);
+						sendAllResponseTime(0, gameStartedTime + Constants.COUNTDOWN_TIME - currentTime);
 						referTime += Constants.SEND_TIME;
-					} else if (gameStartedTime + 5000 - currentTime <= 0) {
+					} else if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime <= 0) {
 						phase += 1;
 						referTime += Constants.SEND_TIME;
+						eliminateTime = Constants.PEACE_TIME + Constants.ELIMINATION_TIME;
 					}
 				} else {
 					// Start game timer
-					// send responseTime approximately every 250 milliseconds
+					// send responseTime approximately every 1000 milliseconds
 					if (gameRunTime - referTime >= Constants.SEND_TIME) {
-						sendAllResponseTime(1, gameRunTime);
-
+						sendAllResponseTime(1, gameRunTime);	
+						if(gameroom.isRR()){
+							eliminateTime -= Constants.SEND_TIME;
+							if(eliminateTime == 0){
+								if(doElimination()){
+									eliminateTime = Constants.ELIMINATION_TIME;
+								}else{
+									endGame();
+								}
+							}
+						}
 					}
 
-					// Start elimination countdown - only for RR
-					//resultList.add(TheclientThatjustDied);
 				}
 				
 				//One player left
 				if(playerRankings.size() - deadPlayerList.size() ==1) {
-					setGameStarted(false); 
+					endGame(); 
 				}				
 			}
 		}
@@ -87,6 +95,15 @@ public class GameSession extends Thread {
 		}
 
 		server.deleteSessionThreadOutOfActiveThreads(getId());
+	}
+
+	private boolean doElimination() {
+		if(playerRankings.size() - deadPlayerList.size() <= 1){
+			return false;
+		}
+		ArrayList<Player> ranking = (ArrayList<Player>) getRankings();
+		deadPlayerList.add(ranking.get(playerRankings.size()-deadPlayerList.size()-1));
+		return true;	
 	}
 
 	/**

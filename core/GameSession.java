@@ -3,6 +3,7 @@ package core;
 import networking.response.GameResponse;
 import networking.response.ResponseDead;
 import networking.response.ResponsePrizes;
+import networking.response.ResponseReady;
 import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
 
@@ -42,6 +43,7 @@ public class GameSession extends Thread {
 
 	@Override
 	public void run() {
+		System.out.println("Starting game thread loop");
 		isRunning = true;
 		gameStarted = false;
 		long currentTime, gameRunTime, referTime, gameStartedTime, eliminateTime = 0;
@@ -148,6 +150,19 @@ public class GameSession extends Thread {
 			startingPositions.put(client.getPlayer(), position);
 			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
 			return 1;
+		} else {
+			//Lobby is full, start game
+			
+			//Say that everyone is ready
+			for(GameClient _client : clients) {
+				if(_client.getPlayer().isReady()) {
+					continue;
+				}
+				ResponseReady response = new ResponseReady();
+				response.setUsername(_client.getPlayer().getUsername());
+				addResponseForAll(response);
+			}
+			nextPhase();
 		}
 		return 0;
 	}
@@ -224,21 +239,24 @@ public class GameSession extends Thread {
 	public void nextPhase() {
 		//send set_position response here
 		//remember to edit all gameclients.player.position
+		System.out.println("Entering next phase");
 		switch(phase) {
-		case 0:
-			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
-			responseSetPosition.setStartingPositions(startingPositions);
-			addResponseForAll(responseSetPosition);
-			availablePositions = new ArrayList<Position>();
-			phase += 1;
-			break;
-		case 1:
-			setGameStarted(true);
-			gameroom.setTimeStarted(new Date());				
-			initPowerUp(gameroom.getTimeStarted());
-			this.start();
-			gameroom.save(GameRoom.TIME_STARTED);
-			break;
+			case 0:
+				System.out.println("Sending positions");
+				ResponseSetPosition responseSetPosition = new ResponseSetPosition();
+				responseSetPosition.setStartingPositions(startingPositions);
+				addResponseForAll(responseSetPosition);
+				availablePositions = new ArrayList<Position>();
+				phase += 1;
+				break;
+			case 1:
+				System.out.println("Starting game");
+				setGameStarted(true);
+				gameroom.setTimeStarted(new Date());				
+				initPowerUp(gameroom.getTimeStarted());
+				this.start();
+				gameroom.save(GameRoom.TIME_STARTED);
+				break;
 		}
 	}
 

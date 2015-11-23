@@ -21,13 +21,14 @@ public class ResponseSetPosition extends GameResponse {
         //Gets all users from session and returns their usernames and positions
         packet.addInt32(startingPositions.size());
         for(Player player : startingPositions.keySet()) {
+        	Position position = startingPositions.get(player);
         	packet.addString(player.getUsername());
-        	packet.addFloat(player.getPosition().getX());
-    		packet.addFloat(player.getPosition().getY());
-    		packet.addFloat(player.getPosition().getZ());
-    		packet.addFloat(player.getPosition().getH());
-    		packet.addFloat(player.getPosition().getP());
-    		packet.addFloat(player.getPosition().getR());        	
+        	packet.addFloat(position.getX());
+    		packet.addFloat(position.getY());
+    		packet.addFloat(position.getZ());
+    		packet.addFloat(position.getH());
+    		packet.addFloat(position.getP());
+    		packet.addFloat(position.getR());        	
         }
         return packet.getBytes();
     }

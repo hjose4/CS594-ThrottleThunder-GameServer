@@ -22,7 +22,9 @@ public class RequestReady extends GameRequest {
 		if(client.getSession() != null) {
 			if(!this.client.getPlayer().isReady()){
 				this.client.getPlayer().setReady();
-				if(allReady()){
+				//We need more than one player before we can start
+				System.out.println("Number of clients: " + client.getSession().getGameClients().size());
+				if(allReady() && client.getSession().getGameClients().size() > 1){
 					this.client.getSession().nextPhase();
 					for(Player player : client.getSession().getPlayers()) {
 						player.setNotReady();
@@ -38,14 +40,10 @@ public class RequestReady extends GameRequest {
 	}
 
 	private boolean allReady() {
-		if(client.getSession() != null) {
-			for(Player player : this.client.getSession().getPlayers()){
-				if(!player.isReady()){
-					return false;
-				}
+		for(Player player : this.client.getSession().getPlayers()){
+			if(!player.isReady()){
+				return false;
 			}
-		} else {
-			return false;
 		}
 		
 		return true;

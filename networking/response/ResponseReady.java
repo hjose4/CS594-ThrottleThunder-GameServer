@@ -14,7 +14,7 @@ public class ResponseReady extends GameResponse {
 	public byte[] constructResponseInBytes() {
 		// TODO Auto-generated method stub
 		GamePacket packet = new GamePacket(responseCode);
-		// add the data need to pass to the client here
+		packet.addString(username);
         return packet.getBytes();
 	}
 

@@ -7,7 +7,10 @@ import metadata.Constants;
 public class ResponseMove extends GameResponse {
 	
 	private Player player;
-	private String keys;
+	private int forward;
+	private int backward;
+	private int right;
+	private int left;
 	
 	public ResponseMove() {
         responseCode = Constants.SMSG_MOVE;
@@ -24,7 +27,10 @@ public class ResponseMove extends GameResponse {
 		packet.addFloat(player.getPosition().getH());
 		packet.addFloat(player.getPosition().getP());
 		packet.addFloat(player.getPosition().getR());
-		packet.addString(this.keys);
+		packet.addInt32(this.forward);
+		packet.addInt32(this.backward);
+		packet.addInt32(this.right);
+		packet.addInt32(this.left);
 		return packet.getBytes();
 	}
 
@@ -32,8 +38,37 @@ public class ResponseMove extends GameResponse {
 		this.player = player;
 	}
 	
-	public void setKeys(String keys) {
-		this.keys = keys;
+	public int getForward() {
+		return forward;
 	}
+
+	public void setForward(int forward) {
+		this.forward = forward;
+	}
+
+	public int getBackward() {
+		return backward;
+	}
+
+	public void setBackward(int backward) {
+		this.backward = backward;
+	}
+
+	public int getRight() {
+		return right;
+	}
+
+	public void setRight(int right) {
+		this.right = right;
+	}
+
+	public int getLeft() {
+		return left;
+	}
+
+	public void setLeft(int left) {
+		this.left = left;
+	}
+
 
 }

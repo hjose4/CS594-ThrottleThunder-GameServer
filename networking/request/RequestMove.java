@@ -8,7 +8,7 @@ import networking.response.ResponseMove;
 public class RequestMove extends GameRequest {
 	
 	float x, y, z, h, p, r;
-	String keys;
+	int forward, backward, right, left;
 	private ResponseMove responseMove;
 	
 	public RequestMove() {
@@ -23,7 +23,10 @@ public class RequestMove extends GameRequest {
 		h = DataReader.readFloat(dataInput);
 		p = DataReader.readFloat(dataInput);
 		r = DataReader.readFloat(dataInput);
-		keys = DataReader.readString(dataInput);
+		forward = DataReader.readInt(dataInput);
+		backward = DataReader.readInt(dataInput);
+		right = DataReader.readInt(dataInput);
+		left = DataReader.readInt(dataInput);
 	}
 
 	@Override
@@ -32,7 +35,10 @@ public class RequestMove extends GameRequest {
 		// Create ResponseMove object
 		client.getPlayer().setPosition(this.x, this.y, this.z, this.h, this.p, this.r);
 		responseMove.setPlayer(this.client.getPlayer());
-		responseMove.setKeys(this.keys);
+		responseMove.setForward(forward);
+		responseMove.setBackward(backward);
+		responseMove.setRight(right);
+		responseMove.setLeft(left);
 		if(client.getSession() != null)
 			client.getSession().addResponseForAll(client.getPlayer().getId(), responseMove);
 		else

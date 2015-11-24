@@ -44,14 +44,14 @@ public class RequestEnterGameName extends GameRequest {
 			respNewChar.setCarPaint(0);
 			respNewChar.setCarType(0);
 			
-			client.getSession().addResponseForAll(client.getId(),response);
+			client.getSession().addResponseForAll(client.getId(),respNewChar);
 			for(core.GameClient otherClient : client.getSession().getGameClients()) {
 				respNewChar = new ResponseRenderCharacter();
 				respNewChar.setUsername(otherClient.getPlayer().getUsername());
 				respNewChar.setCarTires(0);
 				respNewChar.setCarPaint(0);
 				respNewChar.setCarType(0);
-				client.addResponseForUpdate(respNewChar);
+				responses.add(respNewChar);
 			}
 			
 		} else {

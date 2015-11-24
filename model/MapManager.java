@@ -27,6 +27,12 @@ public class MapManager {
 				position.setY(25);
 				position.setZ(16);
 			}
+			else if (i ==0)
+			{
+				position.setX(2);
+				position.setY(30);
+				position.setZ(16);
+			}
 			positions.add(position);
 		}
 		startingPositions.put("raceroyal", positions);

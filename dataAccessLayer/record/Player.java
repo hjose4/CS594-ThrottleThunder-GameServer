@@ -17,10 +17,12 @@ public class Player extends ObjectModel {
 	
 	public Player() {
 		super (new HashMap<String,String>());
+		pos = new Position();
 	}
 	
 	public Player(HashMap<String, String> input) {
 		super (input);
+		pos = new Position();
 	}
 	
 	public String getUsername() {

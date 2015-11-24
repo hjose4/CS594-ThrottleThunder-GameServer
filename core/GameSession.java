@@ -4,12 +4,14 @@ import networking.response.GameResponse;
 import networking.response.ResponseDead;
 import networking.response.ResponsePrizes;
 import networking.response.ResponseReady;
+import networking.response.ResponseRenderCharacter;
 import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import dataAccessLayer.record.GameRoom;
@@ -30,6 +32,7 @@ public class GameSession extends Thread {
 	private HashMap<Player, Position> startingPositions;
 	private ArrayList<Position> availablePositions;
 	private ArrayList<Player> deadPlayerList;
+	private ArrayList<ResponseRenderCharacter> renderCharacterResponses;
 
 	public GameSession(GameServer server, GameRoom gameRoom) {
 		this.gameroom = gameRoom;
@@ -39,6 +42,7 @@ public class GameSession extends Thread {
 		deadPlayerList = new ArrayList<Player>();
 		clients = new ArrayList<>();
 		playerRankings = new HashMap<Player,Double>();
+		renderCharacterResponses = new ArrayList<ResponseRenderCharacter>();
 	}
 
 	@Override
@@ -315,4 +319,30 @@ public class GameSession extends Thread {
 			client.addResponseForUpdate(response);
 		}
 	}
+	
+	public ArrayList<ResponseRenderCharacter> getCharacterUpdates(){
+		return this.renderCharacterResponses;
+	}
+	
+	//add ResponseRenderCharacter for all other clients in the session and add this response to renderCharacterResponses
+	public boolean addResponseForRenderCharacters(GameClient gclient) {
+		ResponseRenderCharacter responseRenderCharacter = new ResponseRenderCharacter();
+		responseRenderCharacter.setUsername(gclient.getPlayer().getUsername());
+		//input correct carPaint, carTires, and carType below
+		responseRenderCharacter.setCarPaint(1);
+		responseRenderCharacter.setCarTires(1);
+		responseRenderCharacter.setCarType(1);
+		addResponseForAll(gclient.getPlayer().getId(), responseRenderCharacter);
+		return renderCharacterResponses.add(responseRenderCharacter);
+	}
+	
+	public boolean removeResponseForCharacters(String username){
+		for(ResponseRenderCharacter response : renderCharacterResponses){
+			if(response.getUsername() == username){
+				return renderCharacterResponses.remove(response);
+			}
+		}
+		return false;
+	}
+
 }

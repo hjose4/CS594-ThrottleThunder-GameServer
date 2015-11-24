@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import core.GameSession;
 import networking.response.ResponseEnterGameLobby;
+import networking.response.ResponseRenderCharacter;
 import utility.DataReader;
 
 /**
@@ -36,8 +37,11 @@ public class RequestEnterGameLobby extends GameRequest {
 				client.getSession().addResponseForAll(client.getPlayer().getId(), response);
 				return;
 			}
+		}	
+		for(ResponseRenderCharacter responseRenderCharacter : client.getSession().getCharacterUpdates()){
+			responses.add(responseRenderCharacter);
 		}
-			
+		client.getSession().addResponseForRenderCharacters(client);
 		response.setValid(0);
 		response.setUsername(client.getPlayer().getUsername());
 	}

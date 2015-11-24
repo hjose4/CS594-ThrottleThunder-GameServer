@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import core.GameSession;
 import networking.response.ResponseEnterGameName;
+import networking.response.ResponseRenderCharacter;
 import utility.DataReader;
 
 /**
@@ -39,7 +40,10 @@ public class RequestEnterGameName extends GameRequest {
 		} else {
 			System.out.println("Room " + room_name + " does not exists");
 		}
-			
+		for(ResponseRenderCharacter responseRenderCharacter : client.getSession().getCharacterUpdates()){
+			responses.add(responseRenderCharacter);
+		}
+		client.getSession().addResponseForRenderCharacters(client);	
 		response.setValid(0);
 		response.setUsername(client.getPlayer().getUsername());
 	}

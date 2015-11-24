@@ -7,6 +7,7 @@ import core.GameSession;
 import dataAccessLayer.model.GameRoomModel;
 import dataAccessLayer.record.GameRoom;
 import networking.response.ResponseCreateLobby;
+import networking.response.ResponseRenderCharacter;
 import utility.DataReader;
 
 public class RequestCreateLobby extends GameRequest {
@@ -43,6 +44,7 @@ public class RequestCreateLobby extends GameRequest {
 			response.setGameName(room_name);
 			response.setUsername(client.getPlayer().getUsername());
 			client.getServer().addResponseForAllOnlinePlayers(client.getId(), response);
+			client.getSession().addResponseForRenderCharacters(client);
 		} else {
 			response.setGameName(room_name);
 			response.setUsername(client.getPlayer().getUsername());

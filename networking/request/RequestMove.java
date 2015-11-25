@@ -12,6 +12,7 @@ public class RequestMove extends GameRequest {
 	private ResponseMove responseMove;
 	
 	public RequestMove() {
+		System.out.println("requested move");
         responses.add(responseMove = new ResponseMove());
     }
 	

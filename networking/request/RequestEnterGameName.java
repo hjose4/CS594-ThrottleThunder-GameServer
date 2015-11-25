@@ -37,31 +37,16 @@ public class RequestEnterGameName extends GameRequest {
 			response.setValid(1);
 			response.setUsername(username);
 			client.getSession().addResponseForAll(client.getPlayer().getId(), response);
-			ResponseRenderCharacter respNewChar = new ResponseRenderCharacter();
-			respNewChar.setUsername(username);
-			respNewChar.setCarTires(0);
-			respNewChar.setCarPaint(0);
-			respNewChar.setCarType(0);
-			
-			client.getSession().addResponseForAll(client.getId(),respNewChar);
-			for(core.GameClient otherClient : client.getSession().getGameClients()) {
-				respNewChar = new ResponseRenderCharacter();
-				respNewChar.setUsername(otherClient.getPlayer().getUsername());
-				respNewChar.setCarTires(0);
-				respNewChar.setCarPaint(0);
-				respNewChar.setCarType(0);
-				responses.add(respNewChar);
+			for(ResponseRenderCharacter responseRenderCharacter : client.getSession().getCharacterUpdates()){
+				responses.add(responseRenderCharacter);
 			}
-			
+			client.getSession().addResponseForRenderCharacters(client);
+			return;
 		} else {
 
 			System.out.println("Room " + room_name + " does not exists");
 		}
-		
-		for(ResponseRenderCharacter responseRenderCharacter : client.getSession().getCharacterUpdates()){
-			responses.add(responseRenderCharacter);
-		}
-		client.getSession().addResponseForRenderCharacters(client);	
+			
 		response.setValid(0);
 		response.setUsername(client.getPlayer().getUsername());
 	}

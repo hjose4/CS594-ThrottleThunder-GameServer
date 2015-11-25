@@ -43,6 +43,7 @@ public class GameSession extends Thread {
 		clients = new ArrayList<>();
 		playerRankings = new HashMap<Player,Double>();
 		renderCharacterResponses = new ArrayList<ResponseRenderCharacter>();
+		System.out.println("session is created with name " + gameRoom.getRoomName());
 	}
 
 	@Override
@@ -343,6 +344,12 @@ public class GameSession extends Thread {
 			}
 		}
 		return false;
+	}
+
+	public void doThisIfEmpty() {
+		if(clients.size() == 0){
+			server.deleteSessionThreadOutOfActiveThreads(getId());
+		}
 	}
 
 }

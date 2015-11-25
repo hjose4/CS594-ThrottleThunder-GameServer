@@ -189,6 +189,7 @@ public class GameServer {
 	}
 	
 	public void addToActiveSessions(GameSession gamesession){
+		System.out.println("gamesessions added " + gamesession.getGameRoom().getRoomName());
 		activeSessions.put(gamesession.getId(), gamesession);
 	}
 	
@@ -250,6 +251,7 @@ public class GameServer {
 	}
 	
 	public void deleteSessionThreadOutOfActiveThreads(Long threadID) {
+		System.out.println("Session is deleted with ID " + threadID);
 		activeSessions.remove(threadID);
 	}
 	

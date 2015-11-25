@@ -171,6 +171,10 @@ public class GameClient extends Thread {
 	}
 	
 	public void setSession(GameSession session) {
+		if(session == null){
+			this.session = null;
+			return;
+		}
 		int status = session.addGameClient(this);
 		if(status == 1) {
 			this.session = session;

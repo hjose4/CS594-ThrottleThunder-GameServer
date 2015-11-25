@@ -35,13 +35,13 @@ public class RequestEnterGameLobby extends GameRequest {
 				response.setValid(1);
 				response.setUsername(client.getPlayer().getUsername());
 				client.getSession().addResponseForAll(client.getPlayer().getId(), response);
+				for(ResponseRenderCharacter responseRenderCharacter : client.getSession().getCharacterUpdates()){
+					responses.add(responseRenderCharacter);
+				}
+				client.getSession().addResponseForRenderCharacters(client);
 				return;
 			}
 		}	
-		for(ResponseRenderCharacter responseRenderCharacter : client.getSession().getCharacterUpdates()){
-			responses.add(responseRenderCharacter);
-		}
-		client.getSession().addResponseForRenderCharacters(client);
 		response.setValid(0);
 		response.setUsername(client.getPlayer().getUsername());
 	}

@@ -46,6 +46,7 @@ public class RequestCreateLobby extends GameRequest {
 			client.getServer().addResponseForAllOnlinePlayers(client.getId(), response);
 			client.getSession().addResponseForRenderCharacters(client);
 		} else {
+			System.out.println("room is already existed");
 			response.setGameName(room_name);
 			response.setUsername(client.getPlayer().getUsername());
 			response.setValid(0);

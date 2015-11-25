@@ -22,7 +22,8 @@ public class RequestLogout extends GameRequest {
 			client.getSession().removeGameClient(client);
 
 			client.getSession().removeResponseForCharacters(client.getPlayer().getUsername());
-			//client.setSession(null);
+			client.getSession().doThisIfEmpty();
+			client.setSession(null);
 		} else {
 			//client.getServer().addResponseForAllOnlinePlayers(client.getId(), response);
 			client.stopClient();
@@ -36,7 +37,8 @@ public class RequestLogout extends GameRequest {
 			client.getSession().addResponseForAll(response);
 			client.getSession().removeGameClient(client);
 			client.getSession().removeResponseForCharacters(client.getPlayer().getUsername());
-			//client.setSession(null);
+			client.getSession().doThisIfEmpty();
+			client.setSession(null);
 		}
 		client.stopClient();
 	}

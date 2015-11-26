@@ -7,8 +7,7 @@ import networking.response.ResponseMove;
 
 public class RequestMove extends GameRequest {
 	
-	float x, y, z, h, p, r;
-	int forward, backward, right, left;
+	float steering, wheelforce, brakeforce;
 	private ResponseMove responseMove;
 	
 	public RequestMove() {
@@ -18,28 +17,20 @@ public class RequestMove extends GameRequest {
 	
 	@Override
 	public void parse() throws IOException {
-		x = DataReader.readFloat(dataInput);
-		y = DataReader.readFloat(dataInput);
-		z = DataReader.readFloat(dataInput);
-		h = DataReader.readFloat(dataInput);
-		p = DataReader.readFloat(dataInput);
-		r = DataReader.readFloat(dataInput);
-		forward = DataReader.readInt(dataInput);
-		backward = DataReader.readInt(dataInput);
-		right = DataReader.readInt(dataInput);
-		left = DataReader.readInt(dataInput);
+		steering = DataReader.readFloat(dataInput);
+		wheelforce = DataReader.readFloat(dataInput);
+		brakeforce = DataReader.readFloat(dataInput);
 	}
 
 	@Override
 	public void doBusiness() throws Exception {
 		
 		// Create ResponseMove object
-		client.getPlayer().setPosition(this.x, this.y, this.z, this.h, this.p, this.r);
+		client.getPlayer().setForces(this.steering, this.wheelforce, this.brakeforce);
 		responseMove.setPlayer(this.client.getPlayer());
-		responseMove.setForward(forward);
-		responseMove.setBackward(backward);
-		responseMove.setRight(right);
-		responseMove.setLeft(left);
+		responseMove.setSteering(steering);
+		responseMove.setWheelforce(wheelforce);
+		responseMove.setBrakeforce(brakeforce);
 		if(client.getSession() != null)
 			client.getSession().addResponseForAll(client.getPlayer().getId(), responseMove);
 		else

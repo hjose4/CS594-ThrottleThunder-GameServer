@@ -7,10 +7,9 @@ import metadata.Constants;
 public class ResponseMove extends GameResponse {
 	
 	private Player player;
-	private int forward;
-	private int backward;
-	private int right;
-	private int left;
+	private float steering;
+	private float wheelforce;
+	private float brakeforce;
 	
 	public ResponseMove() {
         responseCode = Constants.SMSG_MOVE;
@@ -21,16 +20,9 @@ public class ResponseMove extends GameResponse {
 		// TODO Auto-generated method stub
 		GamePacket packet = new GamePacket(responseCode);
 		packet.addString(player.getUsername());
-		packet.addFloat(player.getPosition().getX());
-		packet.addFloat(player.getPosition().getY());
-		packet.addFloat(player.getPosition().getZ());
-		packet.addFloat(player.getPosition().getH());
-		packet.addFloat(player.getPosition().getP());
-		packet.addFloat(player.getPosition().getR());
-		packet.addInt32(this.forward);
-		packet.addInt32(this.backward);
-		packet.addInt32(this.right);
-		packet.addInt32(this.left);
+		packet.addFloat(player.getPosition().getSteering());
+		packet.addFloat(player.getPosition().getWheelforce());
+		packet.addFloat(player.getPosition().getBrakeforce());
 		return packet.getBytes();
 	}
 
@@ -38,37 +30,28 @@ public class ResponseMove extends GameResponse {
 		this.player = player;
 	}
 	
-	public int getForward() {
-		return forward;
+	public float getSteering() {
+		return steering;
 	}
 
-	public void setForward(int forward) {
-		this.forward = forward;
+	public void setSteering(float steering) {
+		this.steering = steering;
 	}
 
-	public int getBackward() {
-		return backward;
+	public float getWheelforce() {
+		return wheelforce;
 	}
 
-	public void setBackward(int backward) {
-		this.backward = backward;
+	public void setWheelforce(float wheelforce) {
+		this.wheelforce = wheelforce;
 	}
 
-	public int getRight() {
-		return right;
+	public float getBrakeforce() {
+		return brakeforce;
 	}
 
-	public void setRight(int right) {
-		this.right = right;
+	public void setBrakeforce(float brakeforce) {
+		this.brakeforce = brakeforce;
 	}
-
-	public int getLeft() {
-		return left;
-	}
-
-	public void setLeft(int left) {
-		this.left = left;
-	}
-
 
 }

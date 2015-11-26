@@ -7,6 +7,9 @@ public class Position {
 	private float h;
 	private float p;
 	private float r;
+	private float steering;
+	private float wheelforce;
+	private float brakeforce;
 	private int rank;
 	
 	public Position(){
@@ -69,5 +72,29 @@ public class Position {
 
 	public void setRank(int rank) {
 		this.rank = rank;
+	}
+
+	public float getSteering() {
+		return steering;
+	}
+
+	public void setSteering(float steering) {
+		this.steering = steering;
+	}
+
+	public float getWheelforce() {
+		return wheelforce;
+	}
+
+	public void setWheelforce(float wheelforce) {
+		this.wheelforce = wheelforce;
+	}
+
+	public float getBrakeforce() {
+		return brakeforce;
+	}
+
+	public void setBrakeforce(float brakeforce) {
+		this.brakeforce = brakeforce;
 	}
 }

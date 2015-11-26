@@ -3,6 +3,7 @@ package dataAccessLayer.model;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.ObjectModel;
@@ -17,6 +18,16 @@ public class PlayerModel {
 			}
 		} catch(SQLException e) {
 			//Do not care
+		}
+		return null;
+	}
+	
+	public static Player getPlayerByUsername(String username) {
+		HashMap<String,String> params = new HashMap<>();
+		params.put("username", username);
+		List<ObjectModel> models = DatabaseDriver.find(Player.class, params);
+		if(models != null && models.size() > 0) {
+			return new Player(models.remove(0).getData());
 		}
 		return null;
 	}

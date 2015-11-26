@@ -6,13 +6,17 @@ import java.net.Socket;
 import java.net.ServerSocket;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import com.mysql.jdbc.Constants;
 
 // Custom Imports
 import configuration.GameServerConf;
 import metadata.GameRequestTable;
 import dataAccessLayer.DatabaseDriver;
+import dataAccessLayer.model.GameRoomModel;
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
 import networking.response.GameResponse;
@@ -126,13 +130,33 @@ public class GameServer {
 
         return null;
     }*/
-	public GameSession getGameSessionByRoomId(int roomId){
+	public GameSession getGameSessionByRoomType(int roomType){
 		for(GameSession gsession : activeSessions.values()){
-			if(gsession.getGameRoom().getId() == roomId){
+			if(gsession.getGameRoom().getType() == roomType && !gsession.isFull()){
 				return gsession;
 			}
 		}
-		return null;
+		
+		return createNewGameSession(roomType);
+	}
+	protected GameSession createNewGameSession(int roomType) {
+		GameRoom room = new GameRoom();
+		String room_name = "";
+		if(roomType == metadata.Constants.DD) {
+			room_name = "demoderby";
+		} else if(roomType == metadata.Constants.RR) {
+			room_name = "raceroyal";
+		}
+		room.setType(roomType);
+		room.setTimeStarted(new Date());
+		room.setMapName(room_name);
+		room.setRoomName(room_name);
+		room.setStatus(0);
+		GameRoomModel.insertGameRoom(room);
+		
+		GameSession session = new GameSession(this,room);
+		addToActiveSessions(session);
+		return session;
 	}
 	public GameSession getGameSessionByRoomName(String roomName){
 		for(GameSession gsession : activeSessions.values()){

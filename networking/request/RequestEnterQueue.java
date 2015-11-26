@@ -14,11 +14,11 @@ import utility.DataReader;
  * already in the lobby through ResponseEnterLobby
  *
  */
-public class RequestEnterLobby extends GameRequest {
+public class RequestEnterQueue extends GameRequest {
 	private int roomId;
 	private ResponseEnterLobby response;
 	
-	public RequestEnterLobby() {
+	public RequestEnterQueue() {
 		responses.add(response = new ResponseEnterLobby());
 	}
 	@Override
@@ -29,20 +29,22 @@ public class RequestEnterLobby extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		GameSession session = client.getServer().getGameSessionByRoomId(roomId);		
+		GameSession session = client.getServer().getGameSessionByRoomType(roomId);		
 		if(session != null) {
 			client.setSession(session);		
 			if(client.getSession() != null) {
 				response.setValid(1);
 				response.setUsername(client.getPlayer().getUsername());
 				client.getSession().addResponseForAll(client.getPlayer().getId(), response);
+				
+				for(ResponseRenderCharacter responseRenderCharacter : client.getSession().getCharacterUpdates()){
+					responses.add(responseRenderCharacter);
+				}
+				client.getSession().addResponseForRenderCharacters(client);	
 				return;
 			}
-		}
-		for(ResponseRenderCharacter responseRenderCharacter : client.getSession().getCharacterUpdates()){
-			responses.add(responseRenderCharacter);
-		}
-		client.getSession().addResponseForRenderCharacters(client);	
+		}	
+		
 		response.setValid(0);
 		response.setUsername(client.getPlayer().getUsername());
 	}

@@ -347,4 +347,8 @@ public class GameSession extends Thread {
 		}
 	}
 
+	public boolean isFull() {
+		return availablePositions.size() == 0;
+	}
+
 }

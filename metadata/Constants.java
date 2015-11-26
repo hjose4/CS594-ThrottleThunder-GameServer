@@ -35,6 +35,7 @@ public class Constants {
 	public final static short CMSG_SET_POSITION = 128;
 	public final static short CMSG_TIME = 129;
 	public final static short CMSG_SET_RANK = 130;
+	public final static short CMSG_EMOTE = 132;
 	public final static short CMSG_CUSTOMIZE = 140;
 	
 	public final static short SMSG_LOGIN = 201;
@@ -67,6 +68,7 @@ public class Constants {
 	public final static short SMSG_TIME = 229;
 	public final static short SMSG_SET_RANK = 230;
 	public final static short SMSG_SET_READY = 231;
+	public final static short SMSG_EMOTE = 232;
 	public final static short SMSG_CUSTOMIZE = 240;
 	
 	public final static short SMSG_RENDER_CHARACTER = 310;

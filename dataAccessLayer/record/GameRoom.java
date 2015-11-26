@@ -85,6 +85,6 @@ public class GameRoom extends ObjectModel{
 		return session;
 	}
 	public boolean isRR() {
-		return getType() == 1;
+		return getType() == 0;
 	}
 }

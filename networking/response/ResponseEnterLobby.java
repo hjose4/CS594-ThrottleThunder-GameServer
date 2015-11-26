@@ -7,7 +7,7 @@ public class ResponseEnterLobby extends GameResponse {
 	private String username;
 	private int valid;
 	public ResponseEnterLobby() {
-		responseCode = Constants.SMSG_ENTER_LOBBY;
+		responseCode = Constants.SMSG_ENTER_QUEUE;
 	}
 
 	@Override

@@ -14,12 +14,14 @@ public class Constants {
 	public final static short CMSG_CHAT = 106;
 	public final static short CMSG_MOVE = 107;
 	public final static short CMSG_POWER_UP = 108;
-	public final static short CMSG_POWER_UP_PICK_UP = 109;
+	public final static short CMSG_POWER_PICKUP = 109;
 	public final static short CMSG_HEALTH = 110;
-	public final static short CMSG_ENTER_LOBBY = 111;
-	public final static short CMSG_ENTER_GAME_LOBBY = 112;
-	public final static short CMSG_ENTER_GAME_NAME = 113;
-	public final static short CMSG_CREATE_LOBBY = 114;
+	public final static short CMSG_ENTER_QUEUE = 111;
+	//public final static short CMSG_ENTER_GAME_LOBBY = 112;
+	//public final static short CMSG_ENTER_GAME_NAME = 113;
+	public final static short CMSG_FRIEND_UPDATE = 113;
+	public final static short CMSG_FRIEND_REQUEST = 114;
+	//public final static short CMSG_CREATE_LOBBY = 114;
 	public final static short CMSG_PRIVATE_CHAT = 115;
 	public final static short CMSG_INVITE = 116;
 	public final static short CMSG_CAR_CHOICE = 117;
@@ -33,10 +35,10 @@ public class Constants {
 	public final static short CMSG_DEAD = 126;
 	public final static short CMSG_READY = 127;
 	public final static short CMSG_SET_POSITION = 128;
-	public final static short CMSG_TIME = 129;
+	//public final static short CMSG_TIME = 129;
 	public final static short CMSG_SET_RANK = 130;
 	public final static short CMSG_EMOTE = 132;
-	public final static short CMSG_CUSTOMIZE = 140;
+	//public final static short CMSG_CUSTOMIZE = 140;
 	
 	public final static short SMSG_LOGIN = 201;
 	public final static short SMSG_DISCONNECT = 202;
@@ -46,12 +48,13 @@ public class Constants {
 	public final static short SMSG_CHAT = 206;
 	public final static short SMSG_MOVE = 207;
 	public final static short SMSG_POWER_UP = 208;
-	public final static short SMSG_POWER_UP_PICK_UP = 209;
+	public final static short SMSG_POWER_PICKUP = 209;
 	public final static short SMSG_HEALTH = 210;
-	public final static short SMSG_ENTER_LOBBY = 211;
-	public final static short SMSG_ENTER_GAME_LOBBY = 212;
-	public final static short SMSG_ENTER_GAME_NAME = 213;
-	public final static short SMSG_CREATE_LOBBY = 214;
+	public final static short SMSG_ENTER_QUEUE = 211;
+	//public final static short SMSG_ENTER_GAME_LOBBY = 212;
+	//public final static short SMSG_ENTER_GAME_NAME = 213;
+	public final static short SMSG_FRIEND_UPDATE = 213;
+	//public final static short SMSG_CREATE_LOBBY = 214;
 	public final static short SMSG_PRIVATE_CHAT = 215;
 	public final static short SMSG_INVITE = 216;
 	public final static short SMSG_CAR_CHOICE = 217;
@@ -69,7 +72,6 @@ public class Constants {
 	public final static short SMSG_SET_RANK = 230;
 	public final static short SMSG_SET_READY = 231;
 	public final static short SMSG_EMOTE = 232;
-	public final static short SMSG_CUSTOMIZE = 240;
 	
 	public final static short SMSG_RENDER_CHARACTER = 310;
 	public final static short SMSG_REMOVE_CHARACTER = 311;

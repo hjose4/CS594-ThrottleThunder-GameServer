@@ -22,6 +22,7 @@ import model.Position;
 
 public class GameSession extends Thread {
 	private int phase = 0;
+	private int maxNumOfPlayers = 0;
 	private GameRoom gameroom;
 	private GameServer server;
 	private boolean isRunning;
@@ -38,6 +39,7 @@ public class GameSession extends Thread {
 		this.server = server;
 		availablePositions = MapManager.getInstance().getStartingPositions(gameroom.getMapName());
 		startingPositions = new HashMap<Player, Position>();
+		maxNumOfPlayers = startingPositions.size();
 		deadPlayerList = new ArrayList<Player>();
 		clients = new ArrayList<>();
 		playerRankings = new HashMap<Player,Double>();
@@ -213,6 +215,10 @@ public class GameSession extends Thread {
 
 	public void setGameroom(GameRoom gameroom) {
 		this.gameroom = gameroom;
+	}
+	
+	public int getMaxNumOfPlayers() {
+		return maxNumOfPlayers;
 	}
 
 	public GameServer getServer() {

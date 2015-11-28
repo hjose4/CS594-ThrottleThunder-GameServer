@@ -6,16 +6,11 @@ import networking.response.ResponseFriendRequest;
 import utility.DataReader;
 
 public class RequestFriendRequest extends GameRequest {
-
-    // Data
     private String username;
-    private int status;
-    
-    // Responses
-    private ResponseFriendRequest responseFriendUpdate;
+    private ResponseFriendRequest response;
 
     public RequestFriendRequest() {
-    	responseFriendUpdate = new ResponseFriendRequest();
+    	response = new ResponseFriendRequest();
       
     }
 
@@ -27,10 +22,9 @@ public class RequestFriendRequest extends GameRequest {
     @Override
     public void doBusiness() throws Exception {
     	
-        responseFriendUpdate.setUsernameFrom(client.getPlayer().getUsername());
-        //TODO
-        //Player.getPlayer(username).addRequest(client.getPlayer().getUsername());
-        client.getServer().addResponseForUser(username,responseFriendUpdate); 
+        response.setUsernameFrom(client.getPlayer().getUsername());
+        response.setStatus(0);
+        client.getServer().addResponseForUser(username,response); 
        
     }
 }

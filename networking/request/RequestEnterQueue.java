@@ -1,9 +1,11 @@
 package networking.request;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import core.GameSession;
-import networking.response.ResponseEnterLobby;
+import dataAccessLayer.record.Player;
+import networking.response.ResponseEnterQueue;
 import networking.response.ResponseRenderCharacter;
 import utility.DataReader;
 
@@ -16,10 +18,10 @@ import utility.DataReader;
  */
 public class RequestEnterQueue extends GameRequest {
 	private int roomId;
-	private ResponseEnterLobby response;
+	private ResponseEnterQueue response;
 	
 	public RequestEnterQueue() {
-		responses.add(response = new ResponseEnterLobby());
+		responses.add(response = new ResponseEnterQueue());
 	}
 	@Override
 	public void parse() throws IOException {
@@ -33,8 +35,8 @@ public class RequestEnterQueue extends GameRequest {
 		if(session != null) {
 			client.setSession(session);		
 			if(client.getSession() != null) {
-				response.setValid(1);
-				response.setUsername(client.getPlayer().getUsername());
+				response.setLobbySize(client.getSession().getMaxNumOfPlayers());
+				response.setPlayers(client.getSession().getPlayers());
 				client.getSession().addResponseForAll(client.getPlayer().getId(), response);
 				
 				for(ResponseRenderCharacter responseRenderCharacter : client.getSession().getCharacterUpdates()){
@@ -43,10 +45,9 @@ public class RequestEnterQueue extends GameRequest {
 				client.getSession().addResponseForRenderCharacters(client);	
 				return;
 			}
-		}	
-		
-		response.setValid(0);
-		response.setUsername(client.getPlayer().getUsername());
+		}
+		response.setLobbySize(0);
+		response.setPlayers(new ArrayList<Player>());
 	}
 
 }

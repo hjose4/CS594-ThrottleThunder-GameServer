@@ -2,13 +2,10 @@ package networking.request;
 
 // Java Imports
 import java.io.IOException;
-
-import core.GameServer;
 import dataAccessLayer.model.FriendshipModel;
 import dataAccessLayer.model.PlayerModel;
-import networking.response.GameResponse;
-import networking.response.ResponseChat;
-import networking.response.ResponseFriendRequest;
+import dataAccessLayer.record.Player;
+import networking.response.ResponseFriendList;
 import utility.DataReader;
 
 public class RequestFriendUpdate extends GameRequest {
@@ -17,13 +14,7 @@ public class RequestFriendUpdate extends GameRequest {
 	private String username;
 	private int status; // 0 when accept;1 when remove friend
 
-	// Responses
-	private ResponseFriendRequest responseFriendUpdate;
-
 	public RequestFriendUpdate() {
-
-		// responses.add(responseString = new ResponseString());
-		responseFriendUpdate = new ResponseFriendRequest();
 
 	}
 
@@ -35,17 +26,25 @@ public class RequestFriendUpdate extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		responseFriendUpdate.setUsernameFrom(client.getPlayer().getUsername());
-		responseFriendUpdate.setStatus(status);
-
+		Player targetPlayer = PlayerModel.getPlayerByUsername(username);
 		if (status == 0) {
 			//Accept
-			FriendshipModel.createFriendship(client.getPlayer(),PlayerModel.getPlayerByUsername(username));
+			FriendshipModel.createFriendship(client.getPlayer(),targetPlayer);
 		} else if (status == 1) {
 			//Remove
-			//TODO
+			FriendshipModel.removeFriendship(client.getPlayer(), targetPlayer);
 		}		
 
-		client.getServer().addResponseForUser(username, responseFriendUpdate);
+		ResponseFriendList response;
+		
+		//Client friend List
+		response = new ResponseFriendList();
+		response.setFriends(FriendshipModel.getFriends(client.getPlayer()));
+		client.getServer().addResponseForUser(username, response);
+		
+		//Target player friend list
+		response = new ResponseFriendList();
+		response.setFriends(FriendshipModel.getFriends(targetPlayer));
+		client.getServer().addResponseForUser(targetPlayer.getUsername(), response);
 	}
 }

@@ -29,20 +29,18 @@ public class FriendshipModel {
 		return null;
 	}
 	
-	public static List<Friendship> getFriends(Player user, Player friend) {
+	public static List<Player> getFriends(Player user) {
 		List<Friendship> list = new ArrayList<Friendship>();
 		HashMap<String,String> params = new HashMap<>();
 		params.put("user1_id", user.getId()+"");
-		params.put("user2_id", friend.getId()+"");
 		List<ObjectModel> models = DatabaseDriver.find(Friendship.class, params);
 		if(models != null && models.size() > 0) {
 			while(models.size() > 0) {
 				list.add(new Friendship(models.remove(0).getData()));
 			}
 		} 
-
+		
 		params = new HashMap<>();
-		params.put("user1_id", friend.getId()+"");
 		params.put("user2_id", user.getId()+"");
 		models = DatabaseDriver.find(Friendship.class, params);
 		if(models != null && models.size() > 0) {
@@ -50,7 +48,17 @@ public class FriendshipModel {
 				list.add(new Friendship(models.remove(0).getData()));
 			}
 		} 
-		return list;
+		
+		List<Player> ret = new ArrayList<>();
+		for(Friendship friendship : list) {
+			if(Integer.valueOf(friendship.get("user1_id")) == user.getId()) {
+				ret.add(PlayerModel.getPlayerById(Integer.valueOf(friendship.get("user2_id"))));
+			} else {
+				ret.add(PlayerModel.getPlayerById(Integer.valueOf(friendship.get("user1_id"))));
+			}
+		}
+		
+		return ret;
 	}
 	
 	public static boolean createFriendship(Player user, Player friend) {
@@ -59,5 +67,13 @@ public class FriendshipModel {
 		params.put("user2_id", friend.getId()+"");
 		Friendship friendship = new Friendship(params);
 		return friendship.save("all");
+	}
+	
+	public static boolean removeFriendship(Player user, Player friend) {
+		Friendship friendship = getFriendship(user,friend);
+		if(friendship != null) {
+			return DatabaseDriver.remove(Friendship.class, friendship.getId());
+		}
+		return false;
 	}
 }

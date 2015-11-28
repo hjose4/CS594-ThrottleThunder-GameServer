@@ -53,6 +53,7 @@ public class Constants {
 	public final static short SMSG_ENTER_QUEUE = 211;
 	//public final static short SMSG_ENTER_GAME_LOBBY = 212;
 	//public final static short SMSG_ENTER_GAME_NAME = 213;
+	public final static short SMSG_FRIEND_LIST = 212;
 	public final static short SMSG_FRIEND_UPDATE = 213;
 	//public final static short SMSG_CREATE_LOBBY = 214;
 	public final static short SMSG_PRIVATE_CHAT = 215;

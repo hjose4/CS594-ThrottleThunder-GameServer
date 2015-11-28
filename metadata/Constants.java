@@ -20,13 +20,11 @@ public class Constants {
 	//public final static short CMSG_ENTER_GAME_LOBBY = 112;
 	//public final static short CMSG_ENTER_GAME_NAME = 113;
 	public final static short CMSG_FRIEND_UPDATE = 113;
-	public final static short CMSG_FRIEND_REQUEST = 114;
-	//public final static short CMSG_CREATE_LOBBY = 114;
+	//public final static short CMSG_FRIEND_REQUEST = 114;
+	public final static short CMSG_CREATE_LOBBY = 114;
 	public final static short CMSG_PRIVATE_CHAT = 115;
 	public final static short CMSG_INVITE = 116;
-	public final static short CMSG_CAR_CHOICE = 117;
-	public final static short CMSG_CAR_PAINT = 118;
-	public final static short CMSG_CAR_TIRES = 119;
+	public final static short CMSG_LOBBY_READY = 117;
 	public final static short CMSG_GARAGE_PURCHASE = 121;
 	public final static short CMSG_RESULTS = 122;
 	public final static short CMSG_RANKINGS = 123;
@@ -58,9 +56,7 @@ public class Constants {
 	//public final static short SMSG_CREATE_LOBBY = 214;
 	public final static short SMSG_PRIVATE_CHAT = 215;
 	public final static short SMSG_INVITE = 216;
-	public final static short SMSG_CAR_CHOICE = 217;
-	public final static short SMSG_CAR_PAINT = 218;
-	public final static short SMSG_CAR_TIRES = 219;
+	public final static short SMSG_LOBBY_READY = 217;
 	public final static short SMSG_GARAGE_PURCHASE = 221;
 	public final static short SMSG_RESULTS = 222;
 	public final static short SMSG_RANKINGS = 223;

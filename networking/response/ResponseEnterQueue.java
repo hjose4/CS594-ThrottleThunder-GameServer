@@ -38,7 +38,7 @@ public class ResponseEnterQueue extends GameResponse {
     }
 
 	public void setMinSize(int minNumOfPlayers) {
-		this.setMinSize(minNumOfPlayers);
+		this.minSize = minNumOfPlayers;
 	}
 
 }

@@ -51,10 +51,17 @@ public class FriendshipModel {
 		
 		List<Player> ret = new ArrayList<>();
 		for(Friendship friendship : list) {
+			Player player = null;
 			if(Integer.valueOf(friendship.get("user1_id")) == user.getId()) {
-				ret.add(PlayerModel.getPlayerById(Integer.valueOf(friendship.get("user2_id"))));
+				player = PlayerModel.getPlayerById(Integer.valueOf(friendship.get("user2_id")));
 			} else {
-				ret.add(PlayerModel.getPlayerById(Integer.valueOf(friendship.get("user1_id"))));
+				player = PlayerModel.getPlayerById(Integer.valueOf(friendship.get("user1_id")));
+			}
+			
+			if(player == null) {
+				System.out.println("friend does not exists? " + Integer.valueOf(friendship.get("user2_id")) + " or " + Integer.valueOf(friendship.get("user1_id")));
+			} else {
+				ret.add(player);
 			}
 		}
 		

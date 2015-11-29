@@ -21,9 +21,9 @@ public class RequestFriendRequest extends GameRequest {
 
     @Override
     public void doBusiness() throws Exception {
-    	
-        response.setUsernameFrom(client.getPlayer().getUsername());
-        client.getServer().addResponseForUser(username,response); 
-       
+    	if(!username.equals(client.getPlayer().getUsername())) {
+	        response.setUsernameFrom(client.getPlayer().getUsername());
+	        client.getServer().addResponseForUser(username,response); 
+    	}       
     }
 }

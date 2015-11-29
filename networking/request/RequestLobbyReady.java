@@ -14,16 +14,12 @@ import utility.DataReader;
 public class RequestLobbyReady extends GameRequest {
 
 	// Data
-	private String username;
 	private int carType;
 	private int carPaint;
 	private int carTires;
 	// Responses
-	private ResponseLobbyReady responseLobbyReady;
 
-	public RequestLobbyReady() {
-		responseLobbyReady = new ResponseLobbyReady();
-	}
+	public RequestLobbyReady() {}
 
 	@Override
 	public void parse() throws IOException {
@@ -46,11 +42,9 @@ public class RequestLobbyReady extends GameRequest {
 //					}
 //				}
 //			}
-			responseLobbyReady.setUsername(client.getPlayer().getUsername());
-			responseLobbyReady.setCarType(carType);
-			responseLobbyReady.setCarPaint(carPaint);
-			responseLobbyReady.setCarTires(carTires);
-			client.getSession().addResponseForAll(responseLobbyReady);
+			client.getPlayer().setCar_id(carType);
+			client.getPlayer().setCarPaint(carPaint);
+			client.getPlayer().setCarTire(carTires);
 		} else {
 			System.out.println("Client is not in game session: "+this.getClass().getName());
 		}

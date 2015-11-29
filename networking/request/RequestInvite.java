@@ -2,9 +2,6 @@ package networking.request;
 
 // Java Imports
 import java.io.IOException;
-
-import networking.response.GameResponse;
-import networking.response.ResponseChat;
 import networking.response.ResponseInvite;
 // Custom Imports
 //import core.GameServer;
@@ -14,12 +11,10 @@ public class RequestInvite extends GameRequest {
 
 	// Data
 	private String username;
-
 	// Responses
 	private ResponseInvite responseInvite;
 
 	public RequestInvite() {
-
 		// responses.add(responseString = new ResponseString());
 		responseInvite = new ResponseInvite();
 
@@ -32,15 +27,12 @@ public class RequestInvite extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-//		boolean newgroup = true;
-//		System.out.println(username);
-//		responseInvite.setUsernameFrom(client.getPlayer().getUsername());
-//		responseInvite.setUsernameTo(username);
-//		if (client.getPlayer().getGroup() == null
-//				|| client.getPlayer().getGroup().isFinished()) {
-//			Group group = new Group(client.getPlayer());
-//		}
-//		client.getServer().addResponseForUser(username,
-//				(GameResponse) responseInvite);
+		if(client.getSession() != null) {
+			responseInvite.setRoomId(client.getSession().getGameRoom().getId());
+			client.getServer().addResponseForUser(username, responseInvite);
+		}else{
+			System.out.println("Client is not in game session: "+this.getClass().getName());
+		}
+		
 	}
 }

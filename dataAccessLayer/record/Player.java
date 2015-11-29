@@ -12,7 +12,7 @@ public class Player extends ObjectModel {
 	
 	private Position pos;
 	private boolean isReady = false;
-	private int carId;
+	private int carId, carPaint, carTire;
 	private int lastPrize = 0;
 	
 	public Player() {
@@ -92,5 +92,21 @@ public class Player extends ObjectModel {
 	
 	public int getLastPrize() {
 		return lastPrize;
+	}
+
+	public int getCarPaint() {
+		return carPaint;
+	}
+
+	public void setCarPaint(int carPaint) {
+		this.carPaint = carPaint;
+	}
+
+	public int getCarTire() {
+		return carTire;
+	}
+
+	public void setCarTire(int carTire) {
+		this.carTire = carTire;
 	}
 }

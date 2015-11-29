@@ -325,6 +325,18 @@ public class GameServer {
 			}
 		}
 	}
+	
+	/**
+	 * Push a pending response to all users' queue
+	 * 
+	 * @param response is the instance containing the response information
+	 */
+	public void addResponseForAllOnlinePlayers(GameResponse response) {
+
+		for (GameClient client : activeThreads.values()) {
+			client.addResponseForUpdate(response);
+		}
+	}
 
 	public void addResponseForRoom(int room_id, GameResponse response) {    	 
 		for (GameClient client : getGameClientsForRoom(room_id)) {

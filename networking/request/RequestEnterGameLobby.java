@@ -40,6 +40,7 @@ public class RequestEnterGameLobby extends GameRequest {
 			}
 		}
 		responseEnterQueue.setLobbySize(0);
+		responseEnterQueue.setMinSize(Integer.MAX_VALUE);
 		responseEnterQueue.setPlayers(new ArrayList<Player>());
 	}
 }

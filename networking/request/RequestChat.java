@@ -33,6 +33,6 @@ public class RequestChat extends GameRequest {
         System.out.println(message);
         responseChat.setUsername(client.getPlayer().getUsername()); 
         responseChat.setMessage(message); 
-        client.getServer().addResponseForAllOnlinePlayers(client.getId(), (GameResponse) responseChat); 
+        client.getServer().addResponseForAllOnlinePlayers((GameResponse) responseChat); 
     }
 }

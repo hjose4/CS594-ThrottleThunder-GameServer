@@ -22,6 +22,7 @@ public class RequestReady extends GameRequest {
 		if(client.getSession() != null) {
 			if(!this.client.getPlayer().isReady()){
 				this.client.getPlayer().setReady();
+				client.getSession().addResponseForRenderCharacters(client);
 				//We need more than one player before we can start
 				System.out.println("Number of clients: " + client.getSession().getGameClients().size());
 				if(allReady() && client.getSession().getGameClients().size() > 1){

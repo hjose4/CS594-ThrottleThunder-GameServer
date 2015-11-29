@@ -249,6 +249,9 @@ public class GameSession extends Thread {
 		System.out.println("Entering next phase");
 		switch(phase) {
 		case 0:
+			for(ResponseRenderCharacter responseRenderCharacter : getCharacterUpdates()){
+				addResponseForAll(responseRenderCharacter);
+			}
 			System.out.println("Sending positions");
 			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
 			responseSetPosition.setStartingPositions(startingPositions);
@@ -334,7 +337,6 @@ public class GameSession extends Thread {
 		responseRenderCharacter.setCarPaint(1);
 		responseRenderCharacter.setCarTires(1);
 		responseRenderCharacter.setCarType(1);
-		addResponseForAll(gclient.getPlayer().getId(), responseRenderCharacter);
 		return renderCharacterResponses.add(responseRenderCharacter);
 	}
 

@@ -8,6 +8,7 @@ import utility.GamePacket;
 
 public class ResponseEnterQueue extends GameResponse {
 	private int size;
+	private int minSize;
 	private List<Player> players;
 
     public ResponseEnterQueue() {
@@ -19,7 +20,7 @@ public class ResponseEnterQueue extends GameResponse {
     public byte[] constructResponseInBytes() {
     	GamePacket packet = new GamePacket(responseCode);
         packet.addInt32(size);
-
+        packet.addInt32(minSize);
         packet.addInt32(players.size());
         for(Player player : players) {
         	packet.addString(player.getUsername());
@@ -35,5 +36,9 @@ public class ResponseEnterQueue extends GameResponse {
     public void setPlayers(List<Player> players) {
     	this.players = players;
     }
+
+	public void setMinSize(int minNumOfPlayers) {
+		this.setMinSize(minNumOfPlayers);
+	}
 
 }

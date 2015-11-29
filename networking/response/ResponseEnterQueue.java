@@ -1,9 +1,7 @@
 package networking.response;
 
 // Custom Imports
-import java.io.Console;
 import java.util.List;
-
 import dataAccessLayer.record.Player;
 import metadata.Constants;
 import utility.GamePacket;

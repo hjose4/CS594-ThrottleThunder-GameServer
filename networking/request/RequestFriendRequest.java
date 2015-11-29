@@ -23,7 +23,6 @@ public class RequestFriendRequest extends GameRequest {
     public void doBusiness() throws Exception {
     	
         response.setUsernameFrom(client.getPlayer().getUsername());
-        response.setStatus(0);
         client.getServer().addResponseForUser(username,response); 
        
     }

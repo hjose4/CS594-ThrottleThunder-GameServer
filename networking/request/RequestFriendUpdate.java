@@ -37,11 +37,6 @@ public class RequestFriendUpdate extends GameRequest {
 
 		ResponseFriendList response;
 		
-		//Client friend List
-		response = new ResponseFriendList();
-		response.setFriends(FriendshipModel.getFriends(client.getPlayer()));
-		client.getServer().addResponseForUser(username, response);
-		
 		//Target player friend list
 		response = new ResponseFriendList();
 		response.setFriends(FriendshipModel.getFriends(targetPlayer));

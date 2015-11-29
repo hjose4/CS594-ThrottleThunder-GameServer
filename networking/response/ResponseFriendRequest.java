@@ -7,9 +7,6 @@ import utility.GamePacket;
 public class ResponseFriendRequest extends GameResponse {
 
     private String usernameFrom;
-    
-    private int status;
-
     public ResponseFriendRequest() {
         responseCode = Constants.SMSG_FRIEND_UPDATE;
     }
@@ -18,7 +15,6 @@ public class ResponseFriendRequest extends GameResponse {
     public byte[] constructResponseInBytes() {
         GamePacket packet = new GamePacket(responseCode);
         packet.addString(usernameFrom);
-        packet.addInt32(status);
         return packet.getBytes();
     }
 
@@ -26,15 +22,8 @@ public class ResponseFriendRequest extends GameResponse {
 		return usernameFrom;
 	}
 
-	public int getStatus(){return status;}
-
 
 	public void setUsernameFrom(String usernameFrom) {
 		this.usernameFrom = usernameFrom;
 	}
-    
-	public void setStatus(int status){
-		this.status = status; 
-	}
-    
 }

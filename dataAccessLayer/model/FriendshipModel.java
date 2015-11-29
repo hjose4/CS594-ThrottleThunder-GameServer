@@ -62,11 +62,14 @@ public class FriendshipModel {
 	}
 	
 	public static boolean createFriendship(Player user, Player friend) {
-		HashMap<String,String> params = new HashMap<>();
-		params.put("user1_id", user.getId()+"");
-		params.put("user2_id", friend.getId()+"");
-		Friendship friendship = new Friendship(params);
-		return friendship.save("all");
+		if(getFriendship(user,friend) == null) {
+			HashMap<String,String> params = new HashMap<>();
+			params.put("user1_id", user.getId()+"");
+			params.put("user2_id", friend.getId()+"");
+			Friendship friendship = new Friendship(params);
+			return friendship.save("all");
+		}
+		return false;
 	}
 	
 	public static boolean removeFriendship(Player user, Player friend) {

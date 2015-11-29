@@ -17,7 +17,7 @@ import utility.DataReader;
  *
  */
 public class RequestEnterQueue extends GameRequest {
-	private int roomId;
+	private int roomType;
 	private ResponseEnterQueue response;
 	
 	public RequestEnterQueue() {
@@ -25,13 +25,13 @@ public class RequestEnterQueue extends GameRequest {
 	}
 	@Override
 	public void parse() throws IOException {
-		roomId = DataReader.readInt(dataInput);
+		roomType = DataReader.readInt(dataInput);
 		
 	}
 
 	@Override
 	public void doBusiness() throws Exception {
-		GameSession session = client.getServer().getGameSessionByRoomType(roomId);		
+		GameSession session = client.getServer().getGameSessionByRoomType(roomType);		
 		if(session != null) {
 			client.setSession(session);		
 			if(client.getSession() != null) {

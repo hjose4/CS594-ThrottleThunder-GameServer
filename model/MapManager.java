@@ -34,6 +34,7 @@ public class MapManager {
 			positions.add(position);
 		}
 		startingPositions.put("raceroyal", positions);
+		startingPositions.put("demoderby", positions);
 	}
 
 	public void addStartingPositions(String mapName, ArrayList<Position> points) {

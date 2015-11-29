@@ -23,6 +23,7 @@ import model.Position;
 public class GameSession extends Thread {
 	private int phase = 0;
 	private int maxNumOfPlayers = 0;
+	private int minNumOfPlayers = 2;
 	private GameRoom gameroom;
 	private GameServer server;
 	private boolean isRunning;
@@ -219,6 +220,10 @@ public class GameSession extends Thread {
 	
 	public int getMaxNumOfPlayers() {
 		return maxNumOfPlayers;
+	}
+	
+	public int getMinNumOfPlayers() {
+		return minNumOfPlayers;
 	}
 
 	public GameServer getServer() {

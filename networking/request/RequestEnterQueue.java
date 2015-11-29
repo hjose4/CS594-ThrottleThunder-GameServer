@@ -36,6 +36,7 @@ public class RequestEnterQueue extends GameRequest {
 			client.setSession(session);		
 			if(client.getSession() != null) {
 				response.setLobbySize(client.getSession().getMaxNumOfPlayers());
+				response.setMinSize(client.getSession().getMinNumOfPlayers());
 				response.setPlayers(client.getSession().getPlayers());
 				client.getSession().addResponseForAll(client.getPlayer().getId(), response);	
 				return;

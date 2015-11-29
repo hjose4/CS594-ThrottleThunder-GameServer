@@ -17,11 +17,9 @@ public class Constants {
 	public final static short CMSG_POWER_PICKUP = 109;
 	public final static short CMSG_HEALTH = 110;
 	public final static short CMSG_ENTER_QUEUE = 111;
-	//public final static short CMSG_ENTER_GAME_LOBBY = 112;
-	//public final static short CMSG_ENTER_GAME_NAME = 113;
+	public final static short CMSG_FRIEND_LIST = 112;
 	public final static short CMSG_FRIEND_UPDATE = 113;
-	public final static short CMSG_FRIEND_REQUEST = 114;
-	public final static short CMSG_CREATE_LOBBY = 114;
+	public final static short CMSG_FRIEND_REQUEST = 114;	
 	public final static short CMSG_PRIVATE_CHAT = 115;
 	public final static short CMSG_INVITE = 116;
 	public final static short CMSG_LOBBY_READY = 117;
@@ -48,11 +46,8 @@ public class Constants {
 	public final static short SMSG_POWER_PICKUP = 209;
 	public final static short SMSG_HEALTH = 210;
 	public final static short SMSG_ENTER_QUEUE = 211;
-	//public final static short SMSG_ENTER_GAME_LOBBY = 212;
-	//public final static short SMSG_ENTER_GAME_NAME = 213;
 	public final static short SMSG_FRIEND_LIST = 212;
 	public final static short SMSG_FRIEND_UPDATE = 213;
-	//public final static short SMSG_CREATE_LOBBY = 214;
 	public final static short SMSG_PRIVATE_CHAT = 215;
 	public final static short SMSG_INVITE = 216;
 	public final static short SMSG_LOBBY_READY = 217;

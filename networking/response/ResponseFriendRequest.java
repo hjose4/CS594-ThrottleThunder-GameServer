@@ -15,6 +15,7 @@ public class ResponseFriendRequest extends GameResponse {
     public byte[] constructResponseInBytes() {
         GamePacket packet = new GamePacket(responseCode);
         packet.addString(usernameFrom);
+        packet.addInt32(0);
         return packet.getBytes();
     }
 

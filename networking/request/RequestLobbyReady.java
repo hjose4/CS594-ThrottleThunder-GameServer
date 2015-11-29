@@ -22,8 +22,7 @@ public class RequestLobbyReady extends GameRequest {
 	private ResponseLobbyReady responseLobbyReady;
 
 	public RequestLobbyReady() {
-		responses.add(responseLobbyReady = new ResponseLobbyReady());
-
+		responseLobbyReady = new ResponseLobbyReady();
 	}
 
 	@Override
@@ -35,10 +34,26 @@ public class RequestLobbyReady extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		responseLobbyReady.setUsername(client.getPlayer().getUsername());
-		responseLobbyReady.setCarType(carType);
-		responseLobbyReady.setCarPaint(carPaint);
-		responseLobbyReady.setCarTires(carTires);
-		client.getSession().addResponseForAll(responseLobbyReady);
+		if(client.getSession() != null) {
+//			if(!this.client.getPlayer().isReady()){
+//				this.client.getPlayer().setReady();
+//				//We need more than one player before we can start
+//				System.out.println("Number of clients: " + client.getSession().getGameClients().size());
+//				if(allReady() && client.getSession().getGameClients().size() > 1){
+//					this.client.getSession().nextPhase();
+//					for(Player player : client.getSession().getPlayers()) {
+//						player.setNotReady();
+//					}
+//				}
+//			}
+			responseLobbyReady.setUsername(client.getPlayer().getUsername());
+			responseLobbyReady.setCarType(carType);
+			responseLobbyReady.setCarPaint(carPaint);
+			responseLobbyReady.setCarTires(carTires);
+			client.getSession().addResponseForAll(responseLobbyReady);
+		} else {
+			System.out.println("Client is not in game session: "+this.getClass().getName());
+		}
+		
 	}
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.ObjectModel;
 import dataAccessLayer.record.BaseVehicle;
+import dataAccessLayer.record.Player;
 import dataAccessLayer.record.PlayerVehicle;
 
 public class VehicleModel {
@@ -36,6 +37,13 @@ public class VehicleModel {
 	public static ArrayList<PlayerVehicle> searchForPlayerVehiclesByPlayerId(int player_id) {
 		HashMap<String,String> params = new HashMap<>();
 		params.put(PlayerVehicle.PLAYER_ID, player_id+"");
+		return searchForPlayerVehicles(params);
+	}
+	
+	public static ArrayList<PlayerVehicle> searchForPlayerVehicles(Player player, int baseId) {
+		HashMap<String,String> params = new HashMap<>();
+		params.put(PlayerVehicle.PLAYER_ID, player.getId()+"");
+		params.put(PlayerVehicle.BASE_ID, baseId+"");
 		return searchForPlayerVehicles(params);
 	}
 	

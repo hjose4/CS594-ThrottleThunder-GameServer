@@ -77,14 +77,6 @@ public class Player extends ObjectModel {
 	public void setNotReady(){
 		this.isReady = false;
 	}
-
-	public void setCar_id(int carId) {
-		this.carId = carId;
-	}
-	
-	public int getCarId(int carId) {
-		return this.carId;		
-	}
 	
 	public void setLastPrize(int prize) {
 		lastPrize = prize;
@@ -98,6 +90,13 @@ public class Player extends ObjectModel {
 		return carPaint;
 	}
 
+	public void setBaseCarId(int carId) {
+		this.carId = carId;
+	}
+	
+	public int getBaseCarId(int carId) {
+		return this.carId;		
+	}
 	public void setCarPaint(int carPaint) {
 		this.carPaint = carPaint;
 	}

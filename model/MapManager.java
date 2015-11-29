@@ -23,8 +23,7 @@ public class MapManager {
 	public void addMapDetails(MapDetail map) {
 		System.out.println("Adding map " + map.getName() + " with " + map.getPositions().size() +" posititions");
 		mapDetailList.put(map.getName(), map);
-	}
-	
+	}	
 
 	public List<Position> getStartingPositions(String mapName) {
 		List<Position> ret = new ArrayList<Position>();
@@ -32,5 +31,18 @@ public class MapManager {
 			ret = mapDetailList.get(mapName).getPositions();
 		}
 		return ret;
+	}
+	
+	public MapDetail getMapDetail(int type) {
+		for(MapDetail map : mapDetailList.values()) {
+			if(map.getType() == type) {
+				return map;
+			}
+		}
+		return null;
+	}
+	
+	public MapDetail getMapDetail(String mapName) {
+		return mapDetailList.get(mapName);
 	}
 }

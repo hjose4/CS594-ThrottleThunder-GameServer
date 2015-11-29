@@ -14,6 +14,8 @@ import com.mysql.jdbc.Constants;
 
 // Custom Imports
 import metadata.GameRequestTable;
+import model.MapDetail;
+import model.MapManager;
 import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.model.GameRoomModel;
 import dataAccessLayer.record.GameRoom;
@@ -136,17 +138,22 @@ public class GameServer {
 	}
 	protected GameSession createNewGameSession(int roomType) {
 		GameRoom room = new GameRoom();
-		String room_name = "";
-		if(roomType == metadata.Constants.DD) {
-			room_name = "demoderby";
-		} else if(roomType == metadata.Constants.RR) {
-			room_name = "raceroyal";
+		MapDetail map = MapManager.getInstance().getMapDetail(roomType);
+		if(map != null) {
+			room.setType(roomType);
+			room.setTimeStarted(new Date());
+			room.setMapName(map.getName());
+			room.setRoomName(map.getName());
+			room.setStatus(0);
+		} else {
+			System.out.println("Cannot find map " + roomType);
+			room.setType(roomType);
+			room.setTimeStarted(new Date());
+			room.setMapName("");
+			room.setRoomName("");
+			room.setStatus(0);
 		}
-		room.setType(roomType);
-		room.setTimeStarted(new Date());
-		room.setMapName(room_name);
-		room.setRoomName(room_name);
-		room.setStatus(0);
+		
 		GameRoomModel.insertGameRoom(room);
 		
 		GameSession session = new GameSession(this,room);

@@ -17,6 +17,7 @@ import java.util.List;
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
 import metadata.Constants;
+import model.MapDetail;
 import model.MapManager;
 import model.Position;
 
@@ -38,9 +39,11 @@ public class GameSession extends Thread {
 	public GameSession(GameServer server, GameRoom gameRoom) {
 		this.gameroom = gameRoom;
 		this.server = server;
-		availablePositions = MapManager.getInstance().getStartingPositions(gameroom.getMapName());
+		MapDetail details = MapManager.getInstance().getMapDetail(gameroom.getMapName());
+		availablePositions = details.getPositions();
 		startingPositions = new HashMap<Player, Position>();
-		maxNumOfPlayers = startingPositions.size();
+		maxNumOfPlayers = details.getMaxNumOfPlayers();
+		minNumOfPlayers = details.getMinNumOfPlayers();
 		deadPlayerList = new ArrayList<Player>();
 		clients = new ArrayList<>();
 		playerRankings = new HashMap<Player,Double>();

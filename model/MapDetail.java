@@ -38,5 +38,8 @@ public class MapDetail {
 	public void setPositions(ArrayList<Position> positions) {
 		this.positions = positions;
 	}
+	public int getMaxNumOfPlayers() {
+		return this.positions.size();
+	}
 	
 }

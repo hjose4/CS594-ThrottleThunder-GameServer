@@ -31,9 +31,9 @@ public class RequestReady extends GameRequest {
 						player.setNotReady();
 					}
 				}
+				responseReady.setUsername(this.client.getPlayer().getUsername());
+				this.client.getSession().addResponseForAll(this.client.getPlayer().getId(), responseReady);
 			}
-			responseReady.setUsername(this.client.getPlayer().getUsername());
-			this.client.getSession().addResponseForAll(this.client.getPlayer().getId(), responseReady);
 		} else {
 			responseReady.setUsername("");
 			System.out.println("Client is not in game session: "+this.getClass().getName());

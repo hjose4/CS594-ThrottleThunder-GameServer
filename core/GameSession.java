@@ -158,19 +158,6 @@ public class GameSession extends Thread {
 			startingPositions.put(client.getPlayer(), position);
 			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
 			return 1;
-		} else {
-			//Lobby is full, start game
-
-			//Say that everyone is ready
-			for(GameClient _client : clients) {
-				if(_client.getPlayer().isReady()) {
-					continue;
-				}
-				ResponseReady response = new ResponseReady();
-				response.setUsername(_client.getPlayer().getUsername());
-				addResponseForAll(response);
-			}
-			nextPhase();
 		}
 		return 0;
 	}

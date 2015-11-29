@@ -13,14 +13,13 @@ import java.util.List;
 import com.mysql.jdbc.Constants;
 
 // Custom Imports
-import configuration.GameServerConf;
 import metadata.GameRequestTable;
 import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.model.GameRoomModel;
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
 import networking.response.GameResponse;
-import utility.ConfFileParser;
+import utility.JsonFileParser;
 
 /**
  * The GameServer class serves as the main module that runs the server.
@@ -30,7 +29,6 @@ import utility.ConfFileParser;
  */
 public class GameServer {
 	private static GameServer gameServer; // References GameServer instance
-	private GameServerConf configuration; // Stores server config. variables
 	private boolean ready = false; // Used to keep server looping
 	private HashMap<Long, GameClient> activeThreads = new HashMap<Long, GameClient>(); // Stores active threads by thread ID
 	private HashMap<Integer, Player> activePlayers = new HashMap<Integer, Player>(); // Stores active players by player ID
@@ -43,8 +41,6 @@ public class GameServer {
 	 * @throws ClassNotFoundException 
 	 */
 	public GameServer() throws ClassNotFoundException, SQLException {
-		configuration = new GameServerConf();
-
 		// Initialize the table with request codes and classes for static retrieval
 		GameRequestTable.init();
 	}
@@ -54,8 +50,7 @@ public class GameServer {
 	 * Configure the game server by reading values from the configuration file.
 	 */
 	private void configure() {
-		ConfFileParser confFileParser = new ConfFileParser("gameServer.conf");
-		configuration.setConfRecords(confFileParser.parse());
+		JsonFileParser.parseFile("config.json");
 	}
 
 
@@ -85,7 +80,7 @@ public class GameServer {
 	private void run() {
 		DatabaseDriver.init();
 		ServerSocket listenSocket;
-		int serverPort = configuration.getPortNumber();
+		int serverPort = Integer.valueOf(JsonFileParser.getServerConfig().get("port"));
 
 		try {
 			// Start to listen on the given port for incoming connections

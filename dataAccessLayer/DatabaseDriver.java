@@ -4,8 +4,7 @@ import java.lang.reflect.Constructor;
 import java.sql.*;
 import java.util.*;
 
-import utility.ConfFileParser;
-import configuration.GameServerConf;
+import utility.JsonFileParser;
 import dataAccessLayer.record.BaseVehicle;
 import dataAccessLayer.record.Friendship;
 import dataAccessLayer.record.GameRoom;
@@ -21,9 +20,6 @@ public class DatabaseDriver {
 
 	private static Connection conn = null;
 	private static DatabaseDriver Instance = null;
-
-	protected GameServerConf configuration;
-
 	public String userName = "";
 	public String password = "";
 	public String serverName = "";
@@ -59,15 +55,13 @@ public class DatabaseDriver {
 
 	protected DatabaseDriver() {
 		init_table_map();
-		configuration = new GameServerConf();
-		ConfFileParser confFileParser = new ConfFileParser("gameServer.conf");
-		configuration.setConfRecords(confFileParser.parse());
 
-		userName = configuration.getDatabaseUsername();
-		password = configuration.getDatabasePassword();
-		serverName = configuration.getDatabaseHost();
-		portNumber = configuration.getDatabasePort();
-		databaseName = configuration.getDatabaseName();
+		HashMap<String,String> config = JsonFileParser.getDatabaseConfig();
+		userName = config.get("username");
+		password = config.get("password");
+		serverName = config.get("host");
+		portNumber = Integer.valueOf(config.get("port"));
+		databaseName = config.get("database");
 
 		System.out.println("username: " + userName);
 		System.out.println("password: " + password);

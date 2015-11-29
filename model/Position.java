@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class Position {
 	private float x;
 	private float y;
@@ -30,6 +32,27 @@ public class Position {
 		this.r=r;
 	}
 	
+	public Position(List<Float> items) {
+		this();
+		
+		int size = items.size();
+		switch(size) {
+			case 6:
+				setR(items.get(5));
+			case 5:
+				setP(items.get(4));
+			case 4:
+				setH(items.get(3));
+			case 3:
+				setZ(items.get(2));
+			case 2:
+				setY(items.get(1));
+			case 1:
+				setX(items.get(0));
+				break;
+		}
+	}
+
 	public float getX() {
 		return x;
 	}

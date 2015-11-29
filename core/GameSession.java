@@ -28,12 +28,12 @@ public class GameSession extends Thread {
 	private GameServer server;
 	private boolean isRunning;
 	private long[] powerups;
-	private ArrayList<GameClient> clients;
+	private List<GameClient> clients;
 	private HashMap<Player, Double> playerRankings;
 	private HashMap<Player, Position> startingPositions;
-	private ArrayList<Position> availablePositions;
-	private ArrayList<Player> deadPlayerList;
-	private ArrayList<ResponseRenderCharacter> renderCharacterResponses;
+	private List<Position> availablePositions;
+	private List<Player> deadPlayerList;
+	private List<ResponseRenderCharacter> renderCharacterResponses;
 
 	public GameSession(GameServer server, GameRoom gameRoom) {
 		this.gameroom = gameRoom;
@@ -317,7 +317,7 @@ public class GameSession extends Thread {
 		}
 	}
 
-	public ArrayList<ResponseRenderCharacter> getCharacterUpdates(){
+	public List<ResponseRenderCharacter> getCharacterUpdates(){
 		return this.renderCharacterResponses;
 	}
 

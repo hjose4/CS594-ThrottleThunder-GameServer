@@ -1,0 +1,54 @@
+{
+	"server" : {
+		"port":"9252"
+	},
+	"database": {
+		"host":"superlunchvote.com",
+		"port":"3306",
+		"username":"cs454",
+		"password":"password",
+		"database":"cs454"
+	},
+	"maps": [
+		{
+			"type":0,
+			"name":"DD Map 1",
+			"required":2,
+			"positions": [
+				[0,0,0,1,1,1],
+				[1,1,0,1,1,1],
+				[2,2,0,1,1,1]
+			]
+		},
+		{
+			"type":1,
+			"name":"DD Map 2",
+			"required":2,
+			"positions": [
+				[0,0,0,1,1,1],
+				[1,1,0,1,1,1],
+				[2,2,0,1,1,1]
+			]
+		},
+		{
+			"type":2,
+			"name":"RR Map 1",
+			"required":2,
+			"positions": [
+				[0,0,0,1,1,1],
+				[1,1,0,1,1,1],
+				[2,2,0,1,1,1]
+			]
+		},
+		{
+			"type":3,
+			"name":"RR Map 2",
+			"required":2,
+			"positions": [
+				[0,0,0,1,1,1],
+				[1,1,0,1,1,1],
+				[2,2,0,1,1,1]
+			]
+		}
+	] 
+}

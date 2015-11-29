@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.mysql.jdbc.Constants;
-
 // Custom Imports
 import metadata.GameRequestTable;
 import model.MapDetail;

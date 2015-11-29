@@ -47,17 +47,17 @@ public class VehicleModel {
 		return searchForPlayerVehicles(params);
 	}
 	
-	public static PlayerVehicle createPlayerVehicleFromBaseVehicle(int id) {
-		BaseVehicle vehicle = getBaseVehicleById(id);
-		return createPlayerVehicleFromBaseVehicle(vehicle);
-	}
-	
-	public static PlayerVehicle createPlayerVehicleFromBaseVehicle(BaseVehicle vehicle) {
+	public static PlayerVehicle createPlayerVehicleFromBaseVehicle(BaseVehicle vehicle, Player player) {
 		if(vehicle != null) {
 			HashMap<String,String> data = vehicle.getData();
-			data.put("base_id",data.get("id"));
+			data.put(PlayerVehicle.BASE_ID,data.get("id"));
+			data.put(PlayerVehicle.PAINT_ID, 0+"");
+			data.put(PlayerVehicle.TIRE_ID, 0+"");
+			data.put(PlayerVehicle.PLAYER_ID, player.getId()+"");
 			data.remove("id");
-			return new PlayerVehicle(data);
+			PlayerVehicle pVehicle = new PlayerVehicle(data);
+			pVehicle.save("all");
+			return pVehicle;
 		} return null;
 	}
 	

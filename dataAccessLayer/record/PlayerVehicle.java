@@ -41,15 +41,15 @@ public class PlayerVehicle extends BaseVehicle {
 		props.put(NAME, get(NAME));
 		//Updating an existing object
 		if(field_to_save.equals("all") && get(ID) != null) {
-			return DatabaseDriver.update(this.getClass(), Integer.valueOf(props.get(ID)), props);
+			return DatabaseDriver.update(PlayerVehicle.class, Integer.valueOf(props.get(ID)), props);
 		} else if (!field_to_save.equals("id")) {
-			if(props.get(ID) == null || !DatabaseDriver.alreadyExists(this.getClass(), props.get(ID))) {
-				int id = DatabaseDriver.insert(this.getClass(),props);
+			if(props.get(ID) == null || !DatabaseDriver.alreadyExists(PlayerVehicle.class, props.get(ID))) {
+				int id = DatabaseDriver.insert(PlayerVehicle.class,props);
 				if(id > 0)
 					set(ID,id);
 				return id > 0;
 			} else 
-				return DatabaseDriver.update(this.getClass(),Integer.valueOf(props.get(ID)), field_to_save, get(field_to_save));
+				return DatabaseDriver.update(PlayerVehicle.class,Integer.valueOf(props.get(ID)), field_to_save, get(field_to_save));
 		}
 		return false;
 	}

@@ -40,7 +40,7 @@ public class RequestLobbyReady extends GameRequest {
 					System.out.println("Player " + client.getPlayer().getUsername() + " does not have a vehicle of type " + baseCarId);
 					BaseVehicle baseVehicle = VehicleModel.getBaseVehicleById(baseCarId);
 					if(baseVehicle != null) {
-						vehicles.add(VehicleModel.createPlayerVehicleFromBaseVehicle(baseVehicle));
+						vehicles.add(VehicleModel.createPlayerVehicleFromBaseVehicle(baseVehicle,client.getPlayer()));
 					} else {
 						//This is even more harsh
 						System.out.println("We are missing base vehicle " + baseCarId + " from the database");
@@ -56,7 +56,6 @@ public class RequestLobbyReady extends GameRequest {
 					}
 					
 					vehicle = vehicles.get(0);
-					//TODO: define missing props
 					client.getPlayer().setCarPaint(vehicle.getPaintId());
 					client.getPlayer().setCarTire(vehicle.getCarTireId());
 					client.getPlayer().setBaseCarId(vehicle.getBaseVehicleId());

@@ -29,7 +29,7 @@ public class RequestCharacterCreation extends GameRequest {
 		@Override
 		public void doBusiness() throws Exception {
 			Player player = client.getPlayer();
-			PlayerVehicle vehicle = VehicleModel.createPlayerVehicleFromBaseVehicle(baseId);
+			PlayerVehicle vehicle = VehicleModel.createPlayerVehicleFromBaseVehicle(VehicleModel.getBaseVehicleById(baseId), client.getPlayer());
 			
 			if(player != null && vehicle != null) {
 				vehicle.setName(vehicleName);

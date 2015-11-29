@@ -45,7 +45,6 @@ public class DatabaseDriver {
 		table_map.put(GameRoom.class, "games");
 		table_map.put(Player.class, "players");
 		table_map.put(Friendship.class, "friend_relationships");
-		table_map.put(BaseVehicle.class, "player_vehicles");
 		table_map.put(Ranking.class, "game_rankings");
 	}
 
@@ -201,6 +200,7 @@ public class DatabaseDriver {
 			query = query + entry.getKey() + "='" + entry.getValue() + "' ";
 		}
 		try{
+			System.out.println(query);
 			raw_results = select(query);
 			return raw_results;
 		}
@@ -308,7 +308,7 @@ public class DatabaseDriver {
 	//query of object creation, returns id given to the object by the DB
 	public static int insert(Class<? extends ObjectModel> type, HashMap<String,String> data){            
 		try {
-			String table = DatabaseDriver.table_map.get(type.getClass());
+			String table = DatabaseDriver.table_map.get(type);
 
 			ArrayList<String> field_names=new ArrayList<>();
 			ArrayList<String> values=new ArrayList<>();

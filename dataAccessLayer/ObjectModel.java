@@ -28,7 +28,7 @@ public abstract class ObjectModel {
 
 	public String get(String field){
 		if(!data.containsKey(field)){
-			System.out.println("Le champ "+field+" n'existe pas dans l'objet");
+			System.out.println("the key "+field+" does not exists for the object");
 			return null;
 		}
 		return data.get(field);

@@ -23,6 +23,7 @@ public class Constants {
 	public final static short CMSG_PRIVATE_CHAT = 115;
 	public final static short CMSG_INVITE = 116;
 	public final static short CMSG_LOBBY_READY = 117;
+	public final static short CMSG_ENTER_GAME_LOBBY = 118;
 	public final static short CMSG_GARAGE_PURCHASE = 121;
 	public final static short CMSG_RESULTS = 122;
 	public final static short CMSG_RANKINGS = 123;
@@ -51,6 +52,7 @@ public class Constants {
 	public final static short SMSG_PRIVATE_CHAT = 215;
 	public final static short SMSG_INVITE = 216;
 	public final static short SMSG_LOBBY_READY = 217;
+	//public final static short SMSG_ENTER_GAME_LOBBY = 218;
 	public final static short SMSG_GARAGE_PURCHASE = 221;
 	public final static short SMSG_RESULTS = 222;
 	public final static short SMSG_RANKINGS = 223;

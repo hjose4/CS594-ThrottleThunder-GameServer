@@ -32,14 +32,14 @@ public class RequestTest extends GameRequest {
 		GameSession session = client.getServer().getGameSessionByRoomType(roomType);		
 		if(session != null) {
 			client.setSession(session);		
-			if(client.getSession() == null) {
-				System.out.println("Failed to join session!");
-				
+			if(client.getSession() != null) {
 				response.setUsername(client.getPlayer().getUsername());
 				response.setCarPaint(0);
 				response.setCarTires(0);
 				response.setCarType(0);
 				client.getSession().addResponseForAll(client.getId(), response);
+				
+				System.out.println("Test Complete");
 				
 				for(Player player : client.getSession().getPlayers())
 				{

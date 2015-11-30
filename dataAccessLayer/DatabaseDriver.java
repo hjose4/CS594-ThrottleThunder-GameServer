@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.*;
 
 import utility.JsonFileParser;
-import dataAccessLayer.record.BaseVehicle;
 import dataAccessLayer.record.Friendship;
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
@@ -39,7 +38,6 @@ public class DatabaseDriver {
 
 	private static void init_table_map() {
 		table_map=new HashMap<>();
-		table_map.put(BaseVehicle.class, "base_vehicles");
 		table_map.put(PlayerVehicle.class, "player_vehicles");
 		table_map.put(Upgrade.class, "upgrades");
 		table_map.put(GameRoom.class, "games");

@@ -1,14 +1,16 @@
-package model;
+package json.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapDetail {
+import model.Position;
+
+public class MapDetails {
 	private int type;
 	private int minNumOfPlayers;
 	private String name;
 	private List<Position> positions;
-	public MapDetail(int type, String name, int minNumOfPlayers, List<Position> positions) {
+	public MapDetails(int type, String name, int minNumOfPlayers, List<Position> positions) {
 		this.type = type;
 		this.name = name;
 		this.minNumOfPlayers = minNumOfPlayers;

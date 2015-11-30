@@ -6,34 +6,11 @@ import java.util.HashMap;
 
 import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.ObjectModel;
-import dataAccessLayer.record.BaseVehicle;
 import dataAccessLayer.record.Player;
 import dataAccessLayer.record.PlayerVehicle;
+import json.model.BaseVehicle;
 
 public class VehicleModel {
-	public static BaseVehicle getBaseVehicleById(int id) {
-		try {
-			ObjectModel model = DatabaseDriver.findById(BaseVehicle.class, id);
-			if(model != null) {
-				return new BaseVehicle(model.getData());
-			}
-		} catch(SQLException e) {
-			//Do not care
-		}
-		return null;
-	}
-	
-	public static ArrayList<BaseVehicle> searchForBaseVehicles(HashMap<String,String> params) {
-		ArrayList<BaseVehicle> list = new ArrayList<BaseVehicle>();
-		ArrayList<ObjectModel> models = DatabaseDriver.find(BaseVehicle.class, params);
-		if(models != null) {
-			for(ObjectModel model : models) {
-				list.add(new BaseVehicle(model.getData()));
-			}
-		}
-		return list;
-	}
-	
 	public static ArrayList<PlayerVehicle> searchForPlayerVehiclesByPlayerId(int player_id) {
 		HashMap<String,String> params = new HashMap<>();
 		params.put(PlayerVehicle.PLAYER_ID, player_id+"");
@@ -47,17 +24,17 @@ public class VehicleModel {
 		return searchForPlayerVehicles(params);
 	}
 	
-	public static PlayerVehicle createPlayerVehicleFromBaseVehicle(BaseVehicle vehicle, Player player) {
-		if(vehicle != null) {
-			HashMap<String,String> data = vehicle.getData();
-			data.put(PlayerVehicle.BASE_ID,data.get("id"));
+	public static PlayerVehicle createPlayerVehicleFromBaseVehicle(BaseVehicle model, Player player) {
+		if(model != null) {
+			HashMap<String,String> data = new HashMap<>();
+			data.put(PlayerVehicle.BASE_ID,model.getCarType()+"");
+			data.put(PlayerVehicle.NAME, model.getName());
 			data.put(PlayerVehicle.PAINT_ID, 0+"");
 			data.put(PlayerVehicle.TIRE_ID, 0+"");
 			data.put(PlayerVehicle.PLAYER_ID, player.getId()+"");
-			data.remove("id");
-			PlayerVehicle pVehicle = new PlayerVehicle(data);
-			pVehicle.save("all");
-			return pVehicle;
+			PlayerVehicle vehicle = new PlayerVehicle(data);
+			vehicle.save("all");
+			return vehicle;
 		} return null;
 	}
 	
@@ -82,9 +59,5 @@ public class VehicleModel {
 			}
 		}
 		return list;
-	}
-	
-	public static boolean insertVehicle(BaseVehicle vehicle) {
-		return vehicle.save("all");
 	}
 }

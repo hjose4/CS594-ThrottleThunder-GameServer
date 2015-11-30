@@ -5,6 +5,7 @@ import java.io.IOException;
 import dataAccessLayer.model.VehicleModel;
 import dataAccessLayer.record.Player;
 import dataAccessLayer.record.PlayerVehicle;
+import json.collections.BaseVehicleCollection;
 import networking.response.ResponseCharacterCreation;
 import utility.DataReader;
 
@@ -29,11 +30,11 @@ public class RequestCharacterCreation extends GameRequest {
 		@Override
 		public void doBusiness() throws Exception {
 			Player player = client.getPlayer();
-			PlayerVehicle vehicle = VehicleModel.createPlayerVehicleFromBaseVehicle(VehicleModel.getBaseVehicleById(baseId), client.getPlayer());
+			PlayerVehicle vehicle = VehicleModel.createPlayerVehicleFromBaseVehicle(BaseVehicleCollection.getVehicle(baseId), client.getPlayer());
 			
 			if(player != null && vehicle != null) {
 				vehicle.setName(vehicleName);
-				if(VehicleModel.insertVehicle(vehicle)) {					
+				if(vehicle.save("all")) {					
 					response.setFlag(1);
 					response.setPlayerVehicles(VehicleModel.searchForPlayerVehiclesByPlayerId(player.getId()));					
 				}  else {

@@ -2,9 +2,11 @@ package dataAccessLayer.record;
 
 import java.util.HashMap;
 
-import dataAccessLayer.DatabaseDriver;
+import dataAccessLayer.ObjectModel;
 
-public class PlayerVehicle extends BaseVehicle {
+public class PlayerVehicle extends ObjectModel {
+	public static final String ID = "id";
+	public static final String NAME = "name";
 	public static final String PLAYER_ID = "player_id";
 	public static final String BASE_ID = "base_id";
 	public static final String TIRE_ID = "tire_id";
@@ -29,28 +31,16 @@ public class PlayerVehicle extends BaseVehicle {
 	public int getPaintId() {
 		return Integer.valueOf(get(PAINT_ID));
 	}
+
+	public String getName() {
+		return get(NAME);
+	}
 	
-	@Override
-	public boolean save(String field_to_save) {
-		HashMap<String,String> props = new HashMap<>();
-		props.put(ID, get(ID));
-		props.put(BASE_ID, get(BASE_ID));
-		props.put(PLAYER_ID, get(PLAYER_ID));
-		props.put(TIRE_ID,get(TIRE_ID));
-		props.put(PAINT_ID,get(PAINT_ID));
-		props.put(NAME, get(NAME));
-		//Updating an existing object
-		if(field_to_save.equals("all") && get(ID) != null) {
-			return DatabaseDriver.update(PlayerVehicle.class, Integer.valueOf(props.get(ID)), props);
-		} else if (!field_to_save.equals("id")) {
-			if(props.get(ID) == null || !DatabaseDriver.alreadyExists(PlayerVehicle.class, props.get(ID))) {
-				int id = DatabaseDriver.insert(PlayerVehicle.class,props);
-				if(id > 0)
-					set(ID,id);
-				return id > 0;
-			} else 
-				return DatabaseDriver.update(PlayerVehicle.class,Integer.valueOf(props.get(ID)), field_to_save, get(field_to_save));
-		}
-		return false;
+	public void setName(String vehicleName) {
+		set(NAME,vehicleName);
+	}
+
+	public int getId() {
+		return Integer.valueOf(get(ID));
 	}
 }

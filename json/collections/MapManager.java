@@ -1,11 +1,15 @@
-package model;
+package json.collections;
 
 import java.util.HashMap;
 import java.util.List;
+
+import json.model.MapDetails;
+import model.Position;
+
 import java.util.ArrayList;
 
 public class MapManager {
-	private HashMap<String,MapDetail> mapDetailList;
+	private HashMap<String,MapDetails> mapDetailList;
 	private static MapManager Instance = null;
 
 	public static MapManager getInstance() {
@@ -17,10 +21,10 @@ public class MapManager {
 	}
 
 	protected MapManager() {
-		mapDetailList = new HashMap<String,MapDetail>();
+		mapDetailList = new HashMap<String,MapDetails>();
 	}
 	
-	public void addMapDetails(MapDetail map) {
+	public void addMapDetails(MapDetails map) {
 		System.out.println("Adding map " + map.getName() + " with " + map.getPositions().size() +" posititions");
 		mapDetailList.put(map.getName(), map);
 	}	
@@ -33,8 +37,8 @@ public class MapManager {
 		return ret;
 	}
 	
-	public MapDetail getMapDetail(int type) {
-		for(MapDetail map : mapDetailList.values()) {
+	public MapDetails getMapDetails(int type) {
+		for(MapDetails map : mapDetailList.values()) {
 			if(map.getType() == type) {
 				return map;
 			}
@@ -42,7 +46,7 @@ public class MapManager {
 		return null;
 	}
 	
-	public MapDetail getMapDetail(String mapName) {
+	public MapDetails getMapDetails(String mapName) {
 		return mapDetailList.get(mapName);
 	}
 }

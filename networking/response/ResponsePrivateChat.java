@@ -6,10 +6,11 @@ import utility.GamePacket;
 
 public class ResponsePrivateChat extends GameResponse {
 
+	private String username;
     private String message;
-    private String username; 
+    private int flag; 
 
-    public ResponsePrivateChat() {
+	public ResponsePrivateChat() {
         responseCode = Constants.SMSG_PRIVATE_CHAT;
     }
 
@@ -18,6 +19,7 @@ public class ResponsePrivateChat extends GameResponse {
         GamePacket packet = new GamePacket(responseCode);
         packet.addString(username);
         packet.addString(message);
+        packet.addInt32(flag);
         return packet.getBytes();
     }
     
@@ -37,5 +39,13 @@ public class ResponsePrivateChat extends GameResponse {
 	public String getUsername()
 	{
 		return this.username; 
+	}
+	
+    public int getFlag() {
+		return flag;
+	}
+
+	public void setFlag(int flag) {
+		this.flag = flag;
 	}
 }

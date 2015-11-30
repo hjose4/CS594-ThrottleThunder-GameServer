@@ -40,6 +40,18 @@ public class RequestTest extends GameRequest {
 				response.setCarTires(0);
 				response.setCarType(0);
 				client.getSession().addResponseForAll(client.getId(), response);
+				
+				for(Player player : client.getSession().getPlayers())
+				{
+					if(player.getId() != client.getPlayer().getId())
+					{
+						response.setUsername(player.getUsername());
+						response.setCarPaint(0);
+						response.setCarTires(0);
+						response.setCarType(0);
+						client.addResponseForUpdate(response);
+					}
+				}
 			}
 		}	
 	}

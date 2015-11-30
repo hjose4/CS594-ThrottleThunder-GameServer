@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import model.MapDetail;
-import model.MapManager;
+import json.collections.BaseVehicleCollection;
+import json.collections.MapManager;
+import json.model.MapDetails;
 import model.Position;
 import utility.vendors.douglascrockford.json.*;
 
@@ -56,7 +57,17 @@ public class JsonFileParser {
 						}
 						positions.add(new Position(items));
 					}
-					mapManager.addMapDetails(new MapDetail(details.getInt("type"),details.getString("name"),details.getInt("required"),positions));					
+					mapManager.addMapDetails(new MapDetails(details.getInt("type"),details.getString("name"),details.getInt("required"),positions));					
+				}
+			}
+			
+			//Parse Vehicle Models
+			rows = rootObject.getJSONArray("vehicles");
+			if(rows != null) {
+				for(int i = 0; i < rows.length(); i++) {
+					JSONObject model = rows.getJSONObject(i);
+					System.out.println("Creating Car: Type - " + model.getInt("type") + " Name - " + model.getString("name"));
+					BaseVehicleCollection.addVehicle(model.getInt("type"), model.getString("name"));
 				}
 			}
 		} catch (JSONException e) {

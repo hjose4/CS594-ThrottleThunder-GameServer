@@ -8,9 +8,10 @@ import java.util.List;
 
 import dataAccessLayer.model.PlayerModel;
 import dataAccessLayer.model.VehicleModel;
-import dataAccessLayer.record.BaseVehicle;
 import dataAccessLayer.record.Player;
 import dataAccessLayer.record.PlayerVehicle;
+import json.collections.BaseVehicleCollection;
+import json.model.BaseVehicle;
 import networking.response.ResponseEnterQueue;
 import networking.response.ResponseLobbyReady;
 // Custom Imports
@@ -38,7 +39,7 @@ public class RequestLobbyReady extends GameRequest {
 				List<PlayerVehicle> vehicles = VehicleModel.searchForPlayerVehicles(client.getPlayer(), baseCarId);
 				if(vehicles.isEmpty()) {
 					System.out.println("Player " + client.getPlayer().getUsername() + " does not have a vehicle of type " + baseCarId);
-					BaseVehicle baseVehicle = VehicleModel.getBaseVehicleById(baseCarId);
+					BaseVehicle baseVehicle = BaseVehicleCollection.getVehicle(baseCarId);
 					if(baseVehicle != null) {
 						vehicles.add(VehicleModel.createPlayerVehicleFromBaseVehicle(baseVehicle,client.getPlayer()));
 					} else {

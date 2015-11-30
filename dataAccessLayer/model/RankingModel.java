@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.ObjectModel;
-import dataAccessLayer.record.BaseVehicle;
 import dataAccessLayer.record.Ranking;
 
 public class RankingModel {

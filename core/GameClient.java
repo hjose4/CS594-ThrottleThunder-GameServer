@@ -155,9 +155,7 @@ public class GameClient extends Thread {
 		// Remove this GameClient from the server
 		server.deletePlayerThreadOutOfActiveThreads(getId());
 	}
-
-
-
+	
 	public void stopClient() {
 		isPlaying = false;
 	}

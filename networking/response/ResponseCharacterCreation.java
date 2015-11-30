@@ -2,7 +2,6 @@ package networking.response;
 
 import java.util.List;
 
-import dataAccessLayer.record.BaseVehicle;
 import dataAccessLayer.record.PlayerVehicle;
 import metadata.Constants;
 import utility.GamePacket;

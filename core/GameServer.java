@@ -12,12 +12,12 @@ import java.util.List;
 
 // Custom Imports
 import metadata.GameRequestTable;
-import model.MapDetail;
-import model.MapManager;
 import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.model.GameRoomModel;
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
+import json.collections.MapManager;
+import json.model.MapDetails;
 import networking.response.GameResponse;
 import utility.JsonFileParser;
 
@@ -136,7 +136,7 @@ public class GameServer {
 	}
 	protected GameSession createNewGameSession(int roomType) {
 		GameRoom room = new GameRoom();
-		MapDetail map = MapManager.getInstance().getMapDetail(roomType);
+		MapDetails map = MapManager.getInstance().getMapDetails(roomType);
 		if(map != null) {
 			room.setType(roomType);
 			room.setTimeStarted(new Date());

@@ -98,7 +98,7 @@ public class DatabaseDriver {
 
 	protected void checkConnection() {
 		try {
-			if (conn.isClosed()) {
+			if (conn.isClosed() || !conn.isValid(1)) {
 				connect();
 			}
 		} catch (SQLException e) {

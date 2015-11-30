@@ -13,9 +13,10 @@ public class RequestFriendUpdate extends GameRequest {
 	// Data
 	private String username;
 	private int status; // 0 when accept;1 when remove friend
+	ResponseFriendList response;
 
 	public RequestFriendUpdate() {
-
+		responses.add(response = new ResponseFriendList());
 	}
 
 	@Override
@@ -33,13 +34,12 @@ public class RequestFriendUpdate extends GameRequest {
 		} else if (status == 1) {
 			//Remove
 			FriendshipModel.removeFriendship(client.getPlayer(), targetPlayer);
-		}		
-
-		ResponseFriendList response;
+		}
+		response.setFriends(FriendshipModel.getFriends(client.getPlayer()));
 		
 		//Target player friend list
-		response = new ResponseFriendList();
-		response.setFriends(FriendshipModel.getFriends(targetPlayer));
-		client.getServer().addResponseForUser(targetPlayer.getUsername(), response);
+		ResponseFriendList responseList = new ResponseFriendList();
+		responseList.setFriends(FriendshipModel.getFriends(targetPlayer));
+		client.getServer().addResponseForUser(targetPlayer.getUsername(), responseList);
 	}
 }

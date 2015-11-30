@@ -24,6 +24,7 @@ public class Constants {
 	public final static short CMSG_INVITE = 116;
 	public final static short CMSG_LOBBY_READY = 117;
 	public final static short CMSG_ENTER_GAME_LOBBY = 118;
+	//public final static short CMSG_GROUP = 119;
 	public final static short CMSG_GARAGE_PURCHASE = 121;
 	public final static short CMSG_RESULTS = 122;
 	public final static short CMSG_RANKINGS = 123;
@@ -35,6 +36,7 @@ public class Constants {
 	//public final static short CMSG_TIME = 129;
 	public final static short CMSG_SET_RANK = 130;
 	public final static short CMSG_EMOTE = 132;
+	public final static short CMSG_TEST = 150;
 	
 	public final static short SMSG_LOGIN = 201;
 	public final static short SMSG_DISCONNECT = 202;
@@ -53,6 +55,7 @@ public class Constants {
 	public final static short SMSG_INVITE = 216;
 	public final static short SMSG_LOBBY_READY = 217;
 	//public final static short SMSG_ENTER_GAME_LOBBY = 218;
+	public final static short SMSG_GROUP = 219;
 	public final static short SMSG_GARAGE_PURCHASE = 221;
 	public final static short SMSG_RESULTS = 222;
 	public final static short SMSG_RANKINGS = 223;
@@ -65,6 +68,7 @@ public class Constants {
 	public final static short SMSG_SET_RANK = 230;
 	public final static short SMSG_SET_READY = 231;
 	public final static short SMSG_EMOTE = 232;
+	public final static short SMSG_TEST = 250;
 	
 	public final static short SMSG_RENDER_CHARACTER = 310;
 	public final static short SMSG_REMOVE_CHARACTER = 311;

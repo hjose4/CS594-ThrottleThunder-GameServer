@@ -107,9 +107,10 @@ public class DatabaseDriver {
 		}
 	}
 
-	public static boolean update(Class<? extends ObjectModel> type, int id, String field, Object value) {
+	public boolean update(Class<? extends ObjectModel> type, int id, String field, Object value) {
 		int ret = 0;
 		try {
+			checkConnection();
 			String query = "UPDATE "+getTable(type)+" SET "+field+"='"+value.toString()+"' WHERE id="+id+";";
 			Statement stmt = conn.createStatement();
 			//afficher la requete
@@ -124,9 +125,10 @@ public class DatabaseDriver {
 		return ret > 0;
 	}
 
-	public static boolean update(Class<? extends ObjectModel> type, int id, HashMap<String,String> values) {
+	public boolean update(Class<? extends ObjectModel> type, int id, HashMap<String,String> values) {
 		int ret = 0;
 		try {
+			checkConnection();
 			String query = "UPDATE "+getTable(type)+" SET ";
 			for(String col : values.keySet()) {
 				query += col + " = ?, ";
@@ -152,8 +154,8 @@ public class DatabaseDriver {
 		return ret > 0;
 	}
 
-	private static ArrayList<HashMap<String, String>> select(String requete) throws SQLException {
-
+	private ArrayList<HashMap<String, String>> select(String requete) throws SQLException {
+		checkConnection();
 		ArrayList<HashMap<String, String>> table = new ArrayList<>();
 		HashMap<String, String> ligne = new HashMap<>();
 
@@ -181,7 +183,8 @@ public class DatabaseDriver {
 		return table;
 	}
 
-	private static ArrayList<HashMap<String, String>> select(Class<? extends ObjectModel> type, HashMap<String, String> data){
+	private ArrayList<HashMap<String, String>> select(Class<? extends ObjectModel> type, HashMap<String, String> data){
+		checkConnection();
 		String query = "SELECT * FROM "+getTable(type)+" WHERE ";
 		boolean first=true;
 		ArrayList<HashMap<String, String>> raw_results;
@@ -208,12 +211,13 @@ public class DatabaseDriver {
 		return null;
 	}
 
-	public static ArrayList<ObjectModel> find(Class<? extends ObjectModel> type, HashMap<String, String> param){
+	public ArrayList<ObjectModel> find(Class<? extends ObjectModel> type, HashMap<String, String> param){
 		try {
+			checkConnection();
 			ArrayList<ObjectModel> results = new ArrayList<>();
 			String table = table_map.get(type);
 
-			ArrayList<HashMap<String, String>> raw_results = DatabaseDriver.select(type, param);
+			ArrayList<HashMap<String, String>> raw_results = select(type, param);
 
 			for(HashMap<String, String> data : raw_results){
 
@@ -229,21 +233,21 @@ public class DatabaseDriver {
 	}
 
 	//renvoie tous les objets ou l'attribut field=value
-	public static ArrayList<ObjectModel> find(Class<? extends ObjectModel> type, String field, Object value)
+	public ArrayList<ObjectModel> find(Class<? extends ObjectModel> type, String field, Object value)
 	{
 		HashMap<String, String> critere = new HashMap<>();
 		critere.put(field, value.toString());
 		return find(type,critere);
 	}
 
-	public static ObjectModel findById(Class<? extends ObjectModel> type, Object id) throws SQLException {
+	public ObjectModel findById(Class<? extends ObjectModel> type, Object id) throws SQLException {
 		ArrayList<ObjectModel> d = find(type,"id",id);
 		if(!d.isEmpty())
 			return (ObjectModel) d.get(0);
 		else throw new SQLException("No object of type "+type.getSimpleName()+"found for id "+id);
 	}
 
-	public static boolean alreadyExists(Class<? extends ObjectModel> type, Object id){
+	public boolean alreadyExists(Class<? extends ObjectModel> type, Object id){
 		try{
 			findById(type, id);
 			return true;
@@ -254,8 +258,9 @@ public class DatabaseDriver {
 	}
 
 	//query of object creation, returns id given to the object by the DB
-	public static int insert(ObjectModel obj){            
+	public int insert(ObjectModel obj){            
 		try {
+			checkConnection();
 			String table = DatabaseDriver.table_map.get(obj.getClass());
 			HashMap<String, String> data = obj.getData();
 
@@ -304,8 +309,9 @@ public class DatabaseDriver {
 	}
 
 	//query of object creation, returns id given to the object by the DB
-	public static int insert(Class<? extends ObjectModel> type, HashMap<String,String> data){            
+	public int insert(Class<? extends ObjectModel> type, HashMap<String,String> data){            
 		try {
+			checkConnection();
 			String table = DatabaseDriver.table_map.get(type);
 
 			ArrayList<String> field_names=new ArrayList<>();
@@ -352,9 +358,10 @@ public class DatabaseDriver {
 		return -1;
 	}
 	
-	public static boolean remove(Class<? extends ObjectModel> type, int id) {
+	public boolean remove(Class<? extends ObjectModel> type, int id) {
 		int ret = 0;
 		try {
+			checkConnection();
 			String query = "DELETE FROM "+getTable(type);
 			query += " WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);

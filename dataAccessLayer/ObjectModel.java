@@ -56,7 +56,7 @@ public abstract class ObjectModel {
 	public void pull(){
 		ObjectModel d;
 		try {
-			d = DatabaseDriver.findById(this.getClass(), this.get("id"));
+			d = DatabaseDriver.getInstance().findById(this.getClass(), this.get("id"));
 			data=d.getData();
 		} catch (SQLException ex) {
 			Logger.getLogger(ObjectModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,15 +73,15 @@ public abstract class ObjectModel {
 					DatabaseDriver.update(this.getClass(), Integer.valueOf(get("id")), field, get(field));
 				}
 			}*/
-			return DatabaseDriver.update(this.getClass(), Integer.valueOf(get("id")), data);
+			return DatabaseDriver.getInstance().update(this.getClass(), Integer.valueOf(get("id")), data);
 		} else if (!field_to_save.equals("id")) {
-			if(!data.containsKey("id") || !DatabaseDriver.alreadyExists(this.getClass(), get("id"))) {
-				int id = DatabaseDriver.insert(this);
+			if(!data.containsKey("id") || !DatabaseDriver.getInstance().alreadyExists(this.getClass(), get("id"))) {
+				int id = DatabaseDriver.getInstance().insert(this);
 				if(id > 0)
 					set("id",id);
 				return id > 0;
 			} else 
-				return DatabaseDriver.update(this.getClass(),Integer.valueOf(get("id")), field_to_save, get(field_to_save));
+				return DatabaseDriver.getInstance().update(this.getClass(),Integer.valueOf(get("id")), field_to_save, get(field_to_save));
 		}
 		return false;
 	}

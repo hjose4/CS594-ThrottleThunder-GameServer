@@ -11,7 +11,7 @@ import dataAccessLayer.record.Ranking;
 public class RankingModel {
 	public static Ranking getRankingById(int id) {
 		try {
-			ObjectModel model = DatabaseDriver.findById(Ranking.class, id);
+			ObjectModel model = DatabaseDriver.getInstance().findById(Ranking.class, id);
 			if(model != null) {
 				return new Ranking(model.getData());
 			}
@@ -23,7 +23,7 @@ public class RankingModel {
 	
 	public static ArrayList<Ranking> searchForRankings(HashMap<String,String> params) {
 		ArrayList<Ranking> list = new ArrayList<Ranking>();
-		ArrayList<ObjectModel> models = DatabaseDriver.find(Ranking.class, params);
+		ArrayList<ObjectModel> models = DatabaseDriver.getInstance().find(Ranking.class, params);
 		if(models != null) {
 			for(ObjectModel model : models) {
 				list.add(new Ranking(model.getData()));

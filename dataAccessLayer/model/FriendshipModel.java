@@ -14,14 +14,14 @@ public class FriendshipModel {
 		HashMap<String,String> params = new HashMap<>();
 		params.put("user1_id", user.getId()+"");
 		params.put("user2_id", friend.getId()+"");
-		List<ObjectModel> models = DatabaseDriver.find(Friendship.class, params);
+		List<ObjectModel> models = DatabaseDriver.getInstance().find(Friendship.class, params);
 		if(models != null && models.size() > 0) {
 			return new Friendship(models.remove(0).getData());
 		} else {
 			params = new HashMap<>();
 			params.put("user1_id", friend.getId()+"");
 			params.put("user2_id", user.getId()+"");
-			models = DatabaseDriver.find(Friendship.class, params);
+			models = DatabaseDriver.getInstance().find(Friendship.class, params);
 			if(models != null && models.size() > 0) {
 				return new Friendship(models.remove(0).getData());
 			}
@@ -33,7 +33,7 @@ public class FriendshipModel {
 		List<Friendship> list = new ArrayList<Friendship>();
 		HashMap<String,String> params = new HashMap<>();
 		params.put("user1_id", user.getId()+"");
-		List<ObjectModel> models = DatabaseDriver.find(Friendship.class, params);
+		List<ObjectModel> models = DatabaseDriver.getInstance().find(Friendship.class, params);
 		if(models != null && models.size() > 0) {
 			while(models.size() > 0) {
 				list.add(new Friendship(models.remove(0).getData()));
@@ -42,7 +42,7 @@ public class FriendshipModel {
 		
 		params = new HashMap<>();
 		params.put("user2_id", user.getId()+"");
-		models = DatabaseDriver.find(Friendship.class, params);
+		models = DatabaseDriver.getInstance().find(Friendship.class, params);
 		if(models != null && models.size() > 0) {
 			while(models.size() > 0) {
 				list.add(new Friendship(models.remove(0).getData()));
@@ -82,7 +82,7 @@ public class FriendshipModel {
 	public static boolean removeFriendship(Player user, Player friend) {
 		Friendship friendship = getFriendship(user,friend);
 		if(friendship != null) {
-			return DatabaseDriver.remove(Friendship.class, friendship.getId());
+			return DatabaseDriver.getInstance().remove(Friendship.class, friendship.getId());
 		}
 		return false;
 	}

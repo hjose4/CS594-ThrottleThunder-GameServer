@@ -40,7 +40,7 @@ public class VehicleModel {
 	
 	public static PlayerVehicle getPlayerVehicleById(int id) {
 		try {
-			ObjectModel model = DatabaseDriver.findById(PlayerVehicle.class, id);
+			ObjectModel model = DatabaseDriver.getInstance().findById(PlayerVehicle.class, id);
 			if(model != null) {
 				return new PlayerVehicle(model.getData());
 			}
@@ -52,7 +52,7 @@ public class VehicleModel {
 	
 	public static ArrayList<PlayerVehicle> searchForPlayerVehicles(HashMap<String,String> params) {
 		ArrayList<PlayerVehicle> list = new ArrayList<PlayerVehicle>();
-		ArrayList<ObjectModel> models = DatabaseDriver.find(PlayerVehicle.class, params);
+		ArrayList<ObjectModel> models = DatabaseDriver.getInstance().find(PlayerVehicle.class, params);
 		if(models != null) {
 			for(ObjectModel model : models) {
 				list.add(new PlayerVehicle(model.getData()));

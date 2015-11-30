@@ -11,7 +11,7 @@ import dataAccessLayer.record.GameRoom;
 public class GameRoomModel {
 	public static GameRoom getGameRoomById(int id) {
 		try {
-			ObjectModel model = DatabaseDriver.findById(GameRoom.class, id);
+			ObjectModel model = DatabaseDriver.getInstance().findById(GameRoom.class, id);
 			if(model != null) {
 				return new GameRoom(model.getData());
 			}
@@ -23,7 +23,7 @@ public class GameRoomModel {
 	
 	public static ArrayList<GameRoom> searchForGameRooms(HashMap<String,String> params) {
 		ArrayList<GameRoom> list = new ArrayList<GameRoom>();
-		ArrayList<ObjectModel> models = DatabaseDriver.find(GameRoom.class, params);
+		ArrayList<ObjectModel> models = DatabaseDriver.getInstance().find(GameRoom.class, params);
 		if(models != null) {
 			for(ObjectModel model : models) {
 				list.add(new GameRoom(model.getData()));

@@ -159,6 +159,7 @@ public class GameSession extends Thread {
 		Position position = null;
 		if (availablePositions.size() > 0 && (position = availablePositions.remove(0)) != null) {
 			startingPositions.put(client.getPlayer(), position);
+			client.getPlayer().setPosition(position);
 			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
 			return 1;
 		}

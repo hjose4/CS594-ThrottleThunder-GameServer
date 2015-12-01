@@ -2,10 +2,13 @@ package networking.request;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import core.GameSession;
 import dataAccessLayer.record.Player;
+import model.Position;
 import networking.response.ResponseRenderCharacter;
+import networking.response.ResponseSetPosition;
 import utility.DataReader;
 
 /**
@@ -39,6 +42,9 @@ public class RequestTest extends GameRequest {
 				response.setCarType(0);
 				client.getSession().addResponseForAll(client.getId(), response);
 				
+				ResponseSetPosition responseSet = new ResponseSetPosition();
+				HashMap<Player,Position> positions = new HashMap<>();
+				
 				System.out.println("Test Complete");
 				
 				for(Player player : client.getSession().getPlayers())
@@ -51,7 +57,12 @@ public class RequestTest extends GameRequest {
 						response.setCarType(0);
 						client.addResponseForUpdate(response);
 					}
+					
+					positions.put(player, player.getPosition());
 				}
+				
+				responseSet.setStartingPositions(positions);
+				client.getSession().addResponseForAll(responseSet);
 			}
 		}	
 	}

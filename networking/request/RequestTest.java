@@ -41,7 +41,7 @@ public class RequestTest extends GameRequest {
 				response.setCarPaint(0);
 				response.setCarTires(0);
 				response.setCarType(0);
-				client.getSession().addResponseForAll(client.getId(), response);
+				client.getSession().addResponseForAll(client, response);
 				
 				//Set Position
 				ResponseSetPosition responseSet = new ResponseSetPosition();

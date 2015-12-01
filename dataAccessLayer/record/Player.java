@@ -59,12 +59,12 @@ public class Player extends ObjectModel {
 	}
 	
 	public void setPosition(float x, float y, float z, float h, float p, float r){
-		pos.setX(x + pos.getX());
-		pos.setY(y + pos.getY());
-		pos.setZ(z + pos.getZ());
-		pos.setH(h + pos.getH());
-		pos.setP(p + pos.getP());
-		pos.setZ(r + pos.getZ());
+		pos.setX(x);
+		pos.setY(y);
+		pos.setZ(z);
+		pos.setH(h);
+		pos.setP(p);
+		pos.setZ(r);
 	}
 	
 	public void setPosition(Position p){
@@ -72,9 +72,9 @@ public class Player extends ObjectModel {
 	}
 	
 	public void setForces(float steering, float wheelforce, float brakeforce){
-		pos.setSteering(steering + pos.getSteering());
-		pos.setWheelforce(wheelforce + pos.getWheelforce());
-		pos.setBrakeforce(brakeforce + pos.getBrakeforce());
+		pos.setSteering(steering);
+		pos.setWheelforce(wheelforce);
+		pos.setBrakeforce(brakeforce);
 	}
 
 

@@ -17,7 +17,7 @@ public class ResponseSetPosition extends GameResponse {
     @Override
     public byte[] constructResponseInBytes() {
         GamePacket packet = new GamePacket(responseCode);
-        
+        System.out.println("Sending Protocol: " + responseCode + " class: " + this.getClass().getName());
         //Gets all users from session and returns their usernames and positions
         packet.addInt32(startingPositions.size());
         for(Player player : startingPositions.keySet()) {

@@ -17,6 +17,7 @@ public class ResponseRenderCharacter extends GameResponse {
     @Override
     public byte[] constructResponseInBytes() {
         GamePacket packet = new GamePacket(responseCode);
+        System.out.println("Sending Protocol: " + responseCode + " class: " + this.getClass().getName());
         packet.addString(username);     	
         packet.addInt32(carType);
         packet.addInt32(carPaint);

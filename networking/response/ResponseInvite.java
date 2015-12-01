@@ -4,7 +4,7 @@ import metadata.Constants;
 import utility.GamePacket;
 
 public class ResponseInvite extends GameResponse {
-	private int roomId;
+	private String username;
 	
 	public ResponseInvite() {
         responseCode = Constants.SMSG_INVITE;
@@ -12,12 +12,13 @@ public class ResponseInvite extends GameResponse {
 	
 	@Override
 	public byte[] constructResponseInBytes() {
+		System.out.println("Sending Response Invite");
         GamePacket packet = new GamePacket(responseCode);
-        packet.addInt32(roomId);
+        packet.addString(username);
         return packet.getBytes();
 	}
 	
-	public void setRoomId(int roomId){
-		this.roomId = roomId;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

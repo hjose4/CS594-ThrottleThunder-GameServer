@@ -36,12 +36,14 @@ public class RequestTest extends GameRequest {
 		if(session != null) {
 			client.setSession(session);		
 			if(client.getSession() != null) {
+				//Render Character
 				response.setUsername(client.getPlayer().getUsername());
 				response.setCarPaint(0);
 				response.setCarTires(0);
 				response.setCarType(0);
 				client.getSession().addResponseForAll(client.getId(), response);
 				
+				//Set Position
 				ResponseSetPosition responseSet = new ResponseSetPosition();
 				HashMap<Player,Position> positions = new HashMap<>();
 				
@@ -51,6 +53,7 @@ public class RequestTest extends GameRequest {
 				{
 					if(player.getId() != client.getPlayer().getId())
 					{
+						//Render character for players that are already in the game
 						response.setUsername(player.getUsername());
 						response.setCarPaint(0);
 						response.setCarTires(0);

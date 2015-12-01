@@ -11,7 +11,7 @@ public class RequestInvite extends GameRequest {
 
 	// Data
 	private String username;
-	// Responses
+	private int flag = 0;
 	private ResponseInvite responseInvite;
 
 	public RequestInvite() {
@@ -23,16 +23,17 @@ public class RequestInvite extends GameRequest {
 	@Override
 	public void parse() throws IOException {
 		username = DataReader.readString(dataInput);
+		//flag = DataReader.readInt(dataInput);
 	}
 
 	@Override
 	public void doBusiness() throws Exception {
-		if(client.getSession() != null) {
-			responseInvite.setRoomId(client.getSession().getGameRoom().getId());
+		if(flag == 0) {
+			//Sending Invite
+			responseInvite.setUsername(client.getPlayer().getUsername());
 			client.getServer().addResponseForUser(username, responseInvite);
-		}else{
-			System.out.println("Client is not in game session: "+this.getClass().getName());
+		} else {
+			//Responding to Invite
 		}
-		
 	}
 }

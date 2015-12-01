@@ -43,6 +43,7 @@ public class RequestRegister extends GameRequest {
 		player.setPassword(password);
 		if (PlayerModel.searchForPlayers(player).size() == 0 && PlayerModel.insertPlayer(player)) {
 			responseRegister.setNumber(1);
+			client.setPlayer(player);
 		} else {
 			responseRegister.setNumber(0);
 		}

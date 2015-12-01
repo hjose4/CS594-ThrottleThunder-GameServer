@@ -306,10 +306,26 @@ public class GameSession extends Thread {
 
 		return list;
 	}
-
-	public void addResponseForAll(long player_id, GameResponse response) {
+	
+	public void addResponseForAll(GameClient gameClient, GameResponse response) {
 		for (GameClient client : clients) {
-			if (client.getId() != player_id) {
+			if (client.getId() != gameClient.getId()) {
+				client.addResponseForUpdate(response);
+			}
+		}
+	}
+	
+	public void addResponseForAll(Player player, GameResponse response) {
+		for (GameClient client : clients) {
+			if (client.getPlayer().getId() != player.getId()) {
+				client.addResponseForUpdate(response);
+			}
+		}
+	}
+
+	public void addResponseForAll(int player_id, GameResponse response) {
+		for (GameClient client : clients) {
+			if (client.getPlayer().getId() != player_id) {
 				client.addResponseForUpdate(response);
 			}
 		}

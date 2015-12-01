@@ -39,7 +39,7 @@ public class RequestTest2 extends GameRequest {
 			response.setCarPaint(0);
 			response.setCarTires(0);
 			response.setCarType(0);
-			client.getSession().addResponseForAll(client.getId(), response);
+			client.getSession().addResponseForAll(client.getPlayer(), response);
 			
 			//Set Position
 			ResponseSetPosition responseSet = new ResponseSetPosition();
@@ -47,11 +47,10 @@ public class RequestTest2 extends GameRequest {
 			
 			System.out.println("Test Complete");
 			
-			for(Player player : client.getSession().getPlayers())
-			{
-				if(player.getId() != client.getPlayer().getId())
-				{
+			for(Player player : client.getSession().getPlayers()) {
+				if(player.getId() != client.getPlayer().getId()) {
 					//Render character for players that are already in the game - send to client
+					response = new ResponseRenderCharacter();
 					response.setUsername(player.getUsername());
 					response.setCarPaint(0);
 					response.setCarTires(0);

@@ -354,7 +354,7 @@ public class GameSession extends Thread {
 
 	public boolean removeResponseForCharacters(String username){
 		for(ResponseRenderCharacter response : renderCharacterResponses){
-			if(response.getUsername() == username){
+			if(response.getUsername().equals(username)){
 				return renderCharacterResponses.remove(response);
 			}
 		}

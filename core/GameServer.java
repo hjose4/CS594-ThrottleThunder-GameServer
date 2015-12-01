@@ -320,7 +320,7 @@ public class GameServer {
 	public void addResponseForAllOnlinePlayers(long player_id, GameResponse response) {
 
 		for (GameClient client : activeThreads.values()) {
-			if (client.getId() != player_id) {
+			if (client.getPlayer().getId() != player_id) {
 				client.addResponseForUpdate(response);
 			}
 		}

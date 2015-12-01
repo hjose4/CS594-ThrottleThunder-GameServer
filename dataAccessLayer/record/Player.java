@@ -64,7 +64,7 @@ public class Player extends ObjectModel {
 		pos.setZ(z);
 		pos.setH(h);
 		pos.setP(p);
-		pos.setZ(r);
+		pos.setR(r);
 	}
 	
 	public void setPosition(Position p){

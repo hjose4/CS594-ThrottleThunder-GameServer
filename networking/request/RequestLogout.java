@@ -25,7 +25,7 @@ public class RequestLogout extends GameRequest {
 			client.getSession().doThisIfEmpty();
 			client.setSession(null);
 		} else {
-			//client.getServer().addResponseForAllOnlinePlayers(client.getId(), response);
+			//client.getServer().addResponseForAllOnlinePlayers(client.getPlayer().getId(), response);
 			client.stopClient();
 		}
 	}

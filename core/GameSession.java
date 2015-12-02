@@ -23,15 +23,13 @@ import model.Position;
 
 public class GameSession extends Thread {
 	private int phase = 0;
-	private int maxNumOfPlayers = 0;
-	private int minNumOfPlayers = 2;
+	private MapDetails mapDetails;
 	private GameRoom gameroom;
 	private GameServer server;
 	private boolean isRunning;
 	private long[] powerups;
 	private List<GameClient> clients;
 	private HashMap<Player, Double> playerRankings;
-	private HashMap<Player, Position> startingPositions;
 	private List<Position> availablePositions;
 	private List<Player> deadPlayerList;
 	private List<ResponseRenderCharacter> renderCharacterResponses;
@@ -39,11 +37,8 @@ public class GameSession extends Thread {
 	public GameSession(GameServer server, GameRoom gameRoom) {
 		this.gameroom = gameRoom;
 		this.server = server;
-		MapDetails details = MapManager.getInstance().getMapDetails(gameroom.getMapName());
-		availablePositions = details.getPositions();
-		startingPositions = new HashMap<Player, Position>();
-		maxNumOfPlayers = details.getMaxNumOfPlayers();
-		minNumOfPlayers = details.getMinNumOfPlayers();
+		mapDetails = MapManager.getInstance().getMapDetails(gameroom.getMapName());
+		availablePositions = mapDetails.getPositions();
 		deadPlayerList = new ArrayList<Player>();
 		clients = new ArrayList<>();
 		playerRankings = new HashMap<Player,Double>();
@@ -78,7 +73,7 @@ public class GameSession extends Thread {
 				if (gameRunTime - referTime >= Constants.SEND_TIME) {
 					referTime += Constants.SEND_TIME;
 					sendAllResponseTime(1, (int)(gameRunTime));
-					if(gameroom.isRR()){
+					if(mapDetails.getMode() == Constants.RR){
 						eliminateTime -= Constants.SEND_TIME;
 						System.out.println("elimination time : " + eliminateTime);
 						if(eliminateTime == 0){
@@ -154,13 +149,11 @@ public class GameSession extends Thread {
 				System.out.println("Client is already in room");
 				return -1;
 			}
-		}
-		clients.add(client);
-		Position position = null;
-		if (availablePositions.size() > 0 && (position = availablePositions.remove(0)) != null) {
-			startingPositions.put(client.getPlayer(), position);
-			client.getPlayer().setPosition(position);
-			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
+		}		
+		
+		if (clients.size() < mapDetails.getMaxNumOfPlayers()) {
+			clients.add(client);
+			playerRankings.put(client.getPlayer(), 0.0);
 			return 1;
 		}
 		return 0;
@@ -183,10 +176,6 @@ public class GameSession extends Thread {
 
 		//Player is not dead - no points for him/her #Wendy
 		playerRankings.remove(client.getPlayer());
-		if (startingPositions.get(client.getPlayer()) != null) {
-			availablePositions.add(startingPositions.get(client.getPlayer()));
-			startingPositions.remove(client.getPlayer());
-		}
 	}
 
 	public List<GameClient> getGameClients() {
@@ -210,11 +199,11 @@ public class GameSession extends Thread {
 	}
 	
 	public int getMaxNumOfPlayers() {
-		return maxNumOfPlayers;
+		return mapDetails.getMaxNumOfPlayers();
 	}
 	
 	public int getMinNumOfPlayers() {
-		return minNumOfPlayers;
+		return mapDetails.getMinNumOfPlayers();
 	}
 
 	public GameServer getServer() {
@@ -224,6 +213,10 @@ public class GameSession extends Thread {
 		isRunning = false;
 	}
 	public HashMap<Player,Position> getStartingPositions() {
+		HashMap<Player,Position> startingPositions = new HashMap<>();
+		for(Player player : getPlayers()) {
+			startingPositions.put(player,player.getPosition());
+		}
 		return startingPositions;
 	}
 
@@ -244,24 +237,42 @@ public class GameSession extends Thread {
 		//remember to edit all gameclients.player.position
 		System.out.println("Entering next phase");
 		switch(phase) {
-		case 0:
-			for(ResponseRenderCharacter responseRenderCharacter : getCharacterUpdates()){
-				addResponseForAll(responseRenderCharacter);
-			}
-			System.out.println("Sending positions");
-			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
-			responseSetPosition.setStartingPositions(startingPositions);
-			addResponseForAll(responseSetPosition);
-			availablePositions = new ArrayList<Position>();
-			phase += 1;
-			break;
-		case 1:
-			System.out.println("Starting game");
-			gameroom.setTimeStarted(new Date());				
-			initPowerUp(gameroom.getTimeStarted());
-			gameroom.save(GameRoom.TIME_STARTED);
-			this.start();
-			break;
+			case 0:
+				//Render Character
+				for(ResponseRenderCharacter responseRenderCharacter : getCharacterUpdates()){
+					addResponseForAll(responseRenderCharacter);
+				}
+				
+				//Generate Map Positions
+				List<Integer> indexes = new ArrayList<>(mapDetails.getPositions().size());
+				for(int i = 0; i < mapDetails.getPositions().size(); i++) {
+					indexes.set(i, i);
+				}
+				while(indexes.size() > 0) {
+					int i = (int)(Math.random()*indexes.size());
+					int index = indexes.remove(i);
+					clients.get(i).getPlayer().setPosition(mapDetails.getPositions().get(index));
+				}
+				
+				//Sending Start Positions
+				System.out.println("Sending positions");
+				ResponseSetPosition responseSetPosition = new ResponseSetPosition();
+				responseSetPosition.setStartingPositions(getStartingPositions());
+				addResponseForAll(responseSetPosition);
+				availablePositions = new ArrayList<Position>();
+				phase += 1;
+				break;
+			case 1:
+				System.out.println("Starting game");
+				gameroom.setTimeStarted(new Date());				
+				initPowerUp(gameroom.getTimeStarted());
+				gameroom.save(GameRoom.TIME_STARTED);
+				this.start();
+				break;
+		}
+		
+		for(Player player : getPlayers()) {
+			player.setNotReady();
 		}
 	}
 
@@ -361,7 +372,7 @@ public class GameSession extends Thread {
 		return false;
 	}
 
-	public void doThisIfEmpty() {
+	public void endThread() {
 		if(clients.size() == 0){
 			server.deleteSessionThreadOutOfActiveThreads(getId());
 		}
@@ -369,6 +380,10 @@ public class GameSession extends Thread {
 
 	public boolean isFull() {
 		return availablePositions.size() == 0;
+	}
+
+	public MapDetails getMapDetails() {
+		return mapDetails;
 	}
 
 }

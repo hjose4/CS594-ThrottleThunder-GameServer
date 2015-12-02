@@ -41,6 +41,7 @@
 		{
 			"type":0,
 			"name":"DD Map 1",
+			"mode":0,
 			"required":2,
 			"positions": [
 				[10,10,0,0,0,0],
@@ -52,6 +53,7 @@
 		{
 			"type":1,
 			"name":"DD Map 2",
+			"mode":0,
 			"required":2,
 			"positions": [
 				[10,10,0,0,0,0],
@@ -63,6 +65,7 @@
 		{
 			"type":2,
 			"name":"RR Map 1",
+			"mode":1,
 			"required":2,
 			"positions": [
 				[-50.4339, 60.4705, 3.80965, 117.910705566, 0, 0],
@@ -78,6 +81,7 @@
 		{
 			"type":3,
 			"name":"RR Map 2",
+			"mode":1,
 			"required":2,
 			"positions": [
 				[-50.4339, 60.4705, 3.80965, 117.910705566, 0, 0],

@@ -12,9 +12,9 @@ public class Player extends ObjectModel {
 	public static final String PASSWORD = "password";
 	public static final String CURRENCY = "currency";
 	
-	private Position pos;
+	private Position pos = new Position();
 	private boolean isReady = false;
-	private int carId, carPaint, carTire;
+	private int carId = 0, carPaint = 0, carTire = 0;
 	private int lastPrize = 0;
 	private Group group;
 	

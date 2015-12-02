@@ -2,35 +2,40 @@ package networking.request;
 
 // Java Imports
 import java.io.IOException;
+
+import metadata.Constants;
 import networking.response.ResponseChangeHealth;
 // Custom Imports
 //import core.GameServer;
 import utility.DataReader;
 
-public class RequestChangeHealth extends GameRequest {
+public class RequestHealth extends GameRequest {
 
 	// Data
-	private int healthChange;
+	private int health;
 	// Responses
 	private ResponseChangeHealth responseChangeHealth;
 
-	public RequestChangeHealth() {
+	public RequestHealth() {
 		responseChangeHealth = new ResponseChangeHealth();
 
 	}
 
 	@Override
 	public void parse() throws IOException {
-		healthChange = DataReader.readInt(dataInput);
+		health = DataReader.readInt(dataInput);
 	}
 
 	@Override
 	public void doBusiness() throws Exception {
-		System.out.println(healthChange);
         responseChangeHealth.setUsername(client.getPlayer().getUsername()); 
-        responseChangeHealth.setHealthChange(healthChange);
-        if(client.getSession() != null)
+        responseChangeHealth.setHealthChange(health);
+        if(client.getSession() != null) {
+        	if(client.getSession().getMapDetails().getMode() == Constants.DD) {
+        		client.getSession().updatePlayerRanking(client.getPlayer(), health);
+        	}
         	client.getSession().addResponseForAll(responseChangeHealth);
+        }
         else
         	System.out.println("Client is not in game session: "+this.getClass().getName());
     }

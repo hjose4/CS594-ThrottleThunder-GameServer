@@ -67,9 +67,6 @@ public class RequestLobbyReady extends GameRequest {
 				System.out.println("Number of clients: " + client.getSession().getGameClients().size());
 				if(allReady() && client.getSession().getGameClients().size() > client.getSession().getMinNumOfPlayers()){
 					this.client.getSession().nextPhase();
-					for(Player player : client.getSession().getPlayers()) {
-						player.setNotReady();
-					}
 				}
 			} else {
 				client.getPlayer().setNotReady();

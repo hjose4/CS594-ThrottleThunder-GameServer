@@ -7,11 +7,13 @@ import model.Position;
 
 public class MapDetails {
 	private int type;
+	private int mode;
 	private int minNumOfPlayers;
 	private String name;
 	private List<Position> positions;
-	public MapDetails(int type, String name, int minNumOfPlayers, List<Position> positions) {
+	public MapDetails(int type, String name, int mode, int minNumOfPlayers, List<Position> positions) {
 		this.type = type;
+		this.mode = mode;
 		this.name = name;
 		this.minNumOfPlayers = minNumOfPlayers;
 		this.positions = positions;
@@ -19,26 +21,17 @@ public class MapDetails {
 	public int getType() {
 		return type;
 	}
-	public void setType(int type) {
-		this.type = type;
+	public int getMode() {
+		return this.mode;
 	}
 	public int getMinNumOfPlayers() {
 		return minNumOfPlayers;
 	}
-	public void setMinNumOfPlayers(int minNumOfPlayers) {
-		this.minNumOfPlayers = minNumOfPlayers;
-	}
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public List<Position> getPositions() {
 		return positions;
-	}
-	public void setPositions(ArrayList<Position> positions) {
-		this.positions = positions;
 	}
 	public int getMaxNumOfPlayers() {
 		return this.positions.size();

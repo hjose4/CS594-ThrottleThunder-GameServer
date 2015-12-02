@@ -29,9 +29,9 @@ public class GameRequestTable {
 		add(Constants.CMSG_MOVE, "RequestMove");
 		add(Constants.CMSG_POWER_UP, "RequestPowerUp");
 		add(Constants.CMSG_POWER_PICKUP, "RequestPowerPickUp");
-		add(Constants.CMSG_HEALTH, "RequestChangeHealth");
+		add(Constants.CMSG_HEALTH, "RequestHealth");
 		add(Constants.CMSG_ENTER_QUEUE,"RequestEnterQueue");
-		add(Constants.CMSG_ENTER_GAME_LOBBY,"RequestEnterGameLobby");
+		//add(Constants.CMSG_ENTER_GAME_LOBBY,"RequestEnterGameLobby");
 		//add(Constants.CMSG_ENTER_GAME_NAME,"RequestEnterGameName");
 		add(Constants.CMSG_FRIEND_UPDATE,"RequestFriendUpdate");
 		add(Constants.CMSG_FRIEND_REQUEST,"RequestFriendRequest");

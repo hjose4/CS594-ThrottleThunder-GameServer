@@ -57,7 +57,7 @@ public class JsonFileParser {
 						}
 						positions.add(new Position(items));
 					}
-					mapManager.addMapDetails(new MapDetails(details.getInt("type"),details.getString("name"),details.getInt("required"),positions));					
+					mapManager.addMapDetails(new MapDetails(details.getInt("type"),details.getString("name"),details.getInt("mode"),details.getInt("required"),positions));					
 				}
 			}
 			

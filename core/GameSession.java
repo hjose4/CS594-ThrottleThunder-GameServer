@@ -23,6 +23,7 @@ import model.Position;
 
 public class GameSession extends Thread {
 	private int phase = 0;
+	private boolean updateRankings = true;
 	private MapDetails mapDetails;
 	private GameRoom gameroom;
 	private GameServer server;
@@ -30,6 +31,7 @@ public class GameSession extends Thread {
 	private long[] powerups;
 	private List<GameClient> clients;
 	private HashMap<Player, Double> playerRankings;
+	private List<Player> sortedRankings = null;
 	private HashMap<Player, Position> startingPositions;
 	private List<Position> availablePositions;
 	private List<Player> deadPlayerList;
@@ -281,27 +283,30 @@ public class GameSession extends Thread {
 
 	public boolean updatePlayerRanking(Player player, double rankValue) {
 		playerRankings.put(player, rankValue);
+		updateRankings = true;
 		return true;
 	}
 
 	public List<Player> getRankings() {
-		List<Player> list = new ArrayList<Player>();
-		HashMap<Player, Double> que = new HashMap<Player, Double>(playerRankings.size());
-		for (Player player : playerRankings.keySet())
-			que.put(player, playerRankings.get(player));
+		if(sortedRankings == null || updateRankings) {
+			updateRankings = false;
+			sortedRankings = new ArrayList<Player>();
+			HashMap<Player, Double> que = new HashMap<Player, Double>(playerRankings.size());
+			for (Player player : playerRankings.keySet())
+				que.put(player, playerRankings.get(player));
 
-		while (que.size() > 0) {
-			Player maxPlayer = null;
-			for (Player player : que.keySet()) {
-				if (maxPlayer == null || que.get(player) > que.get(maxPlayer)) {
-					maxPlayer = player;
+			while (que.size() > 0) {
+				Player maxPlayer = null;
+				for (Player player : que.keySet()) {
+					if (maxPlayer == null || que.get(player) > que.get(maxPlayer)) {
+						maxPlayer = player;
+					}
 				}
+				sortedRankings.add(maxPlayer);
+				que.remove(maxPlayer);
 			}
-			list.add(maxPlayer);
-			que.remove(maxPlayer);
 		}
-
-		return list;
+		return sortedRankings;
 	}
 	
 	public void addResponseForAll(GameClient gameClient, GameResponse response) {

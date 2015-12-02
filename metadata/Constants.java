@@ -36,6 +36,7 @@ public class Constants {
 	//public final static short CMSG_TIME = 129;
 	public final static short CMSG_SET_RANK = 130;
 	public final static short CMSG_EMOTE = 132;
+	public final static short CMSG_CHECKPOINTS = 133;
 	public final static short CMSG_TEST = 150;
 	public final static short CMSG_TEST2 = 160;
 	

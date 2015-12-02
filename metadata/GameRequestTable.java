@@ -56,6 +56,7 @@ public class GameRequestTable {
 		add(Constants.CMSG_TEST2,"RequestTest2");
 		//add(Constants.CMSG_TIME, "RequestTime");
 		//add(Constants.CMSG_EMOTE, "RequestEmote");
+		add(Constants.CMSG_CHECKPOINTS, "RequestCheckpoints");
 		add(Constants.REQ_HEARTBEAT, "RequestHeartbeat");
 	}
 

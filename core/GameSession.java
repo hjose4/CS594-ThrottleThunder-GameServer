@@ -30,6 +30,7 @@ public class GameSession extends Thread {
 	private long[] powerups;
 	private List<GameClient> clients;
 	private HashMap<Player, Double> playerRankings;
+	private HashMap<Player, Position> startingPositions;
 	private List<Position> availablePositions;
 	private List<Player> deadPlayerList;
 	private List<ResponseRenderCharacter> renderCharacterResponses;
@@ -39,6 +40,7 @@ public class GameSession extends Thread {
 		this.server = server;
 		mapDetails = MapManager.getInstance().getMapDetails(gameroom.getMapName());
 		availablePositions = mapDetails.getPositions();
+		startingPositions = new HashMap<Player, Position>();
 		deadPlayerList = new ArrayList<Player>();
 		clients = new ArrayList<>();
 		playerRankings = new HashMap<Player,Double>();
@@ -149,11 +151,13 @@ public class GameSession extends Thread {
 				System.out.println("Client is already in room");
 				return -1;
 			}
-		}		
-		
-		if (clients.size() < mapDetails.getMaxNumOfPlayers()) {
-			clients.add(client);
-			playerRankings.put(client.getPlayer(), 0.0);
+		}
+		clients.add(client);
+		Position position = null;
+		if (clients.size() < mapDetails.getMaxNumOfPlayers() && (position = availablePositions.remove(0)) != null) {
+			startingPositions.put(client.getPlayer(), position);
+			client.getPlayer().setPosition(position);
+			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
 			return 1;
 		}
 		return 0;
@@ -176,6 +180,10 @@ public class GameSession extends Thread {
 
 		//Player is not dead - no points for him/her #Wendy
 		playerRankings.remove(client.getPlayer());
+		if (startingPositions.get(client.getPlayer()) != null) {
+			availablePositions.add(startingPositions.get(client.getPlayer()));
+			startingPositions.remove(client.getPlayer());
+		}
 	}
 
 	public List<GameClient> getGameClients() {
@@ -213,10 +221,6 @@ public class GameSession extends Thread {
 		isRunning = false;
 	}
 	public HashMap<Player,Position> getStartingPositions() {
-		HashMap<Player,Position> startingPositions = new HashMap<>();
-		for(Player player : getPlayers()) {
-			startingPositions.put(player,player.getPosition());
-		}
 		return startingPositions;
 	}
 
@@ -237,42 +241,24 @@ public class GameSession extends Thread {
 		//remember to edit all gameclients.player.position
 		System.out.println("Entering next phase");
 		switch(phase) {
-			case 0:
-				//Render Character
-				for(ResponseRenderCharacter responseRenderCharacter : getCharacterUpdates()){
-					addResponseForAll(responseRenderCharacter);
-				}
-				
-				//Generate Map Positions
-				List<Integer> indexes = new ArrayList<>(mapDetails.getPositions().size());
-				for(int i = 0; i < mapDetails.getPositions().size(); i++) {
-					indexes.set(i, i);
-				}
-				while(indexes.size() > 0) {
-					int i = (int)(Math.random()*indexes.size());
-					int index = indexes.remove(i);
-					clients.get(i).getPlayer().setPosition(mapDetails.getPositions().get(index));
-				}
-				
-				//Sending Start Positions
-				System.out.println("Sending positions");
-				ResponseSetPosition responseSetPosition = new ResponseSetPosition();
-				responseSetPosition.setStartingPositions(getStartingPositions());
-				addResponseForAll(responseSetPosition);
-				availablePositions = new ArrayList<Position>();
-				phase += 1;
-				break;
-			case 1:
-				System.out.println("Starting game");
-				gameroom.setTimeStarted(new Date());				
-				initPowerUp(gameroom.getTimeStarted());
-				gameroom.save(GameRoom.TIME_STARTED);
-				this.start();
-				break;
-		}
-		
-		for(Player player : getPlayers()) {
-			player.setNotReady();
+		case 0:
+			for(ResponseRenderCharacter responseRenderCharacter : getCharacterUpdates()){
+				addResponseForAll(responseRenderCharacter);
+			}
+			System.out.println("Sending positions");
+			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
+			responseSetPosition.setStartingPositions(startingPositions);
+			addResponseForAll(responseSetPosition);
+			availablePositions = new ArrayList<Position>();
+			phase += 1;
+			break;
+		case 1:
+			System.out.println("Starting game");
+			gameroom.setTimeStarted(new Date());				
+			initPowerUp(gameroom.getTimeStarted());
+			gameroom.save(GameRoom.TIME_STARTED);
+			this.start();
+			break;
 		}
 	}
 

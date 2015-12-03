@@ -36,7 +36,7 @@ public class RequestLobbyReady extends GameRequest {
 			response.setLobbySize(client.getSession().getMaxNumOfPlayers());
 			response.setMinSize(client.getSession().getMinNumOfPlayers());
 			response.setPlayers(client.getSession().getPlayers());
-			client.getSession().addResponseForAll(client.getPlayer().getId(), response);
+			client.getSession().addResponseForAll(response);
 			
 			//Car setup
 			if(baseCarId > 0) {

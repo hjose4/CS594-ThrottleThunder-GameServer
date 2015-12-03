@@ -32,24 +32,39 @@ public class RequestTest2 extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		int roomType = 0;
-		if(client.getSession() != null) {
-				//Render Character
-				client.getSession().addResponseForRenderCharacters(client);
-				client.getPlayer().setReady();
-				if(client.getSession().getGameClients().size() == 2 && allReady()){
-					client.getSession().nextPhase();
-					client.getSession().nextPhase();
+		GameSession session = client.getSession();		
+		if(session != null) {
+			//Render Character - Send to others
+			response.setUsername(client.getPlayer().getUsername());
+			response.setCarPaint(1);
+			response.setCarTires(1);
+			response.setCarType(1);
+			client.getSession().addResponseForAll(client.getPlayer(), response);
+			
+			//Set Position
+			ResponseSetPosition responseSet = new ResponseSetPosition();
+			HashMap<Player,Position> positions = new HashMap<>();
+			
+			System.out.println("Test Complete");
+			
+			for(Player player : client.getSession().getPlayers()) {
+				if(player.getId() != client.getPlayer().getId()) {
+					//Render character for players that are already in the game - send to client
+					response = new ResponseRenderCharacter();
+					response.setUsername(player.getUsername());
+					response.setCarPaint(1);
+					response.setCarTires(1);
+					response.setCarType(1);
+					client.addResponseForUpdate(response);
 				}
-		}	
-	}
-	private boolean allReady() {
-		for(Player player : this.client.getSession().getPlayers()){
-			if(!player.isReady()){
-				return false;
+				
+				positions.put(player, player.getPosition());
 			}
-		}
-		
-		return true;
+			
+			responseSet.setStartingPositions(positions);
+			//Send set position
+			client.getSession().addResponseForAll(responseSet);
+		}	
 	}
 
 }

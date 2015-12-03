@@ -1,6 +1,6 @@
 {
 	"server" : {
-		"port":"9252"
+		"port":"9250"
 	},
 	"database": {
 		"host":"superlunchvote.com",

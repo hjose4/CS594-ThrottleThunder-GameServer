@@ -82,6 +82,7 @@ public class GameSession extends Thread {
 						System.out.println("elimination time : " + eliminateTime);
 						if(eliminateTime == 0){
 							if(doElimination()){
+								System.out.println("elminate someone");
 								eliminateTime = Constants.ELIMINATION_TIME;
 							}else{
 								endGame();
@@ -133,7 +134,6 @@ public class GameSession extends Thread {
 		ArrayList<Player> ranking = (ArrayList<Player>) getRankings();
 		Player killThis = ranking.get(playerRankings.size()-deadPlayerList.size()-1);
 		deadPlayerList.add(killThis);
-		System.out.println("elminated " + killThis.getUsername());
 		ResponseDead responseDead = new ResponseDead();
 		responseDead.setUsername(killThis.getUsername());
 		addResponseForAll(responseDead);

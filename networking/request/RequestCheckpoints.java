@@ -3,6 +3,7 @@ package networking.request;
 import java.io.IOException;
 
 import utility.DataReader;
+import networking.response.ResponseMove;
 
 public class RequestCheckpoints extends GameRequest {
 	
@@ -23,8 +24,8 @@ public class RequestCheckpoints extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		if(client.getSession() != null) {
-			client.getSession().updatePlayerRanking(client.getPlayer(), ((checkpoints/5)*laps*100) + distance);
-		}
+		
+//		client.getPlayer().setLaps(laps);
+//		client.getPlayer().setCheckpoints(checkpoints);
 	}
 }

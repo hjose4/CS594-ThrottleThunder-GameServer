@@ -32,6 +32,11 @@ public class RequestReady extends GameRequest {
 				}
 				
 				this.client.getSession().addResponseForAll(this.client.getPlayer().getId(), responseReady);
+			} else {
+				for(Player player : client.getSession().getPlayers()) {
+					player.setNotReady();
+				}
+				this.client.getPlayer().setReady();
 			}
 		} else {
 			responseReady.setUsername("");

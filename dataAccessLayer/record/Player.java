@@ -14,6 +14,7 @@ public class Player extends ObjectModel {
 	
 	private Position pos = new Position();
 	private boolean isReady = false;
+	private boolean isLobbyReady = false;
 	private int carId = 0, carPaint = 0, carTire = 0;
 	private int lastPrize = 0;
 	private Group group;
@@ -86,6 +87,16 @@ public class Player extends ObjectModel {
 	}
 	public void setNotReady(){
 		this.isReady = false;
+	}
+	
+	public boolean isLobbyReady() {
+		return isLobbyReady;
+	}
+	public void setLobbyReady() {
+		this.isLobbyReady = true;
+	}
+	public void setLobbyNotReady(){
+		this.isLobbyReady = false;
 	}
 	
 	public void setLastPrize(int prize) {

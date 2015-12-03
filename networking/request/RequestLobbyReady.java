@@ -31,7 +31,7 @@ public class RequestLobbyReady extends GameRequest {
 	public void doBusiness() throws Exception {
 		if(client.getSession() != null) {
 			//Player is ready
-			client.getPlayer().setReady();
+			client.getPlayer().setLobbyReady();
 			ResponseEnterQueue response = new ResponseEnterQueue();
 			response.setLobbySize(client.getSession().getMaxNumOfPlayers());
 			response.setMinSize(client.getSession().getMinNumOfPlayers());
@@ -69,6 +69,7 @@ public class RequestLobbyReady extends GameRequest {
 					return;
 				}
 			} else {
+				client.getPlayer().setLobbyNotReady();
 				client.getPlayer().setCarPaint(0);
 				client.getPlayer().setCarTire(0);
 				client.getPlayer().setBaseCarId(0);

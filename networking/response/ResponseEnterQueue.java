@@ -25,7 +25,7 @@ public class ResponseEnterQueue extends GameResponse {
         for(Player player : players) {
         	packet.addString(player.getUsername());
         	//TODO: send car id
-        	packet.addInt32(player.isReady() ? 1 : 0);
+        	packet.addInt32(player.isLobbyReady() ? 1 : 0);
         }
         return packet.getBytes();
     }

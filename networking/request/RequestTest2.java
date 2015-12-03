@@ -34,36 +34,15 @@ public class RequestTest2 extends GameRequest {
 		int roomType = 0;
 		GameSession session = client.getSession();		
 		if(session != null) {
-			//Render Character - Send to others
-			response.setUsername(client.getPlayer().getUsername());
-			response.setCarPaint(0);
-			response.setCarTires(0);
-			response.setCarType(0);
-			client.getSession().addResponseForAll(client.getPlayer(), response);
-			
-			//Set Position
-			ResponseSetPosition responseSet = new ResponseSetPosition();
-			HashMap<Player,Position> positions = new HashMap<>();
-			
-			System.out.println("Test Complete");
-			
-			for(Player player : client.getSession().getPlayers()) {
-				if(player.getId() != client.getPlayer().getId()) {
-					//Render character for players that are already in the game - send to client
-					response = new ResponseRenderCharacter();
-					response.setUsername(player.getUsername());
-					response.setCarPaint(0);
-					response.setCarTires(0);
-					response.setCarType(0);
-					client.addResponseForUpdate(response);
+			client.setSession(session);		
+			if(client.getSession() != null) {
+				//Render Character
+				session.addResponseForRenderCharacters(client);
+				if(session.getGameClients().size() == 2){
+					session.nextPhase();
+					session.nextPhase();
 				}
-				
-				positions.put(player, player.getPosition());
 			}
-			
-			responseSet.setStartingPositions(positions);
-			//Send set position
-			client.getSession().addResponseForAll(responseSet);
 		}	
 	}
 

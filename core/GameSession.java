@@ -3,7 +3,6 @@ package core;
 import networking.response.GameResponse;
 import networking.response.ResponseDead;
 import networking.response.ResponsePrizes;
-import networking.response.ResponseReady;
 import networking.response.ResponseRenderCharacter;
 import networking.response.ResponseSetPosition;
 import networking.response.ResponseTime;
@@ -11,7 +10,6 @@ import networking.response.ResponseTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import dataAccessLayer.record.GameRoom;
@@ -160,6 +158,7 @@ public class GameSession extends Thread {
 			startingPositions.put(client.getPlayer(), position);
 			client.getPlayer().setPosition(position);
 			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
+			System.out.println("Number of clients: " + getGameClients().size());
 			return 1;
 		}
 		return 0;

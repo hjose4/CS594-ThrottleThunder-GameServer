@@ -104,8 +104,8 @@ public class Player extends ObjectModel {
 		this.carId = carId;
 	}
 	
-	public int getBaseCarId(int carId) {
-		return this.carId;		
+	public int getBaseCarId() {
+		return carId;		
 	}
 	public void setCarPaint(int carPaint) {
 		this.carPaint = carPaint;

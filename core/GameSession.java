@@ -348,9 +348,9 @@ public class GameSession extends Thread {
 		ResponseRenderCharacter responseRenderCharacter = new ResponseRenderCharacter();
 		responseRenderCharacter.setUsername(gclient.getPlayer().getUsername());
 		//input correct carPaint, carTires, and carType below
-		responseRenderCharacter.setCarPaint(0);
-		responseRenderCharacter.setCarTires(0);
-		responseRenderCharacter.setCarType(0);
+		responseRenderCharacter.setCarPaint(gclient.getPlayer().getCarPaint());
+		responseRenderCharacter.setCarTires(gclient.getPlayer().getCarTire());
+		responseRenderCharacter.setCarType(gclient.getPlayer().getBaseCarId());
 		return renderCharacterResponses.add(responseRenderCharacter);
 	}
 

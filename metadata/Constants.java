@@ -84,8 +84,8 @@ public class Constants {
 	public static final long RESPAWN_TIME = 30000L;
 	public static final long SEND_TIME = 1000L;
 	public static final long COUNTDOWN_TIME = 5000L;
-	public static final long PEACE_TIME = 30000L;
-	public static final long ELIMINATION_TIME = 20000L;
+	public static final long PEACE_TIME = 15000L;
+	public static final long ELIMINATION_TIME = 5000L;
 	
 	public static final int DD = 0;
 	public static final int RR = 1;

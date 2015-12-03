@@ -32,18 +32,24 @@ public class RequestTest2 extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		int roomType = 0;
-		GameSession session = client.getSession();		
-		if(session != null) {
-			client.setSession(session);		
-			if(client.getSession() != null) {
+		if(client.getSession() != null) {
 				//Render Character
-				session.addResponseForRenderCharacters(client);
-				if(session.getGameClients().size() == 2){
-					session.nextPhase();
-					session.nextPhase();
+				client.getSession().addResponseForRenderCharacters(client);
+				client.getPlayer().setReady();
+				if(client.getSession().getGameClients().size() == 2 && allReady()){
+					client.getSession().nextPhase();
+					client.getSession().nextPhase();
 				}
-			}
 		}	
+	}
+	private boolean allReady() {
+		for(Player player : this.client.getSession().getPlayers()){
+			if(!player.isReady()){
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 }

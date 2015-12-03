@@ -16,7 +16,6 @@ public class ResponseMove extends GameResponse {
 	public byte[] constructResponseInBytes() {
 		// TODO Auto-generated method stub
 		GamePacket packet = new GamePacket(responseCode);
-		System.out.println("Sending Protocol: " + responseCode + " class: " + this.getClass().getName());
 		packet.addString(player.getUsername());
 		packet.addFloat(player.getPosition().getSteering());
 		packet.addFloat(player.getPosition().getWheelforce());

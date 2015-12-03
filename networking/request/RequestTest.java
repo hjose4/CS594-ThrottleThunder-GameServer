@@ -37,11 +37,35 @@ public class RequestTest extends GameRequest {
 			client.setSession(session);		
 			if(client.getSession() != null) {
 				//Render Character
-				session.addResponseForRenderCharacters(client);
-				if(session.getGameClients().size() == 2){
-					session.nextPhase();
-					session.nextPhase();
+				response.setUsername(client.getPlayer().getUsername());
+				response.setCarPaint(0);
+				response.setCarTires(0);
+				response.setCarType(0);
+				client.getSession().addResponseForAll(client, response);
+				
+				//Set Position
+				ResponseSetPosition responseSet = new ResponseSetPosition();
+				HashMap<Player,Position> positions = new HashMap<>();
+				
+				System.out.println("Test Complete");
+				
+				for(Player player : client.getSession().getPlayers())
+				{
+					if(player.getId() != client.getPlayer().getId())
+					{
+						//Render character for players that are already in the game
+						response.setUsername(player.getUsername());
+						response.setCarPaint(0);
+						response.setCarTires(0);
+						response.setCarType(0);
+						client.addResponseForUpdate(response);
+					}
+					
+					positions.put(player, player.getPosition());
 				}
+				
+				responseSet.setStartingPositions(positions);
+				client.getSession().addResponseForAll(responseSet);
 			}
 		}	
 	}

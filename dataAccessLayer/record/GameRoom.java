@@ -3,8 +3,6 @@ package dataAccessLayer.record;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
-
-import metadata.Constants;
 import core.GameSession;
 import dataAccessLayer.ObjectModel;
 
@@ -87,6 +85,6 @@ public class GameRoom extends ObjectModel{
 		return session;
 	}
 	public boolean isRR() {
-		return getType() == Constants.RR;
+		return getType() == 0;
 	}
 }

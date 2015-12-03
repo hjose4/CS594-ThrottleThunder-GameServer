@@ -30,6 +30,15 @@ public class RequestLobbyReady extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		if(client.getSession() != null) {
+			//Player is ready
+			client.getPlayer().setReady();
+			ResponseEnterQueue response = new ResponseEnterQueue();
+			response.setLobbySize(client.getSession().getMaxNumOfPlayers());
+			response.setMinSize(client.getSession().getMinNumOfPlayers());
+			response.setPlayers(client.getSession().getPlayers());
+			client.getSession().addResponseForAll(client.getPlayer().getId(), response);
+			
+			//Car setup
 			if(baseCarId > 0) {
 				List<PlayerVehicle> vehicles = VehicleModel.searchForPlayerVehicles(client.getPlayer(), baseCarId);
 				if(vehicles.isEmpty()) {

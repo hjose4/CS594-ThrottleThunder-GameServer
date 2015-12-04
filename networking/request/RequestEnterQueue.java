@@ -40,6 +40,9 @@ public class RequestEnterQueue extends GameRequest {
 				response.setPlayers(client.getSession().getPlayers());
 				client.getSession().addResponseForAll(client.getPlayer().getId(), response);	
 				return;
+			} else {
+				doBusiness();
+				return;
 			}
 		}
 		response.setLobbySize(0);

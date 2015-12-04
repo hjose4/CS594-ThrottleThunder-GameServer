@@ -134,7 +134,7 @@ public class GameServer {
 		
 		return createNewGameSession(roomType);
 	}
-	protected GameSession createNewGameSession(int roomType) {
+	public GameSession createNewGameSession(int roomType) {
 		GameRoom room = new GameRoom();
 		MapDetails map = MapManager.getInstance().getMapDetails(roomType);
 		if(map != null) {

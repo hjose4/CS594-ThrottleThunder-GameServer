@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import core.GameSession;
 import dataAccessLayer.record.Player;
 import networking.response.ResponseEnterQueue;
-import networking.response.ResponseRenderCharacter;
 import utility.DataReader;
 
 /**
@@ -41,8 +40,15 @@ public class RequestEnterQueue extends GameRequest {
 				client.getSession().addResponseForAll(client.getPlayer().getId(), response);	
 				return;
 			} else {
-				doBusiness();
-				return;
+				session = client.getServer().createNewGameSession(roomType);
+				client.setSession(session);		
+				if(client.getSession() != null) {
+					response.setLobbySize(client.getSession().getMaxNumOfPlayers());
+					response.setMinSize(client.getSession().getMinNumOfPlayers());
+					response.setPlayers(client.getSession().getPlayers());
+					client.getSession().addResponseForAll(client.getPlayer().getId(), response);	
+					return;
+				}
 			}
 		}
 		response.setLobbySize(0);

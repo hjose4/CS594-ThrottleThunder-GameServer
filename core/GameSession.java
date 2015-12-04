@@ -53,7 +53,7 @@ public class GameSession extends Thread {
 		System.out.println("Starting game thread loop");
 		isRunning = true;
 		long currentTime, gameRunTime, referTime, gameStartedTime, eliminateTime = 0;
-		referTime = 1000L;
+		referTime = 0L;
 		//gameStartedTime = gameroom.getTimeStarted();
 		gameStartedTime = System.currentTimeMillis();
 		while (isRunning) { 
@@ -62,7 +62,7 @@ public class GameSession extends Thread {
 			gameRunTime = currentTime - gameStartedTime;
 			if (phase == 1) {
 				// Start countdown
-				if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime > 0 && gameRunTime - referTime >= Constants.SEND_TIME) {
+				if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime > 0 && (referTime == 0 || gameRunTime - referTime >= Constants.SEND_TIME)) {
 					System.out.println("countdown time : " + (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));
 					sendAllResponseTime(0, (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));					
 					referTime += Constants.SEND_TIME;

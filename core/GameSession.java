@@ -55,7 +55,8 @@ public class GameSession extends Thread {
 		long currentTime, gameRunTime, referTime, gameStartedTime, eliminateTime = 0;
 		referTime = 1000L;
 		gameStartedTime = gameroom.getTimeStarted();
-		while (isRunning) { 	
+		while (isRunning) { 
+			System.out.println("Phases: " + phase);
 			currentTime = System.currentTimeMillis();
 			gameRunTime = currentTime - gameStartedTime;
 			if (phase == 1) {

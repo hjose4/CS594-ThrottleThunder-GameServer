@@ -8,7 +8,7 @@ public class RequestCheckpoints extends GameRequest {
 	
 	int laps;
 	int checkpoints;
-	float distance;
+	//float distance;
 	
 	public RequestCheckpoints() {
 		
@@ -18,13 +18,14 @@ public class RequestCheckpoints extends GameRequest {
 	public void parse() throws IOException {
 		laps = DataReader.readInt(dataInput);
 		checkpoints = DataReader.readInt(dataInput);
-		distance = DataReader.readFloat(dataInput);
+		//distance = DataReader.readFloat(dataInput);
 	}
 
 	@Override
 	public void doBusiness() throws Exception {
 		if(client.getSession() != null) {
-			client.getSession().updatePlayerRanking(client.getPlayer(), ((checkpoints/5)*laps*100) + distance);
+			System.out.println("Checkpoint - lap: " + laps + " points: " + checkpoints);
+			client.getSession().updatePlayerRanking(client.getPlayer(), (laps+(checkpoints/20)));
 		}
 	}
 }

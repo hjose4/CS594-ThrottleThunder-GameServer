@@ -133,6 +133,7 @@ public class GameSession extends Thread {
 			return false;
 		}
 		ArrayList<Player> ranking = (ArrayList<Player>) getRankings();
+		System.out.println(ranking.toString());
 		Player killThis = ranking.get(playerRankings.size()-deadPlayerList.size()-1);
 		deadPlayerList.add(killThis);
 		System.out.println("elminated " + killThis.getUsername());

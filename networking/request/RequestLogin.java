@@ -37,7 +37,7 @@ public class RequestLogin extends GameRequest {
 		player.setUsername(username);
 		ArrayList<Player> players = PlayerModel.searchForPlayers(player);
 
-		if (players.size() > 0) {
+		if (players.size() > 0 && client.getServer().getThreadByPlayerUserName(players.get(0).getUsername()) == null) {
 			System.out.println("Connected !");
 			client.setPlayer(players.remove(0));
 			responseLogin.setAnswer(1);

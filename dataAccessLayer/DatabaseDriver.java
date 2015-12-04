@@ -201,7 +201,6 @@ public class DatabaseDriver {
 			query = query + entry.getKey() + "='" + entry.getValue() + "' ";
 		}
 		try{
-			System.out.println(query);
 			raw_results = select(query);
 			return raw_results;
 		}

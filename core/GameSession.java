@@ -54,16 +54,17 @@ public class GameSession extends Thread {
 		isRunning = true;
 		long currentTime, gameRunTime, referTime, gameStartedTime, eliminateTime = 0;
 		referTime = 1000L;
-		gameStartedTime = gameroom.getTimeStarted();
+		//gameStartedTime = gameroom.getTimeStarted();
+		gameStartedTime = System.currentTimeMillis();
 		while (isRunning) { 
 			//System.out.println("Phases: " + phase);
 			currentTime = System.currentTimeMillis();
 			gameRunTime = currentTime - gameStartedTime;
 			if (phase == 1) {
 				// Start countdown
-				if (gameroom.getTimeStarted() + Constants.COUNTDOWN_TIME - currentTime > 0
-						&& gameRunTime - referTime >= Constants.SEND_TIME) {
-					sendAllResponseTime(0, (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));
+				if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime > 0 && gameRunTime - referTime >= Constants.SEND_TIME) {
+					System.out.println("countdown time : " + (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));
+					sendAllResponseTime(0, (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));					
 					referTime += Constants.SEND_TIME;
 				} else if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime <= 0) {
 					phase += 1;
@@ -74,7 +75,6 @@ public class GameSession extends Thread {
 				// Start game timer
 				// send responseTime approximately every 1000 milliseconds
 				if (gameRunTime - referTime >= Constants.SEND_TIME) {
-					System.out.println("Game Clock");
 					referTime += Constants.SEND_TIME;
 					sendAllResponseTime(1, (int)(gameRunTime));
 					if(mapDetails.getMode() == Constants.RR){
@@ -133,8 +133,7 @@ public class GameSession extends Thread {
 		if(playerRankings.size() - deadPlayerList.size() <= 1){
 			return false;
 		}
-		ArrayList<Player> ranking = (ArrayList<Player>) getRankings();
-		System.out.println(ranking.toString());
+		List<Player> ranking = getRankings();
 		Player killThis = ranking.get(playerRankings.size()-deadPlayerList.size()-1);
 		deadPlayerList.add(killThis);
 		System.out.println("elminated " + killThis.getUsername());
@@ -287,8 +286,8 @@ public class GameSession extends Thread {
 		}
 	}
 
-	public boolean updatePlayerRanking(Player player, double rankValue) {
-		playerRankings.put(player, rankValue);
+	public boolean updatePlayerRanking(Player player, double pointValue) {
+		playerRankings.put(player, pointValue);
 		updateRankings = true;
 		return true;
 	}

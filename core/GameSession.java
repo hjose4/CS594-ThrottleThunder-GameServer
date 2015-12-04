@@ -73,6 +73,7 @@ public class GameSession extends Thread {
 				// Start game timer
 				// send responseTime approximately every 1000 milliseconds
 				if (gameRunTime - referTime >= Constants.SEND_TIME) {
+					System.out.println("Game Clock");
 					referTime += Constants.SEND_TIME;
 					sendAllResponseTime(1, (int)(gameRunTime));
 					if(mapDetails.getMode() == Constants.RR){
@@ -86,6 +87,8 @@ public class GameSession extends Thread {
 								endGame();
 							}
 						}
+					} else {
+						System.out.println("not an RR game");
 					}
 				}
 			}

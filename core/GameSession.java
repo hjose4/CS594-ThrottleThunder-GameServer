@@ -78,7 +78,8 @@ public class GameSession extends Thread {
 					if(mapDetails.getMode() == Constants.RR){
 						eliminateTime -= Constants.SEND_TIME;
 						System.out.println("elimination time : " + eliminateTime);
-						if(eliminateTime == 0){
+						sendAllResponseTime(2, (int)(eliminateTime));
+						if(eliminateTime <= 0){
 							if(doElimination()){
 								eliminateTime = Constants.ELIMINATION_TIME;
 							}else{

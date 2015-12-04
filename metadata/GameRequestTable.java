@@ -52,8 +52,8 @@ public class GameRequestTable {
 		add(Constants.CMSG_READY, "RequestReady");
 		add(Constants.CMSG_SET_POSITION, "RequestSetPosition");
 		add(Constants.CMSG_SET_RANK, "RequestSetRank");
-		add(Constants.CMSG_TEST, "RequestTest");
-		add(Constants.CMSG_TEST2,"RequestTest2");
+		//add(Constants.CMSG_TEST, "RequestTest");
+		//add(Constants.CMSG_TEST2,"RequestTest2");
 		//add(Constants.CMSG_TIME, "RequestTime");
 		//add(Constants.CMSG_EMOTE, "RequestEmote");
 		add(Constants.CMSG_CHECKPOINTS, "RequestCheckpoints");

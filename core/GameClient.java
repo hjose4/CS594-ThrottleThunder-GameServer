@@ -92,8 +92,7 @@ public class GameClient extends Thread {
 					dataInput = new DataInputStream(new ByteArrayInputStream(buffer));
 					// Extract the request code number
 					requestCode = DataReader.readShort(dataInput);
-					if(requestCode != 301 && requestCode != 107 && requestCode != 113)
-					{
+					if(requestCode != 301 && requestCode != 107 && requestCode != 113 && requestCode != 133) {
 						System.out.println("Requesting : " +requestCode);
 					}
 					// Preventing response to be sent if user not authenticated

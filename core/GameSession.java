@@ -158,9 +158,10 @@ public class GameSession extends Thread {
 				return -1;
 			}
 		}
-		clients.add(client);
+		
 		Position position = null;
 		if (clients.size() < mapDetails.getMaxNumOfPlayers() && (position = availablePositions.remove(0)) != null) {
+			clients.add(client);
 			startingPositions.put(client.getPlayer(), position);
 			client.getPlayer().setPosition(position);
 			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));

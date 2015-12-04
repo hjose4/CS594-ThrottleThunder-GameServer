@@ -5,70 +5,65 @@ import java.util.HashMap;
 import dataAccessLayer.ObjectModel;
 
 public class Upgrade extends ObjectModel {
-	private int id;
-	private String name;
-	private String description;
-	private double armor;
-	private double health;
-	private double acceleration;
-	private int vehicleId; 
+	private static final String ID = "id";
+	private static final String NAME = "name";
+	private static final String DESCRIPTION ="description";
+	private static final String ARMOR = "armor";
+	private static final String HEALTH = "health";
+	private static final String ACCELERATION ="acceleration";
+	//private static final String  vehicleId; 
 
 	public Upgrade(HashMap<String, String> input) {
 		super(input);
 	}
 
 	public String getName() {
-		return name;
+		return get(NAME);
 	}
 	
-	
-
 	public void setName(String name) {
-		this.name = name;
+		set(NAME,name);
 	}
 	
-	public void setVehicleId(int vehicle_id) {
-		this.vehicleId = vehicle_id;
-	}
+	//public void setVehicleId(int vehicle_id) {
+		//this.vehicleId = vehicle_id;
+	//}
 
 	public String getDescription() {
-		return description;
+		return get(DESCRIPTION);
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		set(DESCRIPTION, description);
 	}
 
 	public double getArmor() {
-		return armor;
+		return get(ARMOR);
 	}
 
 	public void setArmor(double armor) {
-		this.armor = armor;
+		set(ARMOR,armor);
 	}
 
 	public double getHealth() {
-		return health;
+		return get(HEALTH);
 	}
 
 	public void setHealth(double health) {
-		this.health = health;
+		set(HEALTH)= health;
 	}
 
 	public double getAcceleration() {
-		return acceleration;
+		return get(ACCELERATION);
 	}
 
 	public void setAcceleration(double acceleration) {
-		this.acceleration = acceleration;
+		set(ACCELERATION, acceleration);
 	}
 
 	public int getId() {
-		return id;
+		return get(ID);
 	}
 
-	public int getPrice() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 }

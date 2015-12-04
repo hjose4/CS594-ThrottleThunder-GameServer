@@ -22,8 +22,30 @@ public class RequestGaragePurchase extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		PlayerVehicle vehicle = VehicleModel.getPlayerVehicleById(carId);
+		Arraylist<Upgrade> upgrades = new Arraylist<Upgrade>();
 		if(vehicle != null) {
+			if(typeId == 0){
+				ArrayList<PlayerVehicleUpgrade> vehicleUpgrades = PlayerVehicleUpgradeModel.getUpgradesByVehicleId(carId);
+				if(vehicleUpgrades!=null){
+					for(PlayerVehicleUpgrade vehicleUpgrade : vehicleUpgrades)
+						Upgrade upgrade = UpgradeModel.getUpgradeById(vehicleUpgrades.getId());
+						upgrades.add(upgrade);
+				}
+			}
+			if(typeId == 1){
+				// Set paint
+				int paintId = type;
+				vehicle.setPaint(type);
+				
+						
+			}
 			
+			if(typeId == 2){
+				//Add response to all active players
+				int tireId = type;
+				vehicle.setTire(tireId)
+				
+			}
 		}
 
 	}

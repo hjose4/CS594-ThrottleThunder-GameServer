@@ -13,7 +13,6 @@ public class ResponseEnterQueue extends GameResponse {
 
     public ResponseEnterQueue() {
         responseCode = Constants.SMSG_ENTER_QUEUE;
-        System.out.println("created responseEnterQueue()");
     }
 
     @Override

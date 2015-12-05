@@ -14,6 +14,7 @@ import java.util.List;
 
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
+import dataAccessLayer.record.Ranking;
 import json.collections.MapManager;
 import json.model.MapDetails;
 import metadata.Constants;
@@ -102,7 +103,7 @@ public class GameSession extends Thread {
 
 		// Send out prizes
 
-		//-- set currency
+		//-- set currency and save rankings
 		deadPlayerList.add(getRankings().get(0));
 		for (int i=0; i<deadPlayerList.size(); i++) {
 			int currencyGained = 25 + (100 / (deadPlayerList.size() - i));
@@ -110,18 +111,26 @@ public class GameSession extends Thread {
 			for(GameClient client : clients) {
 				if(client.getPlayer().getId() == deadPlayerList.get(i).getId()) {
 					ResponsePrizes prize = new ResponsePrizes();
+					Player player = client.getPlayer();
+					
+					//Send Prize
 					prize.setPrize(currencyGained);
-					client.getPlayer().setLastPrize(currencyGained);
-					client.addResponseForUpdate(prize);					
+					client.addResponseForUpdate(prize);	
+					
+					//Update Player Currency
+					player.setLastPrize(currencyGained);
+					player.setCurrency(player.getCurrency()+currencyGained);
+					player.save(Player.CURRENCY);
+					
+					//Save Ranking
+					Ranking ranking = new Ranking();
+					ranking.setGameId(gameroom.getId());
+					ranking.setPlayerId(player.getId());
+					ranking.setRanking(i+1);
+					ranking.save("all");					
 					break;
 				}
-			}
-
-			//send player currency
-
-			int finalCurrency = deadPlayerList.get(i).getCurrency() + currencyGained;
-			deadPlayerList.get(i).setCurrency(finalCurrency);
-			deadPlayerList.get(i).save(Player.CURRENCY);
+			}			
 		}
 
 		server.deleteSessionThreadOutOfActiveThreads(getId());

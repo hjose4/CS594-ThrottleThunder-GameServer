@@ -24,8 +24,12 @@ public class RequestSetRank extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		//do the rankings business here
-		responseSetRank.setRank(rank);
-		client.getSession().updatePlayerRanking(client.getPlayer(), rank);
+		if(client.getSession() != null) {
+			responseSetRank.setRank(client.getSession().getRankings().indexOf(client.getPlayer()));
+		} else {
+			responseSetRank.setRank(0);
+		}
+		
 		//client.getPlayer().getRoom()client;
 	}
 

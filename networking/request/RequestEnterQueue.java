@@ -34,23 +34,30 @@ public class RequestEnterQueue extends GameRequest {
 		if(session != null) {
 			client.setSession(session);		
 			if(client.getSession() != null) {
+				client.getPlayer().setNotReady();
+				client.getPlayer().setLobbyNotReady();
 				response.setLobbySize(client.getSession().getMaxNumOfPlayers());
 				response.setMinSize(client.getSession().getMinNumOfPlayers());
 				response.setPlayers(client.getSession().getPlayers());
 				client.getSession().addResponseForAll(client.getPlayer().getId(), response);	
 				return;
-			} else {
-				session = client.getServer().createNewGameSession(roomType);
-				client.setSession(session);		
-				if(client.getSession() != null) {
-					response.setLobbySize(client.getSession().getMaxNumOfPlayers());
-					response.setMinSize(client.getSession().getMinNumOfPlayers());
-					response.setPlayers(client.getSession().getPlayers());
-					client.getSession().addResponseForAll(client.getPlayer().getId(), response);	
-					return;
-				}
 			}
 		}
+		
+		if(session == null) {
+			session = client.getServer().createNewGameSession(roomType);
+			client.setSession(session);		
+			if(client.getSession() != null) {
+				client.getPlayer().setNotReady();
+				client.getPlayer().setLobbyNotReady();
+				response.setLobbySize(client.getSession().getMaxNumOfPlayers());
+				response.setMinSize(client.getSession().getMinNumOfPlayers());
+				response.setPlayers(client.getSession().getPlayers());
+				client.getSession().addResponseForAll(client.getPlayer().getId(), response);	
+				return;
+			}
+		}
+		
 		response.setLobbySize(0);
 		response.setMinSize(Integer.MAX_VALUE);
 		response.setPlayers(new ArrayList<Player>());

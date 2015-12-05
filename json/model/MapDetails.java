@@ -31,7 +31,11 @@ public class MapDetails {
 		return name;
 	}
 	public List<Position> getPositions() {
-		return positions;
+		List<Position> list = new ArrayList<Position>(positions.size());
+		for(Position point : positions) {
+			list.add(point);
+		}
+		return list;
 	}
 	public int getMaxNumOfPlayers() {
 		return this.positions.size();

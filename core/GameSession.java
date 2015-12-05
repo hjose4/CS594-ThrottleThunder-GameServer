@@ -38,7 +38,7 @@ public class GameSession extends Thread {
 	public GameSession(GameServer server, GameRoom gameRoom) {
 		this.gameroom = gameRoom;
 		this.server = server;
-		mapDetails = MapManager.getInstance().getMapDetails(gameroom.getType());
+		mapDetails = MapManager.getInstance().getMapDetails(gameroom.getMapName());
 		availablePositions = mapDetails.getPositions();
 		startingPositions = new HashMap<Player, Position>();
 		deadPlayerList = new ArrayList<Player>();

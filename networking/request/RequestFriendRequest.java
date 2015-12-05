@@ -2,6 +2,10 @@ package networking.request;
 
 // Java Imports
 import java.io.IOException;
+
+import dataAccessLayer.model.FriendshipModel;
+import dataAccessLayer.model.PlayerModel;
+import dataAccessLayer.record.Player;
 import networking.response.ResponseFriendRequest;
 import utility.DataReader;
 
@@ -21,7 +25,9 @@ public class RequestFriendRequest extends GameRequest {
 
     @Override
     public void doBusiness() throws Exception {
-    	if(!username.equals(client.getPlayer().getUsername())) {
+    	Player targetedPlayer = PlayerModel.getPlayerByUsername(username);
+    	//Check if the player exists, make sure it is not sending to self, and make sure they are not already friends
+    	if(targetedPlayer != null && !username.equals(client.getPlayer().getUsername()) && FriendshipModel.getFriendship(client.getPlayer(), targetedPlayer) == null) {
 	        response.setUsernameFrom(client.getPlayer().getUsername());
 	        client.getServer().addResponseForUser(username,response); 
     	}       

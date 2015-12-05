@@ -88,9 +88,7 @@ public class GameSession extends Thread {
 								endGame();
 							}
 						}
-					} else {
-						System.out.println("not an RR game");
-					}
+					} 
 				}
 			}
 

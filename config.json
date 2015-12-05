@@ -64,7 +64,7 @@
 		},
 		{
 			"type":2,
-			"name":"RR Map 1",
+			"name":"Space Highway",
 			"mode":1,
 			"required":2,
 			"positions": [
@@ -80,7 +80,7 @@
 		},
 		{
 			"type":3,
-			"name":"RR Map 2",
+			"name":"Royal Day",
 			"mode":1,
 			"required":2,
 			"positions": [

@@ -228,6 +228,10 @@ public class GameSession extends Thread {
 		}
 		return players;
 	}
+	
+	public boolean isClientLoading(GameClient client) {
+		return client.getPlayer().isLobbyReady() && client.getPlayer().isReady() && phase == 1;
+	}
 
 	public GameRoom getGameRoom() {
 		return gameroom;

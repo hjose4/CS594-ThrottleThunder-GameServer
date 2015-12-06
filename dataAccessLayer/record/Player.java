@@ -18,6 +18,7 @@ public class Player extends ObjectModel {
 	private int carId = 0, carPaint = 0, carTire = 0;
 	private int lastPrize = 0;
 	private Group group;
+	public long lastReady = 0L;
 	
 	public Player() {
 		super (new HashMap<String,String>());
@@ -80,6 +81,7 @@ public class Player extends ObjectModel {
 
 
 	public boolean isReady() {
+		lastReady = System.currentTimeMillis();
 		return isReady;
 	}
 	public void setReady() {

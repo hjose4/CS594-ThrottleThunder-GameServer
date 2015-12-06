@@ -2,6 +2,7 @@ package core;
 
 import networking.response.GameResponse;
 import networking.response.ResponseDead;
+import networking.response.ResponseEnterQueue;
 import networking.response.ResponsePrizes;
 import networking.response.ResponseRenderCharacter;
 import networking.response.ResponseSetPosition;
@@ -133,6 +134,14 @@ public class GameSession extends Thread {
 			}			
 		}
 
+		//Commented out for testing purpose
+//		for(GameClient client : clients) {
+//			client.setSession(null);
+//		}
+//		
+//		clients.clear();
+//		availablePositions.clear();
+//		playerRankings.clear();
 		server.deleteSessionThreadOutOfActiveThreads(getId());
 	}
 
@@ -197,6 +206,14 @@ public class GameSession extends Thread {
 		if (startingPositions.get(client.getPlayer()) != null) {
 			availablePositions.add(startingPositions.get(client.getPlayer()));
 			startingPositions.remove(client.getPlayer());
+		}
+		
+		if(phase == 0) {
+			ResponseEnterQueue response = new ResponseEnterQueue();
+			response.setLobbySize(getMaxNumOfPlayers());
+			response.setMinSize(getMinNumOfPlayers());
+			response.setPlayers(getPlayers());			
+			addResponseForAll(response);
 		}
 	}
 

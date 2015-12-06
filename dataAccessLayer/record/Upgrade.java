@@ -38,7 +38,7 @@ public class Upgrade extends ObjectModel {
 	}
 
 	public double getArmor() {
-		return get(ARMOR);
+		return Integer.valueOf(get(ARMOR));
 	}
 
 	public void setArmor(double armor) {
@@ -46,15 +46,15 @@ public class Upgrade extends ObjectModel {
 	}
 
 	public double getHealth() {
-		return get(HEALTH);
+		return Integer.valueOf(get(HEALTH));
 	}
 
 	public void setHealth(double health) {
-		set(HEALTH)= health;
+		set(HEALTH, health);
 	}
 
 	public double getAcceleration() {
-		return get(ACCELERATION);
+		return Integer.valueOf(get(ACCELERATION));
 	}
 
 	public void setAcceleration(double acceleration) {
@@ -62,7 +62,7 @@ public class Upgrade extends ObjectModel {
 	}
 
 	public int getId() {
-		return get(ID);
+		return Integer.valueOf(get(ID));
 	}
 
 	

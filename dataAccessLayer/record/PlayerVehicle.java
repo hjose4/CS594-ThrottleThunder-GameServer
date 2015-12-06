@@ -43,4 +43,13 @@ public class PlayerVehicle extends ObjectModel {
 	public int getId() {
 		return Integer.valueOf(get(ID));
 	}
+	
+	public void setPaint(int paintId) {
+		set(PAINT_ID,paintId);
+	}
+	
+	public void setTire(int tireId) {
+		set(TIRE_ID,tireId);
+	}
+
 }

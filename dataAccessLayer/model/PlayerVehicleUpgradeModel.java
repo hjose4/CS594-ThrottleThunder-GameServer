@@ -3,9 +3,11 @@ package dataAccessLayer.model;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.ObjectModel;
+import dataAccessLayer.record.Player;
 import dataAccessLayer.record.PlayerVehicleUpgrade;
 
 
@@ -21,6 +23,20 @@ public class PlayerVehicleUpgradeModel {
 			//Do not care
 		}
 		return null;
+	}
+
+	public static ArrayList<PlayerVehicleUpgrade> searchForUpgrades(int carId) {
+			ArrayList<PlayerVehicleUpgrade> list = new ArrayList<PlayerVehicleUpgrade>();
+			HashMap<String,String> params = new HashMap<>();
+			params.put("player_vehicle_id", carId+"");
+			List<ObjectModel> models = DatabaseDriver.getInstance().find(PlayerVehicleUpgrade.class, params);
+			if(models != null) {
+				for(ObjectModel model : models) {
+					list.add(new PlayerVehicleUpgrade(model.getData()));
+				}
+			}
+			return list;
+	
 	}
 
 

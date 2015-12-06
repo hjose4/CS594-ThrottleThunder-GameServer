@@ -9,7 +9,7 @@ public class PlayerVehicleUpgrade  extends ObjectModel {
 	public static final String UPGRADE_ID = "upgrade_id";
 	public static final String PVEHICLE_ID  = "player_vehicle_id";
 	
-	public PlayerVehicle(HashMap<String, String> input) {
+	public PlayerVehicleUpgrade(HashMap<String, String> input) {
 		super(input);
 	}
 

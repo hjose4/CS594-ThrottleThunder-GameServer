@@ -25,11 +25,12 @@ public class RequestGaragePurchase extends GameRequest {
 	private int carId;
 	private int typeId;
 	private int type;
+	private int value;
 	
 	private ResponseGaragePurchase response;
 	
 	public RequestGaragePurchase() {
-		responses.add(response = new ResponseGaragePurchase());
+		response = new ResponseGaragePurchase();
 	}
 
 	@Override
@@ -38,62 +39,56 @@ public class RequestGaragePurchase extends GameRequest {
 		carId = DataReader.readInt(dataInput);
 		type = DataReader.readInt(dataInput);
 		typeId = DataReader.readInt(dataInput);
+		value = DataReader.readInt(dataInput);
 	}
 
 	@Override
 	public void doBusiness() throws Exception {
 		PlayerVehicle vehicle = VehicleModel.getPlayerVehicleById(carId);
-		ArrayList<Upgrade> upgrades = new ArrayList<Upgrade>();
 		int status = 0;
 		if(vehicle != null) {
 			if(typeId == 0){
-				ArrayList<PlayerVehicleUpgrade> vehicleUpgrades = PlayerVehicleUpgradeModel.searchForUpgrades(carId);
-				if(vehicleUpgrades!=null){
-					for(PlayerVehicleUpgrade vehicleUpgrade : vehicleUpgrades){
-						Upgrade upgrade = UpgradeModel.getUpgradeById(vehicleUpgrade.getUpgradeId());
-						upgrades.add(upgrade);
-					}
-					ArrayList<Integer> armors = new ArrayList<Integer>();
-					ArrayList<Integer> healths = new ArrayList<Integer>();
-					ArrayList<Integer> accelerations = new ArrayList<Integer>();
-					for (Upgrade upgrade : upgrades)
-					{
-						armors.add((int) upgrade.getArmor());
-						healths.add((int) upgrade.getHealth());
-						accelerations.add((int) upgrade.getAcceleration());
-						
-					}
-					Integer armor = Collections.max(armors);
-					Integer health = Collections.max(healths);
-					Integer acceleration = Collections.max(accelerations);
 					
-					Player player = PlayerModel.getPlayerByUsername(client.getPlayer().getUsername());
-					int mycurrency = player.getCurrency();
+					
 					int statlevel = 0;
 					
 					if(type == 1){
 						//armor upgrade
+						int armor = value;
 						statlevel = armor+1;
 					}
 					if(type ==2){
 						//health upgrade
+						int health = value;
 						statlevel = health+1;
 					}
 					if(type == 3){
 						//acceleration upgrade
+						int acceleration = value;
 						statlevel =acceleration+1;
 					}
 					if(statlevel<=7){
+						//check the price for the upgrade
 						Cost cost = CostModel.getCostBystatlevel(statlevel);
 						int currencydeduct = cost.getPrice();
+						
+						// Get the currency the player is having
+						Player player = PlayerModel.getPlayerByUsername(client.getPlayer().getUsername());
+						int mycurrency = player.getCurrency();
+						
+						
 						if(mycurrency>currencydeduct){
 							player.setCurrency(mycurrency-currencydeduct);
-							player.save("all");
-							status = 1;
+							player.save("all"); // save the player with the deducted currency
+							status = 1; // successful upgrade
+						}
+						if(status ==1){
+							// Update the upgrades table and the vehicle-upgrade table
+							
+							
 						}
 					}
 				}
-			}
 			if(typeId == 1){
 				// Set paint
 				int paintId = type;

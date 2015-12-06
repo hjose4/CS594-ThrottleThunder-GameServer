@@ -56,6 +56,13 @@ CREATE TABLE `friend_relationships` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table for Costs for the Garage Purchase
+--
+CREATE TABLE IF NOT EXISTS Costs(statLevel int PRIMARY KEY, price int NOT NULL);
+
+INSERT INTO Costs VALUES(0, 0), (1, 100), (2, 200), (3, 300), (4, 500), (5, 800), (6, 1300), (7, 2100);
+
+--
 -- Table structure for table `game_rankings`
 --
 

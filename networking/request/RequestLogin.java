@@ -32,18 +32,24 @@ public class RequestLogin extends GameRequest {
 
 	@Override
 	public void doBusiness() throws Exception {
-		Player player = new Player();
-		player.setPassword(password);
-		player.setUsername(username);
-		ArrayList<Player> players = PlayerModel.searchForPlayers(player);
-
-		if (players.size() > 0 && client.getServer().getThreadByPlayerUserName(players.get(0).getUsername()) == null) {
-			System.out.println("Connected !");
-			client.setPlayer(players.remove(0));
-			responseLogin.setAnswer(1);
+		if(client.getServer().getThreadByPlayerUserName(username) == null) {
+			Player player = new Player();
+			player.setPassword(password);
+			player.setUsername(username);
+			ArrayList<Player> players = PlayerModel.searchForPlayers(player);
+			
+			if (players.size() > 0) {
+				System.out.println("Connected !");
+				client.setPlayer(players.remove(0));
+				responseLogin.setAnswer(1);
+			} else {
+				System.out.println("Wrong credentials");
+				responseLogin.setAnswer(0);
+			}
 		} else {
-			System.out.println("Wrong credentials");
-			responseLogin.setAnswer(0);
+			System.out.println("Already Logged In");
+			responseLogin.setAnswer(2);
 		}
+		
 	}
 }

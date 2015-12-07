@@ -70,7 +70,12 @@ public class Player extends ObjectModel {
 	}
 	
 	public void setPosition(Position p){
-		this.pos = p;
+		this.pos.setX(p.getX());
+		this.pos.setY(p.getY());
+		this.pos.setZ(p.getZ());
+		this.pos.setH(p.getH());
+		this.pos.setP(p.getP());
+		this.pos.setR(p.getR());
 	}
 	
 	public void setForces(float steering, float wheelforce, float brakeforce){

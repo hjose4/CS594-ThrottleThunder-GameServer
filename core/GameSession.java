@@ -175,7 +175,7 @@ public class GameSession extends Thread {
 		}
 		
 		Position position = null;
-		if (clients.size() < mapDetails.getMaxNumOfPlayers() && (position = availablePositions.remove(0)) != null) {
+		if (phase == 0 && availablePositions.size() > 0 && clients.size() < mapDetails.getMaxNumOfPlayers() && (position = availablePositions.remove(0)) != null) {
 			clients.add(client);
 			startingPositions.put(client.getPlayer(), position);
 			client.getPlayer().setPosition(position);

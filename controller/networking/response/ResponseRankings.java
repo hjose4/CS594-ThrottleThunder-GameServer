@@ -1,10 +1,10 @@
-package networking.response;
+package controller.networking.response;
 
 import utility.GamePacket;
 import java.util.List;
 
-import dataAccessLayer.record.Player;
-import metadata.Constants;
+import driver.data.meta.Constants;
+import driver.database.record.Player;
 
 public class ResponseRankings extends GameResponse {
 	private List<Player> rankings;

@@ -1,7 +1,8 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
-import networking.response.ResponsePrizes;
+
+import controller.networking.response.ResponsePrizes;
 
 public class RequestPrizes extends GameRequest {
 	

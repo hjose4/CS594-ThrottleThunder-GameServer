@@ -10,16 +10,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-// Custom Imports
-import metadata.GameRequestTable;
-import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.model.GameRoomModel;
-import dataAccessLayer.record.GameRoom;
-import dataAccessLayer.record.Player;
-import json.collections.MapManager;
-import json.model.MapDetails;
-import networking.response.GameResponse;
+import controller.networking.response.GameResponse;
+import driver.database.DatabaseDriver;
+import driver.database.model.GameRoomModel;
+import driver.database.record.GameRoom;
+import driver.database.record.Player;
+import driver.json.collection.MapManager;
+import driver.json.record.MapDetails;
+import routing.GameRequestTable;
 import utility.JsonFileParser;
+import utility.Logger;
 
 /**
  * The GameServer class serves as the main module that runs the server.
@@ -66,7 +66,7 @@ public class GameServer {
 	/**
 	 * Check whether the server is prepared to run.
 	 * 
-	 * @return the ready status
+	 * @return boolean
 	 */
 	private boolean isReady() {
 		return ready;
@@ -85,14 +85,14 @@ public class GameServer {
 		try {
 			// Start to listen on the given port for incoming connections
 			listenSocket = new ServerSocket(serverPort);
-			System.out.println("Server has started on port: " + listenSocket.getLocalPort());
-			System.out.println("Waiting for clients...");
+			Logger.logMessage("Server has started on port: " + listenSocket.getLocalPort());
+			Logger.logMessage("Waiting for clients...");
 			// Loop indefinitely to establish multiple connections
 			while (true) {
 				try {
 					// A client socket will represent a connection between the client and this server
 					Socket clientSocket = listenSocket.accept();
-					System.out.println("A Connection Established!");
+					Logger.logMessage("A Connection Established!");
 
 					// Create a thread to represent a client that holds the client socket
 					GameClient client = new GameClient(clientSocket, this);
@@ -100,31 +100,22 @@ public class GameServer {
 					// Run the thread
 					client.start();
 				} catch (IOException e) {
-					System.out.println(e.getMessage());
+					Logger.logMessage(e.getMessage());
 				}
 			}
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			Logger.logMessage(e.getMessage());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			Logger.logMessage(e.getMessage());
 		}
 	}
 
 	/**
-	 * Get the GameClient thread for the player using the player ID.
+	 * Get GameSession based on room type
 	 *
-	 * @param playerID holds the player ID
-	 * @return the GameClient thread
+	 * @param int
+	 * @return GameSession
 	 */
-	/*public GameClient getThreadByPlayerID(int playerID) {
-        for (GameClient aClient : activeThreads.values()) {
-            if (aClient.getPlayer().getID() == playerID) {
-                return aClient;
-            }
-        }
-
-        return null;
-    }*/
 	public GameSession getGameSessionByRoomType(int roomType){
 		for(GameSession gsession : activeSessions.values()){
 			if(gsession.getGameRoom().getType() == roomType && !gsession.isFull()){
@@ -134,6 +125,12 @@ public class GameServer {
 		
 		return createNewGameSession(roomType);
 	}
+	
+	/**
+	 * Creates a new GameSession for the given room type
+	 * @param roomType
+	 * @return GameSession
+	 */
 	public GameSession createNewGameSession(int roomType) {
 		GameRoom room = new GameRoom();
 		MapDetails map = MapManager.getInstance().getMapDetails(roomType);
@@ -144,7 +141,7 @@ public class GameServer {
 			room.setRoomName(map.getName());
 			room.setStatus(0);
 		} else {
-			System.out.println("Cannot find map " + roomType);
+			Logger.logMessage("Cannot find map " + roomType);
 			room.setType(roomType);
 			room.setTimeStarted(new Date());
 			room.setMapName("");
@@ -213,7 +210,7 @@ public class GameServer {
 	}
 	
 	public void addToActiveSessions(GameSession gamesession){
-		System.out.println("gamesessions added " + gamesession.getGameRoom().getRoomName());
+		Logger.logMessage("gamesessions added " + gamesession.getGameRoom().getRoomName());
 		activeSessions.put(gamesession.getId(), gamesession);
 	}
 	
@@ -254,7 +251,7 @@ public class GameServer {
 	}
 
 	public List<Player> getActivePlayers() {
-		System.out.println(activePlayers.values());
+		Logger.logMessage(activePlayers.values());
 		return new ArrayList<Player>(activePlayers.values());
 	}
 
@@ -275,7 +272,7 @@ public class GameServer {
 	}
 	
 	public void deleteSessionThreadOutOfActiveThreads(Long threadID) {
-		System.out.println("Session is deleted with ID " + threadID);
+		Logger.logMessage("Session is deleted with ID " + threadID);
 		activeSessions.remove(threadID);
 	}
 	
@@ -291,7 +288,7 @@ public class GameServer {
         if (client != null) {
             client.addResponseForUpdate(response);
         } else {
-            System.out.println("In addResponseForUser--client is null");
+            Logger.logMessage("In addResponseForUser--client is null");
         }
     }*/
 
@@ -307,7 +304,7 @@ public class GameServer {
 		if (client != null) {
 			client.addResponseForUpdate(response);
 		} else {
-			System.out.println("In addResponseForUser--client is null");
+			Logger.logMessage("In addResponseForUser--client is null");
 		}
 	}
 

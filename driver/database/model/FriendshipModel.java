@@ -1,13 +1,13 @@
-package dataAccessLayer.model;
+package driver.database.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.ObjectModel;
-import dataAccessLayer.record.Friendship;
-import dataAccessLayer.record.Player;
+import driver.database.DatabaseDriver;
+import driver.database.ObjectModel;
+import driver.database.record.Friendship;
+import driver.database.record.Player;
 
 public class FriendshipModel {
 	public static Friendship getFriendship(Player user, Player friend) {

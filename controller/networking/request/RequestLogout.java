@@ -1,9 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 
+import controller.networking.response.ResponseLogout;
 import core.GameClient;
-import networking.response.ResponseLogout;
 
 public class RequestLogout extends GameRequest {	
 	// Responses
@@ -22,7 +22,6 @@ public class RequestLogout extends GameRequest {
 			client.getSession().removeGameClient(client);
 
 			client.getSession().removeResponseForCharacters(client.getPlayer().getUsername());
-			client.getSession().endThread();
 			client.setSession(null);
 		} else {
 			//client.getServer().addResponseForAllOnlinePlayers(client.getPlayer().getId(), response);
@@ -37,7 +36,6 @@ public class RequestLogout extends GameRequest {
 			client.getSession().addResponseForAll(response);
 			client.getSession().removeGameClient(client);
 			client.getSession().removeResponseForCharacters(client.getPlayer().getUsername());
-			client.getSession().endThread();
 			client.setSession(null);
 		}
 		client.stopClient();

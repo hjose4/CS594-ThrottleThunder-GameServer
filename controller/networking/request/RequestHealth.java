@@ -1,10 +1,10 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
 
-import metadata.Constants;
-import networking.response.ResponseChangeHealth;
+import controller.networking.response.ResponseChangeHealth;
+import driver.data.meta.Constants;
 // Custom Imports
 //import core.GameServer;
 import utility.DataReader;

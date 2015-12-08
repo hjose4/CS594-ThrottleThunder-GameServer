@@ -1,8 +1,8 @@
-package dataAccessLayer.record;
+package driver.database.record;
 
 import java.util.HashMap;
 
-import dataAccessLayer.ObjectModel;
+import driver.database.ObjectModel;
 
 public class PlayerVehicle extends ObjectModel {
 	public static final String ID = "id";

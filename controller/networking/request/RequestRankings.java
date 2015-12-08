@@ -1,11 +1,11 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dataAccessLayer.record.Player;
-import networking.response.ResponseRankings;
+import controller.networking.response.ResponseRankings;
+import driver.database.record.Player;
 
 public class RequestRankings extends GameRequest {
 	

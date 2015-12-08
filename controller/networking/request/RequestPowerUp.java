@@ -1,11 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
 
-// Custom Imports
-//import core.GameServer;
-import networking.response.*;
+import controller.networking.response.*;
 import utility.DataReader;
 
 public class RequestPowerUp extends GameRequest {

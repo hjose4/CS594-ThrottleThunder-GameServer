@@ -1,12 +1,12 @@
-package dataAccessLayer.model;
+package driver.database.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.ObjectModel;
-import dataAccessLayer.record.Upgrade;
+import driver.database.DatabaseDriver;
+import driver.database.ObjectModel;
+import driver.database.record.Upgrade;
 
 public class UpgradeModel {
 	

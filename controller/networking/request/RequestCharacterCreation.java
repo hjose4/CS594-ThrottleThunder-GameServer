@@ -1,12 +1,12 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 
-import dataAccessLayer.model.VehicleModel;
-import dataAccessLayer.record.Player;
-import dataAccessLayer.record.PlayerVehicle;
-import json.collections.BaseVehicleCollection;
-import networking.response.ResponseCharacterCreation;
+import controller.networking.response.ResponseCharacterCreation;
+import driver.database.model.VehicleModel;
+import driver.database.record.Player;
+import driver.database.record.PlayerVehicle;
+import driver.json.collection.BaseVehicleCollection;
 import utility.DataReader;
 
 public class RequestCharacterCreation extends GameRequest {

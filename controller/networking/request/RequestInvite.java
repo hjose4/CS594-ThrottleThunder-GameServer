@@ -1,8 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
-import networking.response.ResponseInvite;
+
+import controller.networking.response.ResponseInvite;
 // Custom Imports
 //import core.GameServer;
 import utility.DataReader;

@@ -1,15 +1,15 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
 import java.util.List;
 
-import dataAccessLayer.model.VehicleModel;
-import dataAccessLayer.record.Player;
-import dataAccessLayer.record.PlayerVehicle;
-import json.collections.BaseVehicleCollection;
-import json.model.BaseVehicle;
-import networking.response.ResponseEnterQueue;
+import controller.networking.response.ResponseEnterQueue;
+import driver.database.model.VehicleModel;
+import driver.database.record.Player;
+import driver.database.record.PlayerVehicle;
+import driver.json.collection.BaseVehicleCollection;
+import driver.json.record.BaseVehicle;
 // Custom Imports
 //import core.GameServer;
 import utility.DataReader;

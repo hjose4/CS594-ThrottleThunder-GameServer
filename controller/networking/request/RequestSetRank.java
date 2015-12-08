@@ -1,9 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 
+import controller.networking.response.ResponseSetRank;
 import utility.DataReader;
-import networking.response.ResponseSetRank;
 
 public class RequestSetRank extends GameRequest {
 	

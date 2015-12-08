@@ -1,8 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
-import networking.response.ResponseEmote;
+
+import controller.networking.response.ResponseEmote;
 import utility.DataReader;
 
 public class RequestEmote extends GameRequest {

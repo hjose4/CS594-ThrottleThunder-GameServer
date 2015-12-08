@@ -1,9 +1,9 @@
-package model;
+package driver.data.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dataAccessLayer.record.Player;
+import driver.database.record.Player;
 
 public class Group {
 	private Player leader;

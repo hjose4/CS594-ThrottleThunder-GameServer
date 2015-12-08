@@ -1,12 +1,12 @@
-package dataAccessLayer.model;
+package driver.database.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.ObjectModel;
-import dataAccessLayer.record.Ranking;
+import driver.database.DatabaseDriver;
+import driver.database.ObjectModel;
+import driver.database.record.Ranking;
 
 public class RankingModel {
 	public static Ranking getRankingById(int id) {

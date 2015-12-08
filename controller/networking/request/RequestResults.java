@@ -1,14 +1,14 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import dataAccessLayer.model.PlayerModel;
-import dataAccessLayer.model.RankingModel;
-import dataAccessLayer.record.Player;
-import dataAccessLayer.record.Ranking;
-import networking.response.ResponseResults;
+import controller.networking.response.ResponseResults;
+import driver.database.model.PlayerModel;
+import driver.database.model.RankingModel;
+import driver.database.record.Player;
+import driver.database.record.Ranking;
 import utility.DataReader;
 
 public class RequestResults extends GameRequest {

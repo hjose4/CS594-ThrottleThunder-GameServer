@@ -1,4 +1,4 @@
-package json.model;
+package driver.json.record;
 
 public class BaseVehicle {
 	private int type;

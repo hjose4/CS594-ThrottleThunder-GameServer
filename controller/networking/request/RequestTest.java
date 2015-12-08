@@ -1,14 +1,14 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import controller.networking.response.ResponseRenderCharacter;
+import controller.networking.response.ResponseSetPosition;
 import core.GameSession;
-import dataAccessLayer.record.Player;
-import model.Position;
-import networking.response.ResponseRenderCharacter;
-import networking.response.ResponseSetPosition;
+import driver.data.model.Position;
+import driver.database.record.Player;
 import utility.DataReader;
 
 /**

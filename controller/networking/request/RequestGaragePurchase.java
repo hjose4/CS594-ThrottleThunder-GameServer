@@ -1,9 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 
-import dataAccessLayer.model.VehicleModel;
-import dataAccessLayer.record.PlayerVehicle;
+import driver.database.model.VehicleModel;
+import driver.database.record.PlayerVehicle;
 import utility.DataReader;
 
 public class RequestGaragePurchase extends GameRequest {

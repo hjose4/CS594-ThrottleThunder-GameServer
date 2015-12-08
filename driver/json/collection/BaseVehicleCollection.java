@@ -1,8 +1,8 @@
-package json.collections;
+package driver.json.collection;
 
 import java.util.HashMap;
 
-import json.model.BaseVehicle;
+import driver.json.record.BaseVehicle;
 
 public class BaseVehicleCollection {
 	private static HashMap<Integer,BaseVehicle> vehicles = new HashMap<>();

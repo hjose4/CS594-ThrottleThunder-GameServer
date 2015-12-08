@@ -1,9 +1,9 @@
-package json.model;
+package driver.json.record;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Position;
+import driver.data.model.Position;
 
 public class MapDetails {
 	private int type;

@@ -1,9 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 
+import controller.networking.response.ResponseCollision;
 import utility.DataReader;
-import networking.response.ResponseCollision;
 
 public class RequestCollision extends GameRequest {
 	

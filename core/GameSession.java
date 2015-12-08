@@ -1,25 +1,26 @@
 package core;
 
-import networking.response.GameResponse;
-import networking.response.ResponseDead;
-import networking.response.ResponseEnterQueue;
-import networking.response.ResponsePrizes;
-import networking.response.ResponseRenderCharacter;
-import networking.response.ResponseSetPosition;
-import networking.response.ResponseTime;
+import utility.Logger;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import dataAccessLayer.record.GameRoom;
-import dataAccessLayer.record.Player;
-import dataAccessLayer.record.Ranking;
-import json.collections.MapManager;
-import json.model.MapDetails;
-import metadata.Constants;
-import model.Position;
+import controller.networking.response.GameResponse;
+import controller.networking.response.ResponseDead;
+import controller.networking.response.ResponseEnterQueue;
+import controller.networking.response.ResponsePrizes;
+import controller.networking.response.ResponseRenderCharacter;
+import controller.networking.response.ResponseSetPosition;
+import controller.networking.response.ResponseTime;
+import driver.data.meta.Constants;
+import driver.data.model.Position;
+import driver.database.record.GameRoom;
+import driver.database.record.Player;
+import driver.database.record.Ranking;
+import driver.json.collection.MapManager;
+import driver.json.record.MapDetails;
 
 public class GameSession extends Thread {
 	private int phase = 0;
@@ -37,6 +38,11 @@ public class GameSession extends Thread {
 	private List<Player> deadPlayerList;
 	private List<ResponseRenderCharacter> renderCharacterResponses;
 
+	/**
+	 * Creates an instance of GameSession
+	 * @param GameServer
+	 * @param GameRoom
+	 */
 	public GameSession(GameServer server, GameRoom gameRoom) {
 		this.gameroom = gameRoom;
 		this.server = server;
@@ -47,25 +53,23 @@ public class GameSession extends Thread {
 		clients = new ArrayList<>();
 		playerRankings = new HashMap<Player,Double>();
 		renderCharacterResponses = new ArrayList<ResponseRenderCharacter>();
-		System.out.println("session is created with name " + gameRoom.getRoomName());
+		Logger.logMessage("session is created with name " + gameRoom.getRoomName());
 	}
 
 	@Override
 	public void run() {
-		System.out.println("Starting game thread loop");
+		Logger.logMessage("Starting game thread loop");
 		isRunning = true;
 		long currentTime, gameRunTime, referTime, gameStartedTime, eliminateTime = 0;
 		referTime = 0L;
-		//gameStartedTime = gameroom.getTimeStarted();
 		gameStartedTime = System.currentTimeMillis();
 		while (isRunning) { 
-			//System.out.println("Phases: " + phase);
 			currentTime = System.currentTimeMillis();
 			gameRunTime = currentTime - gameStartedTime;
 			if (phase == 1) {
 				// Start countdown
 				if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime > 0 && (referTime == 0 || gameRunTime - referTime >= Constants.SEND_TIME)) {
-					System.out.println("countdown time : " + (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));
+					Logger.logMessage("countdown time : " + (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));
 					sendAllResponseTime(0, (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));					
 					referTime += Constants.SEND_TIME;
 				} else if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime <= 0) {
@@ -81,7 +85,7 @@ public class GameSession extends Thread {
 					sendAllResponseTime(1, (int)(gameRunTime));
 					if(mapDetails.getMode() == Constants.RR){
 						eliminateTime -= Constants.SEND_TIME;
-						System.out.println("elimination time : " + eliminateTime);
+						Logger.logMessage("elimination time : " + eliminateTime);
 						sendAllResponseTime(2, (int)(eliminateTime));
 						if(eliminateTime <= 0){
 							if(doElimination()){
@@ -100,7 +104,7 @@ public class GameSession extends Thread {
 			}				
 
 		}
-		System.out.println("Game Over : GameId - " + getId());
+		Logger.logMessage("Game Over : GameId - " + getId());
 
 		// Send out prizes
 
@@ -145,6 +149,10 @@ public class GameSession extends Thread {
 		server.deleteSessionThreadOutOfActiveThreads(getId());
 	}
 
+	/**
+	 * Checks if it is time to do elimination and handles elimination
+	 * @return boolean
+	 */
 	private boolean doElimination() {
 		if(playerRankings.size() - deadPlayerList.size() <= 1){
 			return false;
@@ -152,7 +160,7 @@ public class GameSession extends Thread {
 		List<Player> ranking = getRankings();
 		Player killThis = ranking.get(playerRankings.size()-deadPlayerList.size()-1);
 		deadPlayerList.add(killThis);
-		System.out.println("elminated " + killThis.getUsername());
+		Logger.logMessage("elminated " + killThis.getUsername());
 		ResponseDead responseDead = new ResponseDead();
 		responseDead.setUsername(killThis.getUsername());
 		addResponseForAll(responseDead);
@@ -160,16 +168,15 @@ public class GameSession extends Thread {
 	}
 
 	/**
-	 * We only want to add clients to the session as long as we have a starting
-	 * position for them
+	 * We only want to add clients to the session as long as we have space for them
 	 * 
-	 * @param client
+	 * @param GameClient
 	 * @return boolean
 	 */
 	public int addGameClient(GameClient client) {
 		for(GameClient _client : clients) {
 			if(_client.getPlayer().getId() == client.getPlayer().getId()) {
-				System.out.println("Client is already in room");
+				Logger.logMessage("Client is already in room");
 				return -1;
 			}
 		}
@@ -180,32 +187,44 @@ public class GameSession extends Thread {
 			startingPositions.put(client.getPlayer(), position);
 			client.getPlayer().setPosition(position);
 			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
-			System.out.println("Number of clients: " + getGameClients().size());
+			Logger.logMessage("Number of clients: " + getGameClients().size());
 			return 1;
 		}
 		return 0;
 	}
 
+	/**
+	 * Add player into the dead player list
+	 * @param Player
+	 */
 	public void clientDead(Player player) {
 		deadPlayerList.add(player);
 	}
 
+	/**
+	 * Remove GameClient from session
+	 * @param GameClient
+	 */
 	public void removeGameClient(GameClient client) {
 		clients.remove(client);
 
 		//Check if the player is alive
+		boolean isAlive = true;
 		for(Player player : deadPlayerList) {
 			//Player is dead, so its okay
 			if(player.getId() == client.getPlayer().getId()) {
-				return;
+				isAlive = false;
+				break;
 			}
 		}
 
 		//Player is not dead - no points for him/her #Wendy
-		playerRankings.remove(client.getPlayer());
-		if (startingPositions.get(client.getPlayer()) != null) {
-			availablePositions.add(startingPositions.get(client.getPlayer()));
-			startingPositions.remove(client.getPlayer());
+		if(isAlive) {
+			playerRankings.remove(client.getPlayer());
+			if (startingPositions.get(client.getPlayer()) != null) {
+				availablePositions.add(startingPositions.get(client.getPlayer()));
+				startingPositions.remove(client.getPlayer());
+			}
 		}
 		
 		if(phase == 0) {
@@ -215,12 +234,24 @@ public class GameSession extends Thread {
 			response.setPlayers(getPlayers());			
 			addResponseForAll(response);
 		}
+		
+		if(clients.size() == 0) {
+			server.deleteSessionThreadOutOfActiveThreads(getId());
+		}
 	}
 
+	/**
+	 * Returns the list of GameClients
+	 * @return List<GameClient>
+	 */
 	public List<GameClient> getGameClients() {
 		return clients;
 	}
 
+	/**
+	 * Returns the list of Players
+	 * @return List<Player>
+	 */
 	public List<Player> getPlayers() {
 		List<Player> players = new ArrayList<Player>();
 		for (GameClient client : clients) {
@@ -229,41 +260,73 @@ public class GameSession extends Thread {
 		return players;
 	}
 	
+	/**
+	 * Checks to see if the client is on the loading screen
+	 * @param GameClient
+	 * @return boolean
+	 */
 	public boolean isClientLoading(GameClient client) {
 		return client.getPlayer().isLobbyReady() && client.getPlayer().isReady() && phase == 1;
 	}
 
+	/**
+	 * Returns the game room
+	 * @return GameRoom
+	 */
 	public GameRoom getGameRoom() {
 		return gameroom;
 	}
 
+	/**
+	 * Set the game room
+	 * @param GameRoom
+	 */
 	public void setGameroom(GameRoom gameroom) {
 		this.gameroom = gameroom;
 	}
 	
+	/**
+	 * Returns the max number of players
+	 * @return int
+	 */
 	public int getMaxNumOfPlayers() {
 		return mapDetails.getMaxNumOfPlayers();
 	}
 	
+	/**
+	 * Returns the min number of players
+	 * @return int
+	 */
 	public int getMinNumOfPlayers() {
 		return mapDetails.getMinNumOfPlayers();
 	}
 
-	public GameServer getServer() {
-		return server;
-	}
+	/**
+	 * Causes the thread loop to end
+	 */
 	public void endGame(){
 		isRunning = false;
 	}
+	
+	/**
+	 * returns the list of players starting positions
+	 * @return HashMap<Player,Position>
+	 */
 	public HashMap<Player,Position> getStartingPositions() {
-		return startingPositions;
+		HashMap<Player,Position> ret = new HashMap<>(startingPositions.size());
+		for(Player key : startingPositions.keySet()) {
+			Position pos = startingPositions.get(key);
+			Position value = new Position(pos.getX(),pos.getY(),pos.getZ(),pos.getH(),pos.getP(),pos.getR(),pos.getSteering(),pos.getWheelforce(),pos.getBrakeforce());
+			ret.put(key, value);
+		}
+		return ret;
 	}
 
 	/**
 	 * 0 = start countdown 1 = game time 2 = elimination countdown
 	 * 
-	 * @param type
-	 * @param time
+	 * @param int
+	 * @param int
 	 */
 	public void sendAllResponseTime(int type, int time) {
 		ResponseTime responseTime = new ResponseTime();
@@ -271,16 +334,19 @@ public class GameSession extends Thread {
 		addResponseForAll(responseTime);
 	}
 
+	/**
+	 * Enters the next phase of the game
+	 */
 	public void nextPhase() {
 		//send set_position response here
 		//remember to edit all gameclients.player.position
-		System.out.println("Entering next phase");
+		Logger.logMessage("Entering next phase");
 		switch(phase) {
 		case 0:
 			for(ResponseRenderCharacter responseRenderCharacter : getCharacterUpdates()){
 				addResponseForAll(responseRenderCharacter);
 			}
-			System.out.println("Sending positions");
+			Logger.logMessage("Sending positions");
 			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
 			responseSetPosition.setStartingPositions(startingPositions);
 			addResponseForAll(responseSetPosition);
@@ -288,7 +354,7 @@ public class GameSession extends Thread {
 			phase += 1;
 			break;
 		case 1:
-			System.out.println("Starting game");
+			Logger.logMessage("Starting game");
 			gameroom.setTimeStarted(new Date());				
 			initPowerUp(gameroom.getTimeStarted());
 			gameroom.save(GameRoom.TIME_STARTED);
@@ -303,7 +369,12 @@ public class GameSession extends Thread {
 			powerups[i] = l - Constants.RESPAWN_TIME;
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param int
+	 * @return boolean
+	 */
 	public boolean getPowerups(int powerId) {
 		long cur = System.currentTimeMillis();
 		if (cur - powerups[powerId] >= Constants.RESPAWN_TIME) {
@@ -320,6 +391,10 @@ public class GameSession extends Thread {
 		return true;
 	}
 
+	/**
+	 * Returns the list of player rankings
+	 * @return List<Player>
+	 */
 	public List<Player> getRankings() {
 		if(sortedRankings == null || updateRankings) {
 			updateRankings = false;
@@ -396,18 +471,19 @@ public class GameSession extends Thread {
 		return false;
 	}
 
-	public void endThread() {
-		if(clients.size() == 0){
-			server.deleteSessionThreadOutOfActiveThreads(getId());
-		}
-	}
-
+	/**
+	 * Returns if the room is full
+	 * @return boolean
+	 */
 	public boolean isFull() {
 		return availablePositions.size() == 0;
 	}
 
+	/**
+	 * Returns the MapDetails object
+	 * @return MapDetails
+	 */
 	public MapDetails getMapDetails() {
 		return mapDetails;
 	}
-
 }

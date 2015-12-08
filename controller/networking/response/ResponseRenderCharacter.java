@@ -1,7 +1,6 @@
-package networking.response;
+package controller.networking.response;
 
-// Custom Imports
-import metadata.Constants;
+import driver.data.meta.Constants;
 import utility.GamePacket;
 
 public class ResponseRenderCharacter extends GameResponse {

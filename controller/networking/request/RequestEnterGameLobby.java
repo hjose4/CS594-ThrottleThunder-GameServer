@@ -1,12 +1,12 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
 import java.util.ArrayList;
 
+import controller.networking.response.ResponseEnterQueue;
 import core.GameSession;
-import dataAccessLayer.record.Player;
-import networking.response.ResponseEnterQueue;
+import driver.database.record.Player;
 import utility.DataReader;
 
 public class RequestEnterGameLobby extends GameRequest {

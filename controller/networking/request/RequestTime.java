@@ -1,9 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 
+import controller.networking.response.ResponseTime;
 import utility.DataReader;
-import networking.response.ResponseTime;
 
 public class RequestTime extends GameRequest {
 	private ResponseTime responseTime;

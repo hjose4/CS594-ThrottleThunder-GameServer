@@ -1,8 +1,8 @@
-package networking.response;
+package controller.networking.response;
 
 import utility.GamePacket;
 import core.GameClient;
-import metadata.Constants;
+import driver.data.meta.Constants;
 
 public class ResponsePrizes extends GameResponse {
 	private int prize;

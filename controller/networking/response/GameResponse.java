@@ -1,4 +1,4 @@
-package networking.response;
+package controller.networking.response;
 
 // Java Imports
 import java.lang.reflect.Field;

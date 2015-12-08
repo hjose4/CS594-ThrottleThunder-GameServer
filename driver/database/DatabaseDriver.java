@@ -1,16 +1,16 @@
-package dataAccessLayer;
+package driver.database;
 
 import java.lang.reflect.Constructor;
 import java.sql.*;
 import java.util.*;
 
+import driver.database.record.Friendship;
+import driver.database.record.GameRoom;
+import driver.database.record.Player;
+import driver.database.record.PlayerVehicle;
+import driver.database.record.Ranking;
+import driver.database.record.Upgrade;
 import utility.JsonFileParser;
-import dataAccessLayer.record.Friendship;
-import dataAccessLayer.record.GameRoom;
-import dataAccessLayer.record.Player;
-import dataAccessLayer.record.PlayerVehicle;
-import dataAccessLayer.record.Ranking;
-import dataAccessLayer.record.Upgrade;
 
 //Singleton
 public class DatabaseDriver {
@@ -188,10 +188,8 @@ public class DatabaseDriver {
 		String query = "SELECT * FROM "+getTable(type)+" WHERE ";
 		boolean first=true;
 		ArrayList<HashMap<String, String>> raw_results;
-		ArrayList<ObjectModel> results = new ArrayList<>();
 
-		for (Map.Entry<String, String> entry : data.entrySet())
-		{
+		for (Map.Entry<String, String> entry : data.entrySet()){
 			if(first){
 				first=false;
 			}
@@ -214,7 +212,6 @@ public class DatabaseDriver {
 		try {
 			checkConnection();
 			ArrayList<ObjectModel> results = new ArrayList<>();
-			String table = table_map.get(type);
 
 			ArrayList<HashMap<String, String>> raw_results = select(type, param);
 
@@ -231,9 +228,7 @@ public class DatabaseDriver {
 		return null;
 	}
 
-	//renvoie tous les objets ou l'attribut field=value
-	public ArrayList<ObjectModel> find(Class<? extends ObjectModel> type, String field, Object value)
-	{
+	public ArrayList<ObjectModel> find(Class<? extends ObjectModel> type, String field, Object value) {
 		HashMap<String, String> critere = new HashMap<>();
 		critere.put(field, value.toString());
 		return find(type,critere);
@@ -356,7 +351,7 @@ public class DatabaseDriver {
 
 		return -1;
 	}
-	
+
 	public boolean remove(Class<? extends ObjectModel> type, int id) {
 		int ret = 0;
 		try {

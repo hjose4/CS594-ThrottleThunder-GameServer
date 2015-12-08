@@ -1,7 +1,7 @@
-package networking.response;
+package controller.networking.response;
 
+import driver.data.meta.Constants;
 import utility.GamePacket;
-import metadata.Constants;
 
 public class ResponseEmote extends GameResponse {
 	

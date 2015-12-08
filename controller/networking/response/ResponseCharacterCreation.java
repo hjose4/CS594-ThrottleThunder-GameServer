@@ -1,9 +1,9 @@
-package networking.response;
+package controller.networking.response;
 
 import java.util.List;
 
-import dataAccessLayer.record.PlayerVehicle;
-import metadata.Constants;
+import driver.data.meta.Constants;
+import driver.database.record.PlayerVehicle;
 import utility.GamePacket;
 
 public class ResponseCharacterCreation extends GameResponse {

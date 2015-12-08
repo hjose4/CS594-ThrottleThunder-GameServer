@@ -1,9 +1,10 @@
-package networking.response;
+package controller.networking.response;
 
 import java.util.List;
-import metadata.Constants;
+
+import driver.data.meta.Constants;
+import driver.database.record.Player;
 import utility.GamePacket;
-import dataAccessLayer.record.Player;
 
 public class ResponseFriendList extends GameResponse {
 	List<Player> friends;

@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import json.collections.BaseVehicleCollection;
-import json.collections.MapManager;
-import json.model.MapDetails;
-import model.Position;
+import driver.data.model.Position;
+import driver.json.collection.BaseVehicleCollection;
+import driver.json.collection.MapManager;
+import driver.json.record.MapDetails;
 import utility.vendors.douglascrockford.json.*;
 
 public class JsonFileParser {

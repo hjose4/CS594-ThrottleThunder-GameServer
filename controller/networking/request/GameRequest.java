@@ -1,4 +1,4 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.DataInputStream;
@@ -7,9 +7,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.networking.response.GameResponse;
 // Custom Imports
 import core.GameClient;
-import networking.response.GameResponse;
 
 /**
  * The GameRequest class is an abstract class used as a basis for storing

@@ -1,11 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
 
-import networking.response.GameResponse;
-// Custom Imports
-//import core.GameServer;
+import controller.networking.response.GameResponse;
 
 public class RequestHeartbeat extends GameRequest {
 	public RequestHeartbeat() {

@@ -1,11 +1,12 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
 import java.util.HashMap;
-import dataAccessLayer.record.Player;
-import model.Position;
-import networking.response.ResponseSetPosition;
+
+import controller.networking.response.ResponseSetPosition;
+import driver.data.model.Position;
+import driver.database.record.Player;
 
 public class RequestSetPosition extends GameRequest {
 

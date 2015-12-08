@@ -1,9 +1,10 @@
-package networking.response;
+package controller.networking.response;
 
 // Custom Imports
 import java.util.List;
-import dataAccessLayer.record.Player;
-import metadata.Constants;
+
+import driver.data.meta.Constants;
+import driver.database.record.Player;
 import utility.GamePacket;
 
 public class ResponseEnterQueue extends GameResponse {

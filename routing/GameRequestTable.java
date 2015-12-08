@@ -1,17 +1,17 @@
-package metadata;
+package routing;
 
 // Java Imports
 import java.util.HashMap;
 
-// Custom Imports
-import networking.request.GameRequest;
+import controller.networking.request.GameRequest;
+import driver.data.meta.Constants;
 
 /**
  * The GameRequestTable class stores a mapping of unique request code numbers
  * with its corresponding request class.
  */
 public class GameRequestTable {
-
+	private static String classPath = "controller.networking.request.";
 	private static HashMap<Short, Class> requestNames; // Stores request classes by request codes
 
 	/**
@@ -70,7 +70,7 @@ public class GameRequestTable {
 	 */
 	public static void add(short code, String name) {
 		try {
-			requestNames.put(code, Class.forName("networking.request." + name));
+			requestNames.put(code, Class.forName(classPath + name));
 		} catch (ClassNotFoundException e) {
 			System.err.println(e.getMessage());
 		}

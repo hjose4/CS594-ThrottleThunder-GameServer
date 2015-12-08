@@ -1,9 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 
+import controller.networking.response.ResponseMove;
 import utility.DataReader;
-import networking.response.ResponseMove;
 
 public class RequestMove extends GameRequest {
 	

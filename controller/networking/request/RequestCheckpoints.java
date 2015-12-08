@@ -1,4 +1,4 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
 

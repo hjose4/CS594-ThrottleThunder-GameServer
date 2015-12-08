@@ -1,10 +1,10 @@
-package dataAccessLayer.record;
+package driver.database.record;
 
 import java.util.HashMap;
 
-import dataAccessLayer.ObjectModel;
-import model.Group;
-import model.Position;
+import driver.data.model.Group;
+import driver.data.model.Position;
+import driver.database.ObjectModel;
 
 public class Player extends ObjectModel {
 	public static final String ID = "id";

@@ -1,13 +1,13 @@
-package dataAccessLayer.model;
+package driver.database.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.ObjectModel;
-import dataAccessLayer.record.Player;
+import driver.database.DatabaseDriver;
+import driver.database.ObjectModel;
+import driver.database.record.Player;
 
 public class PlayerModel {
 	public static Player getPlayerById(int id) {

@@ -1,8 +1,9 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
-import dataAccessLayer.record.Player;
-import networking.response.ResponseReady;
+
+import controller.networking.response.ResponseReady;
+import driver.database.record.Player;
 
 public class RequestReady extends GameRequest {
 	

@@ -1,4 +1,4 @@
-package model;
+package driver.data.model;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ public class Position {
 	private float steering;
 	private float wheelforce;
 	private float brakeforce;
-	private int rank;
 	
 	public Position(){
 		this.x=0f;
@@ -30,6 +29,18 @@ public class Position {
 		this.h=h;
 		this.p=p;
 		this.r=r;
+	}
+	
+	public Position(float x, float y, float z, float h, float p, float r, float steering, float wheelforce, float brakeforce){
+		this.x=x;
+		this.y=y;
+		this.z=z;
+		this.h=h;
+		this.p=p;
+		this.r=r;
+		this.steering = steering;
+		this.wheelforce = wheelforce;
+		this.brakeforce = brakeforce;
 	}
 	
 	public Position(List<Float> items) {
@@ -88,13 +99,6 @@ public class Position {
 	}
 	public void setR(float r) {
 		this.r = r;
-	}
-	public int getRank() {
-		return rank;
-	}
-
-	public void setRank(int rank) {
-		this.rank = rank;
 	}
 
 	public float getSteering() {

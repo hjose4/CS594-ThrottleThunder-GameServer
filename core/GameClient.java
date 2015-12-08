@@ -13,15 +13,14 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import dataAccessLayer.record.Player;
-// Custom Imports
-import metadata.Constants;
-import metadata.GameRequestTable;
-import networking.request.GameRequest;
-import networking.request.RequestLogout;
-import networking.response.GameResponse;
-import networking.response.ResponseLogout;
+import controller.networking.request.GameRequest;
+import controller.networking.request.RequestLogout;
+import controller.networking.response.GameResponse;
+import driver.data.meta.Constants;
+import driver.database.record.Player;
+import routing.GameRequestTable;
 import utility.DataReader;
+import utility.Logger;
 
 /**
  * The GameClient class is an extension of the Thread class that represents an
@@ -47,9 +46,9 @@ public class GameClient extends Thread {
 	 * Initialize the GameClient using the client socket and creating both input
 	 * and output streams.
 	 * 
-	 * @param clientSocket
+	 * @param Socket
 	 *            holds reference of the socket being used
-	 * @param server
+	 * @param GameServer
 	 *            holds reference to the server instance
 	 * @throws IOException
 	 */
@@ -93,7 +92,7 @@ public class GameClient extends Thread {
 					// Extract the request code number
 					requestCode = DataReader.readShort(dataInput);
 					if(requestCode != 301 && requestCode != 107 && requestCode != 113 && requestCode != 133 && requestCode != 123) {
-						System.out.println("Requesting : " +requestCode);
+						Logger.logMessage("Requesting : " +requestCode);
 					}
 					// Preventing response to be sent if user not authenticated
 					if (requestCode == Constants.CMSG_LOGIN ||requestCode == Constants.CMSG_REGISTER || player != null) {  
@@ -132,41 +131,44 @@ public class GameClient extends Thread {
 
 		}
 
-		System.out.println(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
-		System.out.println("The client stops playing.");
+		Logger.logMessage(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
+		Logger.logMessage("The client stops playing.");
 		if(player != null) {
 			RequestLogout request = new RequestLogout();
 			request.clientCrashed(this);
 		}
 
-
-		/*
-		 * if (player != null) { try { long seconds =
-		 * (System.currentTimeMillis() - player.getLastSaved()) / 1000;
-		 * player.setPlayTime(player.getPlayTime() + seconds);
-		 * 
-		 * PlayerDAO.updateLogout(player.getID(), player.getPlayTime()); } catch
-		 * (SQLException ex) { System.err.println(ex.getMessage()); }
-		 * 
-		 * GameServer.getInstance().removeActivePlayer(player.getID()); }
-		 */
-
 		// Remove this GameClient from the server
 		server.deletePlayerThreadOutOfActiveThreads(getId());
 	}
 	
+	/**
+	 * Stops the GameClient from continuing its loop
+	 */
 	public void stopClient() {
 		isPlaying = false;
 	}
 
+	/**
+	 * Returns the connected GameServer
+	 * @return GameServer
+	 */
 	public GameServer getServer() {
 		return server;
 	}
 
+	/**
+	 * Returns the connected GameSession
+	 * @return GameSession
+	 */
 	public GameSession getSession() {
 		return session;
 	}
 	
+	/**
+	 * Connects the GameClient to a GameSession
+	 * @param GameSession
+	 */
 	public void setSession(GameSession session) {
 		if(session == null){
 			this.session = null;
@@ -178,15 +180,28 @@ public class GameClient extends Thread {
 		} else if(status == 0) {
 			//The session is full
 			this.session = null;
-			System.out.println("There are no more positions open");
+			Logger.logMessage("There are no more positions open");
 		}
 	}
 
+	/**
+	 * Returns the Player object for the client connection
+	 * @return Player
+	 */
 	public Player getPlayer() { return player; }
 
+	/**
+	 * Sets the Player object for the client connection
+	 * @param Player
+	 * @return
+	 */
 	public Player setPlayer(Player player) { return this.player = player; }
 
-
+	/**
+	 * Queue a response for the next heartbeat
+	 * @param GameResponse
+	 * @return boolean
+	 */
 	public boolean addResponseForUpdate(GameResponse response) {
 		return updates.add(response);
 	}
@@ -194,7 +209,7 @@ public class GameClient extends Thread {
 	/**
 	 * Get all pending responses for this client.
 	 * 
-	 * @return all pending responses
+	 * @return Queue<GameResponse>
 	 */
 	public Queue<GameResponse> getUpdates() {
 		Queue<GameResponse> responseList = null;
@@ -207,6 +222,10 @@ public class GameClient extends Thread {
 		return responseList;
 	}
 
+	/**
+	 * Returns the socket output stream
+	 * @return OutputStream
+	 */
 	public OutputStream getOutputStream() {
 		return outputStream;
 	}
@@ -218,10 +237,14 @@ public class GameClient extends Thread {
 		updates.clear();
 	}
 
+	/**
+	 * Returns the client's IP address
+	 * @see java.net.InetAddress.getHostAddress()
+	 * @return String
+	 */
 	public String getIP() {
 		return mySocket.getInetAddress().getHostAddress();
 	}
-
 
 	@Override
 	public String toString() {
@@ -235,7 +258,7 @@ public class GameClient extends Thread {
 			try {
 				str += field.getName() + " - " + field.get(this) + "\n";
 			} catch (Exception ex) {
-				System.out.println(ex.getMessage());
+				Logger.logMessage(ex.getMessage());
 			}
 		}
 

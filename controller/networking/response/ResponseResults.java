@@ -1,10 +1,9 @@
-package networking.response;
+package controller.networking.response;
 
 import java.util.HashMap;
 
-import dataAccessLayer.record.Player;
-// Custom Imports
-import metadata.Constants;
+import driver.data.meta.Constants;
+import driver.database.record.Player;
 import utility.GamePacket;
 
 public class ResponseResults extends GameResponse {

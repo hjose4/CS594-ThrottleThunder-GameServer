@@ -1,12 +1,12 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
 import java.util.ArrayList;
 
-import dataAccessLayer.model.PlayerModel;
-import dataAccessLayer.record.Player;
-import networking.response.ResponseLogin;
+import controller.networking.response.ResponseLogin;
+import driver.database.model.PlayerModel;
+import driver.database.record.Player;
 // Custom Imports
 //import core.GameServer;
 import utility.DataReader;

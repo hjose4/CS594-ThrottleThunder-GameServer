@@ -1,8 +1,8 @@
-package networking.response;
+package controller.networking.response;
 
 import utility.GamePacket;
-import dataAccessLayer.record.Player;
-import metadata.Constants;
+import driver.data.meta.Constants;
+import driver.database.record.Player;
 
 public class ResponseMove extends GameResponse {
 	

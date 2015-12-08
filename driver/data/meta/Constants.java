@@ -1,4 +1,4 @@
-package metadata;
+package driver.data.meta;
 
 /**
  * The Constants class stores important variables as constants for later use.

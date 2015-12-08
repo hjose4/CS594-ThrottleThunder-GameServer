@@ -1,7 +1,8 @@
-package networking.request;
+package controller.networking.request;
 
 import java.io.IOException;
-import networking.response.ResponseDead;
+
+import controller.networking.response.ResponseDead;
 
 public class RequestDead extends GameRequest {
 	

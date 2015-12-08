@@ -1,12 +1,12 @@
-package dataAccessLayer.record;
+package driver.database.record;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
-import metadata.Constants;
 import core.GameSession;
-import dataAccessLayer.ObjectModel;
+import driver.data.meta.Constants;
+import driver.database.ObjectModel;
 
 public class GameRoom extends ObjectModel{
 	public static final String ID = "id";

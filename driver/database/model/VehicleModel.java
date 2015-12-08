@@ -1,14 +1,14 @@
-package dataAccessLayer.model;
+package driver.database.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.ObjectModel;
-import dataAccessLayer.record.Player;
-import dataAccessLayer.record.PlayerVehicle;
-import json.model.BaseVehicle;
+import driver.database.DatabaseDriver;
+import driver.database.ObjectModel;
+import driver.database.record.Player;
+import driver.database.record.PlayerVehicle;
+import driver.json.record.BaseVehicle;
 
 public class VehicleModel {
 	public static ArrayList<PlayerVehicle> searchForPlayerVehiclesByPlayerId(int player_id) {

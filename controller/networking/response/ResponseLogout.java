@@ -1,6 +1,6 @@
-package networking.response;
+package controller.networking.response;
 
-import metadata.Constants;
+import driver.data.meta.Constants;
 import utility.GamePacket;
 
 public class ResponseLogout extends GameResponse {

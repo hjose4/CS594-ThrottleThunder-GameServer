@@ -1,12 +1,12 @@
-package networking.request;
+package controller.networking.request;
 
 // Java Imports
 import java.io.IOException;
 
-import dataAccessLayer.model.FriendshipModel;
-import dataAccessLayer.model.PlayerModel;
-import dataAccessLayer.record.Player;
-import networking.response.ResponseFriendRequest;
+import controller.networking.response.ResponseFriendRequest;
+import driver.database.model.FriendshipModel;
+import driver.database.model.PlayerModel;
+import driver.database.record.Player;
 import utility.DataReader;
 
 public class RequestFriendRequest extends GameRequest {

@@ -23,6 +23,7 @@ public class RequestHeartbeat extends GameRequest {
 		for (GameResponse reponse : client.getUpdates()) {
 			responses.add(reponse);	
 		}
-		client.clearUpdateBuffer();
+		//TODO: this might not be needed
+		//client.clearUpdateBuffer();
 	}
 }

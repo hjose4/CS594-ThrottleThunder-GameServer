@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import json.collections.BaseVehicleCollection;
 import json.collections.MapManager;
+import json.collections.UpgradesCollection;
 import json.model.MapDetails;
 import model.Position;
 import utility.vendors.douglascrockford.json.*;
@@ -70,6 +71,18 @@ public class JsonFileParser {
 					BaseVehicleCollection.addVehicle(model.getInt("type"), model.getString("name"));
 				}
 			}
+			
+			//Parse Upgrades 
+			JSONArray upgrades = rootObject.getJSONArray("upgrades");
+			if(upgrades != null) {
+				for(int i = 0; i < upgrades.length(); i++) {
+					JSONObject model = upgrades.getJSONObject(i);
+					UpgradesCollection.addUpgradeType(model.getInt("type"), model.getString("name"), model.getInt("max"));
+				}
+			}
+			
+			
+			
 		} catch (JSONException e) {
 			// JSON Parsing error
 			e.printStackTrace();

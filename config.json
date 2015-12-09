@@ -27,6 +27,26 @@
 			"name":"Mystery Car"
 		}
 	],
+	"upgrades":[
+		{
+			"type":0
+			"name":"Armor"	
+			"max":7
+		},{
+			"type":1
+			"name":"Health"
+			"max":7
+		},{
+			"type":2
+			"name":Acceleration"
+			"max":7
+		},{
+			"type":3
+			"name":"Max Speed"
+			"max":7
+		}
+	
+	]	
 	"upgrade_cost":{
 		"0":0,
 		"1":100,

@@ -16,28 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `base_vehicles`
---
-
-DROP TABLE IF EXISTS `base_vehicles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `base_vehicles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `description` text,
-  `weight` double NOT NULL DEFAULT '0',
-  `armor` double NOT NULL DEFAULT '0',
-  `control` double NOT NULL DEFAULT '0',
-  `speed` double NOT NULL DEFAULT '0',
-  `health` double NOT NULL DEFAULT '0',
-  `acceleration` double NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `friend_relationships`
 --
 
@@ -52,15 +30,8 @@ CREATE TABLE `friend_relationships` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `friend_relationship_friend_id` (`user2_id`),
   KEY `fr_user1_id_idx` (`user1_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table for Costs for the Garage Purchase
---
-CREATE TABLE IF NOT EXISTS Costs(statLevel int PRIMARY KEY, price int NOT NULL);
-
-INSERT INTO Costs VALUES(0, 0), (1, 100), (2, 200), (3, 300), (4, 500), (5, 800), (6, 1300), (7, 2100);
 
 --
 -- Table structure for table `game_rankings`
@@ -79,7 +50,7 @@ CREATE TABLE `game_rankings` (
   KEY `game_id_idx` (`game_id`),
   KEY `player_id_idx` (`player_id`),
   CONSTRAINT `dd_game_ranking_game_id` FOREIGN KEY (`game_id`) REFERENCES `games` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=845 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +69,7 @@ CREATE TABLE `games` (
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=656 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2481 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,11 +86,15 @@ CREATE TABLE `player_vehicles` (
   `base_id` int(11) NOT NULL DEFAULT '0',
   `paint_id` int(11) NOT NULL DEFAULT '0',
   `tire_id` int(11) NOT NULL DEFAULT '0',
+  `stats_speed` int(11) NOT NULL DEFAULT '0',
+  `stats_acceleration` int(11) NOT NULL DEFAULT '0',
+  `stats_armor` int(11) NOT NULL DEFAULT '0',
+  `stats_health` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `player_vehicle_player` (`player_id`),
   KEY `player_vehicle_id` (`base_id`),
-  CONSTRAINT `player_vehicle_id` FOREIGN KEY (`base_id`) REFERENCES `base_vehicles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+  KEY `pv_player_id` (`player_id`),
+  CONSTRAINT `pv_player_id` FOREIGN KEY (`player_id`) REFERENCES `players` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +112,7 @@ CREATE TABLE `players` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `user_name_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,4 +162,4 @@ CREATE TABLE `vehicle_upgrade_relationships` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-01 15:49:57
+-- Dump completed on 2015-12-08 18:28:59

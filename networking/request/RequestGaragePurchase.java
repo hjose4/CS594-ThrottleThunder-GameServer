@@ -54,25 +54,25 @@ public class RequestGaragePurchase extends GameRequest {
 			}
 			if(type ==2){
 				//health upgrade
-				cost = CostCollection.get(vehicle.getArmorUpgrade()+1);
+				cost = CostCollection.getCost(vehicle.getArmorUpgrade()+1);
 				if(mycurrency > cost)
 					status = vehicle.incrementHealthUpgrade();
 			}
 			if(type == 3){
 				//acceleration upgrade
-				cost = CostCollection.get(vehicle.getAccelerationUpgrade()+1);
+				cost = CostCollection.getCost(vehicle.getAccelerationUpgrade()+1);
 				if(mycurrency > cost)
 					status = vehicle.incrementAccelerationUpgrade();
 			}
 			if(type == 4){
 				//max speed upgrade
-				cost = CostCollection.get(vehicle.getSpeedUpgrade()+1);
+				cost = CostCollection.getCost(vehicle.getSpeedUpgrade()+1);
 				if(mycurrency > cost)
 					status = vehicle.incrementSpeedUpgrade();
 			}
 			if(status){
 				//deduct the price for the upgrade
-				player.setCurrency(mycurrency-currencydeduct);
+				player.setCurrency(mycurrency-cost);
 				player.save("all"); // save the player with the deducted currency
 				
 				vehicle.save("all");//save the car with all upgrades

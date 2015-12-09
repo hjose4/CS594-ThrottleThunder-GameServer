@@ -42,40 +42,13 @@ public class RequestGarageDetails extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		PlayerVehicle vehicle = VehicleModel.getPlayerVehicleById(carId);
-		ArrayList<Upgrade> upgrades = new ArrayList<Upgrade>();
-		int status = 0;
-		if(vehicle != null) {
-			//Find the upgrades for the car: Each vehicle can have a number of records as upgrade
-			//Use player-vehicle relationship table to get the upgradeId
-				ArrayList<PlayerVehicleUpgrade> vehicleUpgrades = PlayerVehicleUpgradeModel.searchForUpgrades(carId);
-				if(vehicleUpgrades!=null){
-					for(PlayerVehicleUpgrade vehicleUpgrade : vehicleUpgrades){
-						Upgrade upgrade = UpgradeModel.getUpgradeById(vehicleUpgrade.getUpgradeId());
-						upgrades.add(upgrade);
-					}
-					ArrayList<Integer> armors = new ArrayList<Integer>();
-					ArrayList<Integer> healths = new ArrayList<Integer>();
-					ArrayList<Integer> accelerations = new ArrayList<Integer>();
-					for (Upgrade upgrade : upgrades)
-					{
-						armors.add((int) upgrade.getArmor());
-						healths.add((int) upgrade.getHealth());
-						accelerations.add((int) upgrade.getAcceleration());
-						
-					}
-					Integer armor = Collections.max(armors);
-					Integer health = Collections.max(healths);
-					Integer acceleration = Collections.max(accelerations);
-					Integer speed = Collections.max(accelerations);
-					
-					response.setArmor(armor);
-					response.setHealth(health);
-					response.setAcceleration(acceleration);
-					response.setSpeed(speed);
+		if(vehicle!=null){
+			response.setArmor(vehicle.getHealthUpgrade());
+			response.setHealth(vehicle.getArmorUpgrade());
+			response.setAcceleration(vehicle.getAccelerationUpgrade());
+			response.setSpeed(vehicle.getSpeedUpgrade());
 			
-				}
 		}
-		
 		
 		client.getServer().addResponseForUser(client.getPlayer().getUsername(), response);
 	}

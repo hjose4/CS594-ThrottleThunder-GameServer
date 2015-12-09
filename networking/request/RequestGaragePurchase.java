@@ -3,19 +3,16 @@ package networking.request;
 import java.io.IOException;
 
 import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.model.CostModel;
 import dataAccessLayer.model.PlayerModel;
-import dataAccessLayer.model.PlayerVehicleUpgradeModel;
-import dataAccessLayer.model.UpgradeModel;
 import dataAccessLayer.model.VehicleModel;
 import dataAccessLayer.record.Cost;
 import dataAccessLayer.record.Player;
 import dataAccessLayer.record.PlayerVehicle;
-import dataAccessLayer.record.PlayerVehicleUpgrade;
-import dataAccessLayer.record.Upgrade;
 import networking.response.ResponseFriendList;
 import networking.response.ResponseGaragePurchase;
 import utility.DataReader;
+
+import json.collections.CostCollection;
 
 import java.util.ArrayList;
 import java.util.Collections;

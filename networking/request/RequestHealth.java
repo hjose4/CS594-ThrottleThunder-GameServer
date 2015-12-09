@@ -32,7 +32,7 @@ public class RequestHealth extends GameRequest {
         responseChangeHealth.setHealthChange(health);
         if(client.getSession() != null) {
         	if(client.getSession().getMapDetails().getMode() == Constants.DD) {
-        		client.getSession().updatePlayerRanking(client.getPlayer(), health);
+        		client.getSession().updatePlayerRanking(client.getPlayer(), health,System.currentTimeMillis());
         	}
         	client.getSession().addResponseForAll(responseChangeHealth);
         }

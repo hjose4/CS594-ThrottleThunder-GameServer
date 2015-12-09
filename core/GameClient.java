@@ -197,7 +197,7 @@ public class GameClient extends Thread {
 	 * @return all pending responses
 	 */
 	public Queue<GameResponse> getUpdates() {
-		Queue<GameResponse> responseList = null;
+		Queue<GameResponse> responseList = new LinkedList<GameResponse>();
 
 		synchronized (this) {
 			responseList = updates;

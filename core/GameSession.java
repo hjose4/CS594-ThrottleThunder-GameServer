@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.TreeMap;
 
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
@@ -30,7 +32,7 @@ public class GameSession extends Thread {
 	private boolean isRunning;
 	private long[] powerups;
 	private List<GameClient> clients;
-	private HashMap<Player, Double> playerRankings;
+	private HashMap<Player,PointValue> playerRankings;
 	private List<Player> sortedRankings = null;
 	private HashMap<Player, Position> startingPositions;
 	private List<Position> availablePositions;
@@ -45,7 +47,7 @@ public class GameSession extends Thread {
 		startingPositions = new HashMap<Player, Position>();
 		deadPlayerList = new ArrayList<Player>();
 		clients = new ArrayList<>();
-		playerRankings = new HashMap<Player,Double>();
+		playerRankings = new HashMap<>();
 		renderCharacterResponses = new ArrayList<ResponseRenderCharacter>();
 		System.out.println("session is created with name " + gameRoom.getRoomName());
 	}
@@ -180,7 +182,7 @@ public class GameSession extends Thread {
 			clients.add(client);
 			startingPositions.put(client.getPlayer(), position);
 			client.getPlayer().setPosition(position);
-			playerRankings.put(client.getPlayer(), Double.valueOf(startingPositions.size()));
+			playerRankings.put(client.getPlayer(),new PointValue(0,System.currentTimeMillis()));
 			System.out.println("Number of clients: " + getGameClients().size());
 			return 1;
 		}
@@ -315,33 +317,27 @@ public class GameSession extends Thread {
 		}
 	}
 
-	public boolean updatePlayerRanking(Player player, double pointValue) {
+	public boolean updatePlayerRanking(Player player, double points, long timestamp) {
 		if(deadPlayerList.contains(player)){
 			return false;
 		}
-		playerRankings.put(player, pointValue);
-		updateRankings = true;
+		
+		playerRankings.put(player,new PointValue(points,timestamp));		
+		
 		return true;
 	}
 
 	public List<Player> getRankings() {
-		if(sortedRankings == null || updateRankings) {
-			updateRankings = false;
-			sortedRankings = new ArrayList<Player>();
-			HashMap<Player, Double> que = new HashMap<Player, Double>(playerRankings.size());
-			for (Player player : playerRankings.keySet())
-				que.put(player, playerRankings.get(player));
-
-			while (que.size() > 0) {
-				Player maxPlayer = null;
-				for (Player player : que.keySet()) {
-					if (maxPlayer == null || que.get(player) > que.get(maxPlayer)) {
-						maxPlayer = player;
-					}
-				}
-				sortedRankings.add(maxPlayer);
-				que.remove(maxPlayer);
-			}
+		updateRankings = false;
+		sortedRankings = new ArrayList<Player>();
+		TreeMap<PointValue,Player> sortedTree = new TreeMap<>();
+		
+		for(Player key : playerRankings.keySet()) {
+			sortedTree.put(playerRankings.get(key),key);
+		}
+		
+		for(PointValue key : sortedTree.keySet()) {
+			sortedRankings.add(sortedTree.get(key));
 		}
 		return sortedRankings;
 	}
@@ -422,6 +418,27 @@ public class GameSession extends Thread {
 		}
 		
 		return true;
+	}
+	
+	public static class PointValue implements Comparable<PointValue> {
+		public double point;
+		public long timestamp;
+		
+		public PointValue(double point, long timestamp) {
+			this.point = point;
+			this.timestamp = timestamp;
+		}
+		@Override
+		public int compareTo(PointValue obj) {
+			// TODO Auto-generated method stub
+			if(this.point > obj.point || (this.point == obj.point && this.timestamp < obj.timestamp)) {
+				return -1;
+			} else if ( this.point < obj.point || (this.point == obj.point && this.timestamp > obj.timestamp)){
+				return 1;
+			} else 
+				return 0;
+		}
+		
 	}
 
 }

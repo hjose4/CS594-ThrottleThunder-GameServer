@@ -24,7 +24,7 @@ public class RequestCheckpoints extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		if(client.getSession() != null) {
-			client.getSession().updatePlayerRanking(client.getPlayer(), (laps*100+checkpoints));
+			client.getSession().updatePlayerRanking(client.getPlayer(), (laps*100+checkpoints),System.currentTimeMillis());
 		}
 	}
 }

@@ -316,6 +316,9 @@ public class GameSession extends Thread {
 	}
 
 	public boolean updatePlayerRanking(Player player, double pointValue) {
+		if(deadPlayerList.contains(player)){
+			return false;
+		}
 		playerRankings.put(player, pointValue);
 		updateRankings = true;
 		return true;

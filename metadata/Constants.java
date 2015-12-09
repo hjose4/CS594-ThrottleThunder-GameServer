@@ -38,6 +38,7 @@ public class Constants {
 	public final static short CMSG_SET_RANK = 130;
 	public final static short CMSG_EMOTE = 132;
 	public final static short CMSG_CHECKPOINTS = 133;
+	public final static short CMSG_CURRENCY = 134;
 	public final static short CMSG_TEST = 150;
 	public final static short CMSG_TEST2 = 160;
 	
@@ -72,6 +73,7 @@ public class Constants {
 	public final static short SMSG_SET_RANK = 230;
 	public final static short SMSG_SET_READY = 231;
 	public final static short SMSG_EMOTE = 232;
+	public final static short SMSG_CURRENCY = 234;
 	public final static short SMSG_TEST = 250;
 	
 	public final static short SMSG_RENDER_CHARACTER = 310;

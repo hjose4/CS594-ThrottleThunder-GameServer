@@ -106,32 +106,33 @@ public class GameSession extends Thread {
 
 		//-- set currency and save rankings
 		deadPlayerList.add(getRankings().get(0));
+		HashMap<Player,Integer> moneyGained = new HashMap<>(deadPlayerList.size());
 		for (int i=0; i<deadPlayerList.size(); i++) {
 			int currencyGained = 25 + (100 / (deadPlayerList.size() - i));
-
-			for(GameClient client : clients) {
-				if(client.getPlayer().getId() == deadPlayerList.get(i).getId()) {
-					ResponsePrizes prize = new ResponsePrizes();
-					Player player = client.getPlayer();
-					
-					//Send Prize
-					prize.setPrize(currencyGained);
-					client.addResponseForUpdate(prize);	
-					
-					//Update Player Currency
-					player.setLastPrize(currencyGained);
-					player.setCurrency(player.getCurrency()+currencyGained);
-					player.save(Player.CURRENCY);
-					
-					//Save Ranking
-					Ranking ranking = new Ranking();
-					ranking.setGameId(gameroom.getId());
-					ranking.setPlayerId(player.getId());
-					ranking.setRanking(i+1);
-					ranking.save("all");					
-					break;
-				}
-			}			
+			moneyGained.put(deadPlayerList.get(i),currencyGained);
+		}
+		
+		for(GameClient client : clients) {
+			Player player = client.getPlayer();
+			int currencyGained = moneyGained.get(player);
+			int rank = deadPlayerList.size() - deadPlayerList.indexOf(player);
+			ResponsePrizes prize = new ResponsePrizes();
+			
+			//Send Prize
+			prize.setPrize(currencyGained);
+			client.addResponseForUpdate(prize);	
+			
+			//Update Player Currency
+			player.setLastPrize(currencyGained);
+			player.setCurrency(player.getCurrency()+currencyGained);
+			player.save(Player.CURRENCY);
+			
+			//Save Ranking
+			Ranking ranking = new Ranking();
+			ranking.setGameId(gameroom.getId());
+			ranking.setPlayerId(player.getId());
+			ranking.setRanking(rank);
+			ranking.save("all");
 		}
 
 		//Commented out for testing purpose

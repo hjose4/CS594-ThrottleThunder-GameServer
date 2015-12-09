@@ -5,13 +5,11 @@ import java.sql.*;
 import java.util.*;
 
 import utility.JsonFileParser;
-import dataAccessLayer.record.Cost;
 import dataAccessLayer.record.Friendship;
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
 import dataAccessLayer.record.PlayerVehicle;
 import dataAccessLayer.record.Ranking;
-import dataAccessLayer.record.Upgrade;
 
 //Singleton
 public class DatabaseDriver {
@@ -40,12 +38,10 @@ public class DatabaseDriver {
 	private static void init_table_map() {
 		table_map=new HashMap<>();
 		table_map.put(PlayerVehicle.class, "player_vehicles");
-		table_map.put(Upgrade.class, "upgrades");
 		table_map.put(GameRoom.class, "games");
 		table_map.put(Player.class, "players");
 		table_map.put(Friendship.class, "friend_relationships");
 		table_map.put(Ranking.class, "game_rankings");
-		table_map.put(Cost.class, "costs");
 	}
 
 	private static String getTable(Class<? extends ObjectModel> type) {

@@ -23,7 +23,6 @@ import java.util.HashMap;
 
 public class RequestGaragePurchase extends GameRequest {
 	private int carId;
-	private int typeId;
 	private int type;
 	private int value;
 	
@@ -38,7 +37,6 @@ public class RequestGaragePurchase extends GameRequest {
 		// TODO Auto-generated method stub
 		carId = DataReader.readInt(dataInput);
 		type = DataReader.readInt(dataInput);
-		typeId = DataReader.readInt(dataInput);
 		value = DataReader.readInt(dataInput);
 	}
 
@@ -47,65 +45,48 @@ public class RequestGaragePurchase extends GameRequest {
 		PlayerVehicle vehicle = VehicleModel.getPlayerVehicleById(carId);
 		int status = 0;
 		if(vehicle != null) {
-			if(typeId == 0){
-					
-					
-					int statlevel = 0;
-					
-					if(type == 1){
-						//armor upgrade
-						int armor = value;
-						statlevel = armor+1;
-					}
-					if(type ==2){
-						//health upgrade
-						int health = value;
-						statlevel = health+1;
-					}
-					if(type == 3){
-						//acceleration upgrade
-						int acceleration = value;
-						statlevel =acceleration+1;
-					}
-					if(statlevel<=7){
-						//check the price for the upgrade
-						Cost cost = CostModel.getCostBystatlevel(statlevel);
-						int currencydeduct = cost.getPrice();
-						
-						// Get the currency the player is having
-						Player player = PlayerModel.getPlayerByUsername(client.getPlayer().getUsername());
-						int mycurrency = player.getCurrency();
-						
-						
-						if(mycurrency>currencydeduct){
-							player.setCurrency(mycurrency-currencydeduct);
-							player.save("all"); // save the player with the deducted currency
-							status = 1; // successful upgrade
-						}
-						if(status ==1){
-							// Update the upgrades table and the vehicle-upgrade table
-							
-							
-						}
-					}
-				}
-			if(typeId == 1){
-				// Set paint
-				int paintId = type;
-				vehicle.setPaint(paintId);
-				vehicle.save("all");
-				status =1;
-				
-						
-			}
+			int statlevel = 0;
 			
-			if(typeId == 2){
-				//Add response to all active players
-				int tireId = type;
-				vehicle.setTire(tireId);
-				vehicle.save("all");
-				status = 1;
+			if(type == 1){
+				//armor upgrade
+				int armor = value;
+				statlevel = armor+1;
+			}
+			if(type ==2){
+				//health upgrade
+				int health = value;
+				statlevel = health+1;
+			}
+			if(type == 3){
+				//acceleration upgrade
+				int acceleration = value;
+				statlevel =acceleration+1;
+			}
+			if(type == 4){
+				//max speed upgrade
+				int speed = value;
+				statlevel =speed+1;
+			}
+			if(statlevel<=7){
+				//check the price for the upgrade
+				Cost cost = CostModel.getCostBystatlevel(statlevel);
+				int currencydeduct = cost.getPrice();
 				
+				// Get the currency the player is having
+				Player player = PlayerModel.getPlayerByUsername(client.getPlayer().getUsername());
+				int mycurrency = player.getCurrency();
+				
+				
+				if(mycurrency>currencydeduct){
+					player.setCurrency(mycurrency-currencydeduct);
+					player.save("all"); // save the player with the deducted currency
+					status = 1; // successful upgrade
+				}
+				if(status ==1){
+					// Update the upgrades table and the vehicle-upgrade table
+					
+					
+				}
 			}
 			
 		}

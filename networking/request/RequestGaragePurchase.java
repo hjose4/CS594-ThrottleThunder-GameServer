@@ -48,7 +48,7 @@ public class RequestGaragePurchase extends GameRequest {
 			
 			if(type == 1){
 				//armor upgrade
-				cost = CostCollection.get(vehicle.getArmorUpgrade()+1);
+				cost = CostCollection.getCost(vehicle.getArmorUpgrade()+1);
 				if(mycurrency > cost)
 					status = vehicle.incrementArmorUpgrade();
 			}

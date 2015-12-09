@@ -29,24 +29,24 @@
 	],
 	"upgrades":[
 		{
-			"type":0
-			"name":"Armor"	
+			"type":0,
+			"name":"Armor",
 			"max":7
 		},{
-			"type":1
-			"name":"Health"
+			"type":1,
+			"name":"Health",
 			"max":7
 		},{
-			"type":2
-			"name":Acceleration"
+			"type":2,
+			"name":"Acceleration",
 			"max":7
 		},{
-			"type":3
-			"name":"Max Speed"
+			"type":3,
+			"name":"Max Speed",
 			"max":7
 		}
 	
-	]	
+	],	
 	"upgrade_cost":{
 		"0":0,
 		"1":100,
@@ -62,7 +62,7 @@
 			"type":0,
 			"name":"DD Map 1",
 			"mode":0,
-			"required":1,
+			"required":2,
 			"positions": [
 				[10,10,0,0,0,0],
 				[10,20,0,0,0,0],
@@ -74,7 +74,7 @@
 			"type":1,
 			"name":"DD Map 2",
 			"mode":0,
-			"required":1,
+			"required":2,
 			"positions": [
 				[10,10,0,0,0,0],
 				[10,20,0,0,0,0],
@@ -86,7 +86,7 @@
 			"type":2,
 			"name":"Space Highway",
 			"mode":1,
-			"required":1,
+			"required":2,
 			"positions": [
 				[-135.43, 54.9853, 6.40, 113.875, 0, 0],
 				[-135.388, 60.309, 6.40, 107.122093201, 0, 0],
@@ -102,7 +102,7 @@
 			"type":3,
 			"name":"Royal Day",
 			"mode":1,
-			"required":1,
+			"required":2,
 			"positions": [
 				[-135.43, 54.9853, 6.40, 113.875, 0, 0],
 				[-135.388, 60.309, 6.40, 107.122093201, 0, 0],

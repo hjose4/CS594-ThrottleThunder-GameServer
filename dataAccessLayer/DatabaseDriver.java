@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 
 import utility.JsonFileParser;
+import dataAccessLayer.record.Cost;
 import dataAccessLayer.record.Friendship;
 import dataAccessLayer.record.GameRoom;
 import dataAccessLayer.record.Player;
@@ -44,6 +45,7 @@ public class DatabaseDriver {
 		table_map.put(Player.class, "players");
 		table_map.put(Friendship.class, "friend_relationships");
 		table_map.put(Ranking.class, "game_rankings");
+		table_map.put(Cost.class, "costs");
 	}
 
 	private static String getTable(Class<? extends ObjectModel> type) {

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import json.collections.BaseVehicleCollection;
+import json.collections.CostCollection;
 import json.collections.MapManager;
 import json.collections.UpgradesCollection;
 import json.model.MapDetails;
@@ -81,6 +82,12 @@ public class JsonFileParser {
 				}
 			}
 			
+			JSONObject costs = rootObject.getJSONObject("upgrade_cost");
+			if(costs != null) {
+				for(int i = 0; i < 8; i++){
+					CostCollection.addCost(i, costs.getInt(Integer.toString(i)));
+				}
+			}
 			
 			
 		} catch (JSONException e) {

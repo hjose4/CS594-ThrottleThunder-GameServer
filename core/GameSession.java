@@ -413,5 +413,15 @@ public class GameSession extends Thread {
 	public MapDetails getMapDetails() {
 		return mapDetails;
 	}
+	
+	public boolean allReady() {
+		for(Player player : this.getPlayers()){
+			if(!player.isReady()){
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
 }

@@ -42,7 +42,7 @@ public class RequestGaragePurchase extends GameRequest {
 		// Get the currency the player is having
 		Player player = PlayerModel.getPlayerByUsername(client.getPlayer().getUsername());
 		int mycurrency = player.getCurrency();
-		int cost;
+		int cost =0;
 	
 		if(vehicle != null) {
 			

@@ -24,7 +24,6 @@ import java.util.HashMap;
 
 public class RequestGarageDetails extends GameRequest {
 	private int carId;
-	private int typeId;
 	private int type;
 	
 	private ResponseGarageDetails response;
@@ -38,7 +37,6 @@ public class RequestGarageDetails extends GameRequest {
 		// TODO Auto-generated method stub
 		carId = DataReader.readInt(dataInput);
 		type = DataReader.readInt(dataInput);
-		typeId = DataReader.readInt(dataInput);
 	}
 
 	@Override
@@ -68,10 +66,12 @@ public class RequestGarageDetails extends GameRequest {
 					Integer armor = Collections.max(armors);
 					Integer health = Collections.max(healths);
 					Integer acceleration = Collections.max(accelerations);
+					Integer speed = Collections.max(accelerations);
 					
 					response.setArmor(armor);
 					response.setHealth(health);
 					response.setAcceleration(acceleration);
+					response.setSpeed(speed);
 			
 				}
 		}

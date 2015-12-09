@@ -5,7 +5,6 @@ import java.io.IOException;
 import dataAccessLayer.DatabaseDriver;
 import dataAccessLayer.model.PlayerModel;
 import dataAccessLayer.model.VehicleModel;
-import dataAccessLayer.record.Cost;
 import dataAccessLayer.record.Player;
 import dataAccessLayer.record.PlayerVehicle;
 import networking.response.ResponseFriendList;

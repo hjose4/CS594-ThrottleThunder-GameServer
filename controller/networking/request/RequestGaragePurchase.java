@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.sun.media.jfxmedia.logging.Logger;
 
+import controller.networking.response.ResponseCurrency;
 import controller.networking.response.ResponseFriendList;
 import controller.networking.response.ResponseGaragePurchase;
 
@@ -92,6 +93,10 @@ public class RequestGaragePurchase extends GameRequest {
 				
 			}
 		}
+		
+		ResponseCurrency currencyResponse = new ResponseCurrency();
+		currencyResponse.setCurrency(player.getCurrency());
+		responses.add(currencyResponse);
 	}
 
 }

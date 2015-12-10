@@ -38,7 +38,7 @@ public class RequestEnterQueue extends GameRequest {
 		
 		GameSession session = client.getServer().getGameSessionByRoomType(roomType);		
 		if(session != null) {
-			client.setSession(session);		
+			session.addGameClient(client);
 			if(client.getSession() != null) {
 				client.getPlayer().setNotReady();
 				client.getPlayer().setLobbyNotReady();
@@ -52,7 +52,7 @@ public class RequestEnterQueue extends GameRequest {
 		
 		if(session == null) {
 			session = client.getServer().createNewGameSession(roomType);
-			client.setSession(session);		
+			session.addGameClient(client);	
 			if(client.getSession() != null) {
 				client.getPlayer().setNotReady();
 				client.getPlayer().setLobbyNotReady();

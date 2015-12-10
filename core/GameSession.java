@@ -136,14 +136,14 @@ public class GameSession extends Thread {
 			ranking.save("all");
 		}
 
-		//Commented out for testing purpose
-//		for(GameClient client : clients) {
-//			client.setSession(null);
-//		}
-//		
-//		clients.clear();
-//		availablePositions.clear();
-//		playerRankings.clear();
+		//Session cleanup
+		for(GameClient client : clients) {
+			removeGameClient(client);
+		}
+		
+		clients.clear();
+		availablePositions.clear();
+		playerRankings.clear();
 		server.deleteSessionThreadOutOfActiveThreads(getId());
 	}
 
@@ -179,6 +179,7 @@ public class GameSession extends Thread {
 		Position position = null;
 		if (phase == 0 && availablePositions.size() > 0 && clients.size() < mapDetails.getMaxNumOfPlayers() && (position = availablePositions.remove(0)) != null) {
 			clients.add(client);
+			client.setSession(this);
 			startingPositions.put(client.getPlayer(), position);
 			client.getPlayer().setPosition(position);
 			playerRankings.put(client.getPlayer(),new PointValue(0,System.currentTimeMillis()));
@@ -194,6 +195,7 @@ public class GameSession extends Thread {
 
 	public void removeGameClient(GameClient client) {
 		clients.remove(client);
+		client.setSession(null);
 
 		//Check if the player is alive
 		for(Player player : deadPlayerList) {
@@ -210,12 +212,30 @@ public class GameSession extends Thread {
 			startingPositions.remove(client.getPlayer());
 		}
 		
-		if(phase == 0) {
-			ResponseEnterQueue response = new ResponseEnterQueue();
-			response.setLobbySize(getMaxNumOfPlayers());
-			response.setMinSize(getMinNumOfPlayers());
-			response.setPlayers(getPlayers());			
-			addResponseForAll(response);
+		if(clients.size() == 0) {
+			server.deleteSessionThreadOutOfActiveThreads(getId());
+		} else {
+			if(phase == 0) {
+				ResponseEnterQueue response = new ResponseEnterQueue();
+				response.setLobbySize(getMaxNumOfPlayers());
+				response.setMinSize(getMinNumOfPlayers());
+				response.setPlayers(getPlayers());			
+				addResponseForAll(response);
+			} 
+	
+			if (phase == 0) {
+				boolean isReady = true;
+				for(GameClient _client : clients) {
+					if(!_client.getPlayer().isReady()) {
+						isReady = false;
+						break;
+					}
+				}
+				
+				if(isReady && clients.size() >= getMinNumOfPlayers()) {
+					nextPhase();
+				}
+			}
 		}
 	}
 

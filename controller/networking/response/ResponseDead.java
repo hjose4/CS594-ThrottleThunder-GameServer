@@ -14,7 +14,6 @@ public class ResponseDead extends GameResponse {
 	public byte[] constructResponseInBytes() {
 		// TODO Auto-generated method stub
 		GamePacket packet = new GamePacket(responseCode);
-		System.out.println("Killing " + username);
 		packet.addString(username);
 		// add the data need to pass to the client here
         return packet.getBytes();

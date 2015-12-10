@@ -65,7 +65,6 @@ public class GameSession extends Thread {
 			if (phase == 2) {
 				// Start countdown
 				if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime > 0 && (referTime == 0 || gameRunTime - referTime >= Constants.SEND_TIME)) {
-					System.out.println("countdown time : " + (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));
 					sendAllResponseTime(0, (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));					
 					referTime += Constants.SEND_TIME;
 				} else if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime <= 0) {
@@ -81,7 +80,6 @@ public class GameSession extends Thread {
 					sendAllResponseTime(1, (int)(gameRunTime));
 					if(mapDetails.getMode() == Constants.RR){
 						eliminateTime -= Constants.SEND_TIME;
-						System.out.println("elimination time : " + eliminateTime);
 						sendAllResponseTime(2, (int)(eliminateTime));
 						if(eliminateTime <= 0){
 							if(doElimination()){

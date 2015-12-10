@@ -84,7 +84,7 @@ public class Constants {
 	public static final int SAVE_INTERVAL = 60000;
 	public static final String CLIENT_VERSION = "1.00";
 	public static final int TIMEOUT_SECONDS = 15;
-	public static final int LOADING_TIMEOUT_SECONDS = 120;
+	public static final int LOADING_TIMEOUT_SECONDS = 60;
 	public static final int NUMBER_OF_POWERUPS = 6;
 	public static final long RESPAWN_TIME = 30000L;
 	public static final long SEND_TIME = 1000L;

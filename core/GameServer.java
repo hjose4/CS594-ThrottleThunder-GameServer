@@ -10,15 +10,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-// Custom Imports
-import metadata.GameRequestTable;
-import dataAccessLayer.DatabaseDriver;
-import dataAccessLayer.model.GameRoomModel;
-import dataAccessLayer.record.GameRoom;
-import dataAccessLayer.record.Player;
-import json.collections.MapManager;
-import json.model.MapDetails;
-import networking.response.GameResponse;
+import controller.networking.response.GameResponse;
+import driver.database.DatabaseDriver;
+import driver.database.model.GameRoomModel;
+import driver.database.record.GameRoom;
+import driver.database.record.Player;
+import driver.json.collection.MapManager;
+import driver.json.record.MapDetails;
+import routing.GameRequestTable;
 import utility.JsonFileParser;
 
 /**

@@ -1,13 +1,5 @@
 package core;
 
-import networking.response.GameResponse;
-import networking.response.ResponseDead;
-import networking.response.ResponseEnterQueue;
-import networking.response.ResponsePrizes;
-import networking.response.ResponseRenderCharacter;
-import networking.response.ResponseSetPosition;
-import networking.response.ResponseTime;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,13 +7,20 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.TreeMap;
 
-import dataAccessLayer.record.GameRoom;
-import dataAccessLayer.record.Player;
-import dataAccessLayer.record.Ranking;
-import json.collections.MapManager;
-import json.model.MapDetails;
-import metadata.Constants;
-import model.Position;
+import controller.networking.response.GameResponse;
+import controller.networking.response.ResponseDead;
+import controller.networking.response.ResponseEnterQueue;
+import controller.networking.response.ResponsePrizes;
+import controller.networking.response.ResponseRenderCharacter;
+import controller.networking.response.ResponseSetPosition;
+import controller.networking.response.ResponseTime;
+import core.meta.Constants;
+import driver.data.model.Position;
+import driver.database.record.GameRoom;
+import driver.database.record.Player;
+import driver.database.record.Ranking;
+import driver.json.collection.MapManager;
+import driver.json.record.MapDetails;
 
 public class GameSession extends Thread {
 	private int phase = 0;

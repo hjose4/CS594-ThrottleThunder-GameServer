@@ -13,14 +13,13 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import dataAccessLayer.record.Player;
-// Custom Imports
-import metadata.Constants;
-import metadata.GameRequestTable;
-import networking.request.GameRequest;
-import networking.request.RequestLogout;
-import networking.response.GameResponse;
-import networking.response.ResponseLogout;
+import controller.networking.request.GameRequest;
+import controller.networking.request.RequestLogout;
+import controller.networking.response.GameResponse;
+import controller.networking.response.ResponseLogout;
+import core.meta.Constants;
+import driver.database.record.Player;
+import routing.GameRequestTable;
 import utility.DataReader;
 
 /**

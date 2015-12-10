@@ -24,14 +24,14 @@ public class RequestGarageDetails extends GameRequest {
 	private ResponseGarageDetails response;
 	
 	public RequestGarageDetails() {
-		response = new ResponseGarageDetails();
+		responses.add(response = new ResponseGarageDetails());
 	}
 
 	@Override
 	public void parse() throws IOException {
 		// TODO Auto-generated method stub
 		carId = DataReader.readInt(dataInput);
-		type = DataReader.readInt(dataInput);
+		type = DataReader.readInt(dataInput); //Do we need this
 	}
 
 	@Override
@@ -44,8 +44,6 @@ public class RequestGarageDetails extends GameRequest {
 			response.setSpeed(vehicle.getSpeedUpgrade());
 			
 		}
-		
-		client.getServer().addResponseForUser(client.getPlayer().getUsername(), response);
 	}
 
 }

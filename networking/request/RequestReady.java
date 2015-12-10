@@ -48,7 +48,6 @@ public class RequestReady extends GameRequest {
 				return false;
 			}
 		}
-		
 		return true;
 	}
 

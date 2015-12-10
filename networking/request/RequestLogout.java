@@ -36,6 +36,9 @@ public class RequestLogout extends GameRequest {
 			client.getSession().addResponseForAll(response);
 			client.getSession().removeResponseForCharacters(client.getPlayer().getUsername());
 			client.getSession().removeGameClient(client);
+			if(client.getSession().allReady()){
+				client.getSession().nextPhase();
+			}
 			client.getSession().endThread();
 			client.setSession(null);
 		}

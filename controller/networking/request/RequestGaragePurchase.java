@@ -22,6 +22,7 @@ import com.sun.media.jfxmedia.logging.Logger;
 import controller.networking.response.ResponseCurrency;
 import controller.networking.response.ResponseFriendList;
 import controller.networking.response.ResponseGaragePurchase;
+import controller.networking.response.ResponseGarageDetails;
 
 public class RequestGaragePurchase extends GameRequest {
 	private int carId;
@@ -92,6 +93,13 @@ public class RequestGaragePurchase extends GameRequest {
 				vehicle.save("all");//save the car with all upgrades
 				
 			}
+			
+			ResponseGarageDetails garageDetails = new ResponseGarageDetails();
+			garageDetails.setArmor(vehicle.getHealthUpgrade());
+			garageDetails.setHealth(vehicle.getArmorUpgrade());
+			garageDetails.setHandling(vehicle.getHandlingUpgrade());
+			garageDetails.setSpeed(vehicle.getSpeedUpgrade());
+			responses.add(garageDetails);
 		}
 		
 		ResponseCurrency currencyResponse = new ResponseCurrency();

@@ -133,7 +133,6 @@ public class DatabaseDriver {
 			}
 			query = query.substring(0, query.length()-2);
 			query += " WHERE id = ?";
-			System.out.println(query);
 			PreparedStatement stmt = conn.prepareStatement(query);
 			int c = 1;
 			for(String value : values.values()) {

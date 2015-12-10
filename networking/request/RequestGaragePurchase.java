@@ -53,13 +53,13 @@ public class RequestGaragePurchase extends GameRequest {
 					status = vehicle.incrementArmorUpgrade();
 			}
 			if(type ==2){
-				//health upgrade
+				//handling upgrade
 				cost = CostCollection.getCost(vehicle.getArmorUpgrade()+1);
 				if(mycurrency > cost)
 					status = vehicle.incrementHealthUpgrade();
 			}
 			if(type == 3){
-				//acceleration upgrade
+				//power upgrade
 				cost = CostCollection.getCost(vehicle.getAccelerationUpgrade()+1);
 				if(mycurrency > cost)
 					status = vehicle.incrementAccelerationUpgrade();

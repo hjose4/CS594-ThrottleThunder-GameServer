@@ -10,7 +10,7 @@ public class Constants {
 	public final static short CMSG_DISCONNECT = 102;
 	public final static short CMSG_REGISTER = 103;
 	public final static short CMSG_FORGOT_PASSWORD = 104;
-	public final static short CMSG_CREATE_CHARACTER = 105;
+	public final static short CMSG_CAR = 105;
 	public final static short CMSG_CHAT = 106;
 	public final static short CMSG_MOVE = 107;
 	public final static short CMSG_POWER_UP = 108;
@@ -46,7 +46,7 @@ public class Constants {
 	public final static short SMSG_DISCONNECT = 202;
 	public final static short SMSG_REGISTER = 203;
 	public final static short SMSG_FORGOT_PASSWORD = 204;
-	public final static short SMSG_CREATE_CHARACTER = 205;
+	public final static short SMSG_CAR = 205;
 	public final static short SMSG_CHAT = 206;
 	public final static short SMSG_MOVE = 207;
 	public final static short SMSG_POWER_UP = 208;

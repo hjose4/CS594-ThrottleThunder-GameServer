@@ -24,7 +24,7 @@ public class GameRequestTable {
 		add(Constants.CMSG_LOGIN, "RequestLogin");
 		add(Constants.CMSG_DISCONNECT, "RequestLogout");
 		add(Constants.CMSG_REGISTER, "RequestRegister");
-		add(Constants.CMSG_CREATE_CHARACTER, "RequestCharacterCreation");
+		add(Constants.CMSG_CAR, "RequestCar");
 		add(Constants.CMSG_CHAT, "RequestChat");
 		add(Constants.CMSG_MOVE, "RequestMove");
 		add(Constants.CMSG_POWER_UP, "RequestPowerUp");

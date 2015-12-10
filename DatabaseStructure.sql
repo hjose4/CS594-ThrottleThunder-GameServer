@@ -50,7 +50,7 @@ CREATE TABLE `game_rankings` (
   KEY `game_id_idx` (`game_id`),
   KEY `player_id_idx` (`player_id`),
   CONSTRAINT `dd_game_ranking_game_id` FOREIGN KEY (`game_id`) REFERENCES `games` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=845 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1503 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `games` (
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2481 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3165 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,14 +87,14 @@ CREATE TABLE `player_vehicles` (
   `paint_id` int(11) NOT NULL DEFAULT '0',
   `tire_id` int(11) NOT NULL DEFAULT '0',
   `stats_speed` int(11) NOT NULL DEFAULT '0',
-  `stats_acceleration` int(11) NOT NULL DEFAULT '0',
+  `stats_handling` int(11) NOT NULL DEFAULT '0',
   `stats_armor` int(11) NOT NULL DEFAULT '0',
   `stats_health` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `player_vehicle_id` (`base_id`),
   KEY `pv_player_id` (`player_id`),
   CONSTRAINT `pv_player_id` FOREIGN KEY (`player_id`) REFERENCES `players` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=224 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +112,7 @@ CREATE TABLE `players` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `user_name_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,4 +162,4 @@ CREATE TABLE `vehicle_upgrade_relationships` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-08 18:28:59
+-- Dump completed on 2015-12-09 23:00:11

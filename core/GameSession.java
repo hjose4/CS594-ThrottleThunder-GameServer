@@ -63,7 +63,7 @@ public class GameSession extends Thread {
 			//System.out.println("Phases: " + phase);
 			currentTime = System.currentTimeMillis();
 			gameRunTime = currentTime - gameStartedTime;
-			if (phase == 1) {
+			if (phase == 2) {
 				// Start countdown
 				if (gameStartedTime + Constants.COUNTDOWN_TIME - currentTime > 0 && (referTime == 0 || gameRunTime - referTime >= Constants.SEND_TIME)) {
 					System.out.println("countdown time : " + (int)(gameStartedTime + Constants.COUNTDOWN_TIME - currentTime));
@@ -137,13 +137,6 @@ public class GameSession extends Thread {
 		}
 
 		//Session cleanup
-		for(GameClient client : clients) {
-			removeGameClient(client);
-		}
-		
-		clients.clear();
-		availablePositions.clear();
-		playerRankings.clear();
 		server.deleteSessionThreadOutOfActiveThreads(getId());
 	}
 
@@ -194,8 +187,10 @@ public class GameSession extends Thread {
 	}
 
 	public void removeGameClient(GameClient client) {
-		clients.remove(client);
-		client.setSession(null);
+		synchronized(this) {
+			clients.remove(client);
+			client.setSession(null);
+		}
 
 		//Check if the player is alive
 		for(Player player : deadPlayerList) {
@@ -299,6 +294,7 @@ public class GameSession extends Thread {
 		System.out.println("Entering next phase");
 		switch(phase) {
 		case 0:
+			phase += 1;
 			for(ResponseRenderCharacter responseRenderCharacter : getCharacterUpdates()){
 				addResponseForAll(responseRenderCharacter);
 			}
@@ -306,10 +302,10 @@ public class GameSession extends Thread {
 			ResponseSetPosition responseSetPosition = new ResponseSetPosition();
 			responseSetPosition.setStartingPositions(startingPositions);
 			addResponseForAll(responseSetPosition);
-			availablePositions = new ArrayList<Position>();
-			phase += 1;
+			availablePositions = new ArrayList<Position>();			
 			break;
 		case 1:
+			phase += 1;
 			System.out.println("Starting game");
 			gameroom.setTimeStarted(new Date());				
 			initPowerUp(gameroom.getTimeStarted());

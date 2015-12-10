@@ -9,7 +9,9 @@ public class CostCollection {
 		costs.put(statlevel, cost);
 	}
 	
-	public static int getCost(int statlevel) {
-		return costs.get(statlevel);
+	public static Integer getCost(int statlevel) {
+		if(costs.get(statlevel) != null)
+				return Integer.valueOf(costs.get(statlevel));
+		return null;
 	}
 }

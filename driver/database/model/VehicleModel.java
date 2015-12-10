@@ -50,6 +50,20 @@ public class VehicleModel {
 		return null;
 	}
 	
+	public static ArrayList<PlayerVehicle> searchForPlayerVehicles(Player player, BaseVehicle base) {
+		HashMap<String,String> params = new HashMap<>();
+		params.put(PlayerVehicle.PLAYER_ID, player.getId()+"");
+		params.put(PlayerVehicle.BASE_ID,base.getCarType()+"");
+		ArrayList<PlayerVehicle> list = new ArrayList<PlayerVehicle>();
+		ArrayList<ObjectModel> models = DatabaseDriver.getInstance().find(PlayerVehicle.class, params);
+		if(models != null) {
+			for(ObjectModel model : models) {
+				list.add(new PlayerVehicle(model.getData()));
+			}
+		}
+		return list;
+	}
+	
 	public static ArrayList<PlayerVehicle> searchForPlayerVehicles(HashMap<String,String> params) {
 		ArrayList<PlayerVehicle> list = new ArrayList<PlayerVehicle>();
 		ArrayList<ObjectModel> models = DatabaseDriver.getInstance().find(PlayerVehicle.class, params);
@@ -60,5 +74,7 @@ public class VehicleModel {
 		}
 		return list;
 	}
+	
+	
 	
 }

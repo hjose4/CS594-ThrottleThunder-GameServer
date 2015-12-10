@@ -12,7 +12,7 @@ public class PlayerVehicle extends ObjectModel {
 	public static final String TIRE_ID = "tire_id";
 	public static final String PAINT_ID = "paint_id";
 	public static final String STATS_SPEED = "stats_speed";
-	public static final String STATS_ACCELERATION = "stats_acceleration";
+	public static final String STATS_HANDLING = "stats_handling";
 	public static final String STATS_ARMOR = "stats_armor";
 	public static final String STATS_HEALTH = "stats_health";
 	
@@ -61,6 +61,7 @@ public class PlayerVehicle extends ObjectModel {
 	}
 	
 	public void setSpeedUpgrade(int value) {
+		System.out.println("Speed " + value);
 		set(STATS_SPEED,value);
 	}
 	
@@ -73,17 +74,18 @@ public class PlayerVehicle extends ObjectModel {
 		return false;
 	}
 	
-	public int getAccelerationUpgrade() {
-		return Integer.valueOf(get(STATS_ACCELERATION));
+	public int getHandlingUpgrade() {
+		return Integer.valueOf(get(STATS_HANDLING));
 	}
 	
-	public void setAccelerationUpgrade(int value) {
-		set(STATS_ACCELERATION,value);
+	public void setHandlingUpgrade(int value) {
+		System.out.println("Handling " + value);
+		set(STATS_HANDLING,value);
 	}
 	
-	public boolean incrementAccelerationUpgrade() {
-		if(getAccelerationUpgrade() < 7) {
-			this.setAccelerationUpgrade(this.getAccelerationUpgrade()+1);
+	public boolean incrementHandlingUpgrade() {
+		if(getHandlingUpgrade() < 7) {
+			this.setHandlingUpgrade(this.getHandlingUpgrade()+1);
 			return true;
 		}
 		
@@ -95,6 +97,7 @@ public class PlayerVehicle extends ObjectModel {
 	}
 	
 	public void setArmorUpgrade(int value) {
+		System.out.println("Armor " + value);
 		set(STATS_ARMOR,value);
 	}
 	
@@ -112,6 +115,7 @@ public class PlayerVehicle extends ObjectModel {
 	}
 	
 	public void setHealthUpgrade(int value) {
+		System.out.println("Health " + value);
 		set(STATS_HEALTH,value);
 	}
 	

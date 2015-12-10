@@ -6,7 +6,7 @@ import utility.GamePacket;
 public class ResponseGarageDetails extends GameResponse {
 	private int armor;
 	private int health;
-	private int acceleration;
+	private int handling;
 	private int speed;
 
 	public ResponseGarageDetails() {
@@ -19,7 +19,7 @@ public class ResponseGarageDetails extends GameResponse {
         GamePacket packet = new GamePacket(responseCode);
         packet.addInt32(armor);
         packet.addInt32(health);
-        packet.addInt32(acceleration);
+        packet.addInt32(handling);
         packet.addInt32(speed);
         return packet.getBytes();
 	}
@@ -35,8 +35,8 @@ public class ResponseGarageDetails extends GameResponse {
 	}
 	
 
-	public void setAcceleration(int acceleration) {
-		this.acceleration = acceleration;
+	public void setHandling(int handling) {
+		this.handling = handling;
 	}
 	
 	public void setSpeed(int speed) {

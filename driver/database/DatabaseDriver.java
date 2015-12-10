@@ -131,8 +131,9 @@ public class DatabaseDriver {
 			for(String col : values.keySet()) {
 				query += col + " = ?, ";
 			}
-			query.substring(0, query.length()-2);
+			query = query.substring(0, query.length()-2);
 			query += " WHERE id = ?";
+			System.out.println(query);
 			PreparedStatement stmt = conn.prepareStatement(query);
 			int c = 1;
 			for(String value : values.values()) {

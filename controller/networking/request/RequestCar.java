@@ -1,12 +1,14 @@
 package controller.networking.request;
 
 import java.io.IOException;
+import java.util.List;
 
 import controller.networking.response.ResponseCar;
 import driver.database.model.VehicleModel;
 import driver.database.record.Player;
 import driver.database.record.PlayerVehicle;
 import driver.json.collection.BaseVehicleCollection;
+import driver.json.record.BaseVehicle;
 import utility.DataReader;
 
 public class RequestCar extends GameRequest {
@@ -31,6 +33,18 @@ public class RequestCar extends GameRequest {
 
 		@Override
 		public void doBusiness() throws Exception {
-			
+			System.out.println("Car ID: " + carId + ", paintId: " + paintId + ", tiresId " + tiresId) ;
+			carId += 1;
+			Player player =client.getPlayer();
+			BaseVehicle base = BaseVehicleCollection.getVehicle(carId);
+			List<PlayerVehicle> playerVehicles = VehicleModel.searchForPlayerVehicles(player, base);
+			if(!playerVehicles.isEmpty()) {
+				PlayerVehicle vehicle = playerVehicles.get(0);
+				vehicle.setTire(tiresId);
+				vehicle.setPaint(paintId);
+				vehicle.save("all");
+				response.setStatus(1);
+			} else
+				response.setStatus(0);
 		}
 }

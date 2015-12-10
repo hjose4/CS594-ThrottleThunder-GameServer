@@ -24,7 +24,6 @@ import driver.json.record.MapDetails;
 
 public class GameSession extends Thread {
 	private int phase = 0;
-	private boolean updateRankings = true;
 	private MapDetails mapDetails;
 	private GameRoom gameroom;
 	private GameServer server;
@@ -343,16 +342,17 @@ public class GameSession extends Thread {
 	}
 
 	public List<Player> getRankings() {
-		updateRankings = false;
 		sortedRankings = new ArrayList<Player>();
 		TreeMap<PointValue,Player> sortedTree = new TreeMap<>();
 		
-		for(Player key : playerRankings.keySet()) {
-			sortedTree.put(playerRankings.get(key),key);
-		}
-		
-		for(PointValue key : sortedTree.keySet()) {
-			sortedRankings.add(sortedTree.get(key));
+		if(playerRankings.size() > 0) { 
+			for(Player key : playerRankings.keySet()) {
+				sortedTree.put(playerRankings.get(key),key);
+			}
+			
+			for(PointValue key : sortedTree.keySet()) {
+				sortedRankings.add(sortedTree.get(key));
+			}
 		}
 		return sortedRankings;
 	}

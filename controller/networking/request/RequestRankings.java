@@ -25,8 +25,7 @@ public class RequestRankings extends GameRequest {
 	public void doBusiness() throws Exception {
 		//do the rankings business here
 		if(client.getSession() != null) {
-			List<Player> rankings = client.getSession().getRankings();
-			responseRankings.setRankings(rankings);
+			responseRankings.setRankings(client.getSession().getRankings());
 		} else {
 			responseRankings.setRankings(new ArrayList<Player>());
 			System.out.println("Client is not in game session: "+this.getClass().getName());

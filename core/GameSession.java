@@ -416,7 +416,9 @@ public class GameSession extends Thread {
 				return false;
 			}
 		}
-		
+		if(phase!=1){
+			return false;
+		}
 		return true;
 	}
 	

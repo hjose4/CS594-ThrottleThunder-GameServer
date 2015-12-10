@@ -20,11 +20,11 @@ import controller.networking.response.ResponseGaragePurchase;
 public class RequestGaragePurchase extends GameRequest {
 	private int carId;
 	private int type;
-	
+
 	private ResponseGaragePurchase response;
-	
+
 	public RequestGaragePurchase() {
-		response = new ResponseGaragePurchase();
+		responses.add(response = new ResponseGaragePurchase());
 	}
 
 	@Override
@@ -38,14 +38,14 @@ public class RequestGaragePurchase extends GameRequest {
 	public void doBusiness() throws Exception {
 		PlayerVehicle vehicle = VehicleModel.getPlayerVehicleById(carId);
 		boolean status = false;
-		
+
 		// Get the currency the player is having
-		Player player = PlayerModel.getPlayerByUsername(client.getPlayer().getUsername());
+		Player player = client.getPlayer();
 		int mycurrency = player.getCurrency();
 		int cost =0;
-	
+
 		if(vehicle != null) {
-			
+
 			if(type == 1){
 				//armor upgrade
 				cost = CostCollection.getCost(vehicle.getArmorUpgrade()+1);
@@ -74,15 +74,13 @@ public class RequestGaragePurchase extends GameRequest {
 				//deduct the price for the upgrade
 				player.setCurrency(mycurrency-cost);
 				player.save("all"); // save the player with the deducted currency
-				
+
 				vehicle.save("all");//save the car with all upgrades
 				response.setStatus(1);
-			}else 
+			} else 
 				response.setStatus(0);
-			
+
 		}
-		
-		client.getServer().addResponseForUser(client.getPlayer().getUsername(), response);
 	}
 
 }

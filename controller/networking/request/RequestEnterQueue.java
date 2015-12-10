@@ -31,6 +31,11 @@ public class RequestEnterQueue extends GameRequest {
 	@Override
 	public void doBusiness() throws Exception {
 		System.out.println("Requesting for room type: " + roomType);
+		//Check if the client is in a session
+		if(client.getSession() != null) {
+			client.getSession().removeGameClient(client);
+		}
+		
 		GameSession session = client.getServer().getGameSessionByRoomType(roomType);		
 		if(session != null) {
 			client.setSession(session);		

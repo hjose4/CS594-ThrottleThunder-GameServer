@@ -19,9 +19,8 @@ public class RequestLogout extends GameRequest {
 		this.response.setUsername(this.client.getPlayer().getUsername());
 		if(client.getSession() != null) {
 			client.getSession().addResponseForAll(response);
-			client.getSession().removeGameClient(client);
-
 			client.getSession().removeResponseForCharacters(client.getPlayer().getUsername());
+			client.getSession().removeGameClient(client);
 			client.getSession().endThread();
 			client.setSession(null);
 		} else {
@@ -35,8 +34,8 @@ public class RequestLogout extends GameRequest {
 		this.response.setUsername(this.client.getPlayer().getUsername());
 		if(client.getSession() != null) {
 			client.getSession().addResponseForAll(response);
-			client.getSession().removeGameClient(client);
 			client.getSession().removeResponseForCharacters(client.getPlayer().getUsername());
+			client.getSession().removeGameClient(client);
 			client.getSession().endThread();
 			client.setSession(null);
 		}

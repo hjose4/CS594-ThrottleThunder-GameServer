@@ -53,6 +53,7 @@ public class GameRequestTable {
 		add(Constants.CMSG_SET_POSITION, "RequestSetPosition");
 		add(Constants.CMSG_SET_RANK, "RequestSetRank");
 		add(Constants.CMSG_CURRENCY, "RequestCurrency");
+		add(Constants.CMSG_LEAVE_SESSION, "RequestLeaveSession");
 		//add(Constants.CMSG_TEST, "RequestTest");
 		//add(Constants.CMSG_TEST2,"RequestTest2");
 		//add(Constants.CMSG_TIME, "RequestTime");

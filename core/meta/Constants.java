@@ -39,6 +39,7 @@ public class Constants {
 	public final static short CMSG_EMOTE = 132;
 	public final static short CMSG_CHECKPOINTS = 133;
 	public final static short CMSG_CURRENCY = 134;
+	public final static short CMSG_LEAVE_SESSION = 135;
 	public final static short CMSG_TEST = 150;
 	public final static short CMSG_TEST2 = 160;
 	
